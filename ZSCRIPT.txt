@@ -1,0 +1,788 @@
+version "4.0"
+
+#include "ZSCRIPT.Spells.zsc"
+#include "ZSCRIPT.Sigils.zsc"
+
+class ArcanumHandler : StaticEventHandler
+{
+	override void CheckReplacement(ReplaceEvent e)
+	{
+		if (!e.Replacement)
+		{
+			return;
+		}
+
+		switch (e.Replacement.GetClassName())
+		{
+			case 'Lumberjack':
+				if (random[arcanrand]() <= 32)
+				{
+					e.Replacement = "HDArcanumTome";
+				}
+				break;
+		}
+	}
+
+	override void PlayerEntered(PlayerEvent e)
+	{
+		// [Ace] Don't create a new thinker if one already exists.
+		ThinkerIterator it = ThinkerIterator.Create('ArcanumSpellBrain', Thinker.STAT_STATIC);
+		ArcanumSpellBrain ExistingBrain;
+		while ((ExistingBrain = ArcanumSpellBrain(it.Next())))
+		{
+			if (ExistingBrain.TrackedPlayer == e.PlayerNumber)
+			{
+				return;
+			}
+		}
+		ArcanumSpellBrain Brain = new('ArcanumSpellBrain');
+		Brain.TrackedPlayer = e.PlayerNumber;
+	}
+}
+
+class HDArcanumTome : HDWeapon
+{
+	enum ArcanumTomeFlags
+	{
+		ATF_InSpellMenu = 1 << 0
+	}
+
+	enum ArcanumTomeProperties
+	{
+		ATProp_Flags,
+		ATProp_SelectedTree,
+		ATProp_SelectedSpell
+	}
+
+	override bool AddSpareWeapon(actor newowner) { return AddSpareWeaponRegular(newowner); }
+	override HDWeapon GetSpareWeapon(actor newowner , bool reverse, bool doselect) { return GetSpareWeaponRegular(newowner, reverse, doselect); }
+	override double GunMass() { return 4; }
+	override double WeaponBulk() { return 20; }
+	override string, double GetPickupSprite() { return "ARCTZ0", 1.0; }
+	override string GetHelpText()
+	{
+		string HText = WEPHELP_FIRE.."  Place rune\n"
+		..WEPHELP_ALTFIRE.."  Create spell circle\n"
+		..WEPHELP_ZOOM.."  Spell manager";
+
+		if (WeaponStatus[ATProp_Flags] & ATF_InSpellMenu)
+		{
+			HText = WEPHELP_FIRE.." or "..WEPHELP_ALTFIRE.."  Cycle spells\n"
+			..WEPHELP_FIREMODE.."+"..WEPHELP_FIRE.." or "..WEPHELP_ALTFIRE.."  Cycle spell trees\n"
+			..WEPHELP_ZOOM.."  Exit spell manager";
+		}
+
+		return HText;
+	}
+
+	override void DrawHUDStuff(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl)
+	{
+		if (!(hdw.WeaponStatus[ATProp_Flags] & ATF_InSpellMenu))
+		{
+			return;
+		}
+
+		HUDFont pBigFont = HUDFont.Create("DBIGFONT");
+
+		int BaseOffset = 30;
+
+		int SelTreeIndex = hdw.WeaponStatus[ATProp_SelectedTree];
+		ArcanumSpellTree SelTree = SpellStorage.Trees[SelTreeIndex];
+		sb.DrawString(pBigFont, SelTree.GetName(), (-168, BaseOffset - 160), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(sb.pSmallFont, SelTree.GetDescription(), (-168, BaseOffset - 140), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 150, 1);
+
+		ArcanumSpell SelSpell = GetSelectedSpell();
+		sb.DrawString(pBigFont, SelSpell.GetName(), (20, BaseOffset - 160), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_TEAL);
+
+		int NextOffset = 140;
+		if (SelSpell.GetMaxLevel() > 1)
+		{
+			string RomanNumeral = "";
+			switch (SelSpell.Level)
+			{
+				case 1: RomanNumeral = "I"; break;
+				case 2: RomanNumeral = "II"; break;
+				case 3: RomanNumeral = "III"; break;
+				case 4: RomanNumeral = "IV"; break;
+				case 5: RomanNumeral = "V"; break;
+			}
+
+			string FullString = "\c[Gold]Level "..RomanNumeral.."\c-";
+			if (SelSpell.Level < SelSpell.GetMaxLevel())
+			{
+				FullString = FullString.." [";
+				for (int i = 0; i <= 10; ++i)
+				{
+					int Percentage = int(floor((SelSpell.Experience / double(SelSpell.ExperienceReqs[SelSpell.Level - 1])) * 10));
+					FullString = FullString..(i < Percentage ? "=" : " ");
+				}
+				FullString = FullString.."]";
+			}
+			sb.DrawString(sb.pSmallFont, FullString, (20, BaseOffset - NextOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE);
+			NextOffset -= 10;
+		}
+		
+		sb.DrawString(sb.pSmallFont, SelSpell.GetTechnicalInfo(), (20, BaseOffset - NextOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_OLIVE);
+		sb.DrawString(sb.pSmallFont, "\c[DarkGray]Catalyst/Cost: \c[Blue]"..SelSpell.GetCatalystAmount().."/"..SelSpell.GetCost().."\c-", (20, BaseOffset - (NextOffset - 10)), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(sb.pSmallFont, "\c[Black]Aggro: "..SelSpell.GetAggroGain().."\c-", (20, BaseOffset - (NextOffset - 20)), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(sb.pSmallFont, SelSpell.GetDescription(), (20, BaseOffset - (NextOffset - 40)), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
+		
+
+		int TreeCount = SpellStorage.Trees.Size();
+
+		for (int i = 0; i < min(3, TreeCount); ++i)
+		{
+			int RealIndex = (SelTreeIndex - 1 + i) % TreeCount;
+			if (RealIndex < 0)
+			{
+				RealIndex = TreeCount - 1;
+			}
+
+			int XOfs = -120;
+			if (TreeCount > 1)
+			{
+				switch (i)
+				{
+					case 1: XOfs = 0; break;
+					case 2: XOfs = 120; break;
+				}
+			}
+
+			ArcanumSpellTree CurTree = SpellStorage.Trees[RealIndex];
+			sb.DrawString(sb.pSmallFont, CurTree.GetName(), (XOfs, BaseOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_CENTER);
+			for (int j = 0; j < CurTree.Spells.Size(); ++j)
+			{
+				ArcanumSpell CurSpell = CurTree.Spells[j];
+				sb.DrawString(sb.pSmallFont, CurSpell.GetName(), (XOfs, BaseOffset + 10 + 10 *j), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_CENTER, CurSpell == SelSpell ? Font.CR_GOLD : Font.CR_WHITE);
+			}
+		}
+	}
+
+	override void DetachFromOwner()
+	{
+		WeaponStatus[ATProp_Flags] &= ~ATF_InSpellMenu;
+
+		Super.DetachFromOwner();
+	}
+
+	private void InitStorage()
+	{
+		if (SpellStorage)
+		{
+			return;
+		}
+
+		ThinkerIterator it = ThinkerIterator.Create('ArcanumSpellBrain', STAT_STATIC);
+		ArcanumSpellBrain Brain;
+		while ((Brain = ArcanumSpellBrain(it.Next())))
+		{
+			if (Brain.TrackedPlayer == owner.PlayerNumber())
+			{
+				SpellStorage = Brain;
+				break;
+			}
+		}
+	}
+
+	private clearscope ArcanumSpellTree GetSelectedTree()
+	{
+		return SpellStorage.Trees[WeaponStatus[ATProp_SelectedTree]];
+	}
+
+	private clearscope ArcanumSpell GetSelectedSpell()
+	{
+		return GetSelectedTree().Spells[WeaponStatus[ATProp_SelectedSpell]];
+	}
+
+	ArcanumSpellBrain SpellStorage;
+
+	Default
+	{
+		+INVENTORY.INVBAR
+		HDWeapon.BarrelSize 5, 2, 1; // [Ace] I don't even know why.
+		Scale 0.6;
+		Tag "Arcanum tome";
+		HDWeapon.Refid "arc";
+		Inventory.MaxAmount 1;
+		Inventory.PickupMessage "You picked up the Arcanum tome of knowledge. Infinite power awaits those with the energy within.";
+	}
+
+	States
+	{
+		Spawn:
+			ARCT Z -1;
+			Stop;
+		ReadyBook:
+			ARCB A 1;
+			Loop;
+		Ready:
+			ARCT A 1
+			{
+				if (JustPressed(BT_ZOOM))
+				{
+					if (invoker.WeaponStatus[ATProp_Flags] & ATF_InSpellMenu)
+					{
+						invoker.WeaponStatus[ATProp_Flags] &= ~ATF_InSpellMenu;
+						A_SetHelpText();
+					}
+					else
+					{
+						invoker.WeaponStatus[ATProp_Flags] |= ATF_InSpellMenu;
+						A_SetHelpText();
+					}
+					SetWeaponState("Nope");
+					return;
+				}
+				if (invoker.WeaponStatus[ATProp_Flags] & ATF_InSpellMenu)
+				{
+					int TreeCount = invoker.SpellStorage.Trees.Size();
+					int SpellCount = invoker.SpellStorage.SpellCountInTree(invoker.SpellStorage.Trees[invoker.WeaponStatus[ATProp_SelectedTree]].GetClass());
+
+					if (JustPressed(BT_ATTACK))
+					{
+						if (PressingFiremode())
+						{
+							invoker.WeaponStatus[ATProp_SelectedSpell] = 0;
+							if (--invoker.WeaponStatus[ATProp_SelectedTree] < 0)
+							{
+								invoker.WeaponStatus[ATProp_SelectedTree] = TreeCount - 1;
+							}
+						}
+						else
+						{
+							invoker.WeaponStatus[ATProp_SelectedSpell]++;
+							if (invoker.WeaponStatus[ATProp_SelectedSpell] >= SpellCount)
+							{
+								invoker.WeaponStatus[ATProp_SelectedSpell] = 0;
+							}
+							
+						}
+					}
+					else if (JustPressed(BT_ALTATTACK))
+					{
+						if (PressingFiremode())
+						{
+							invoker.WeaponStatus[ATProp_SelectedSpell] = 0;
+							if (++invoker.WeaponStatus[ATProp_SelectedTree] >= TreeCount)
+							{
+								invoker.WeaponStatus[ATProp_SelectedTree] = 0;
+							}
+						}
+						else
+						{
+							invoker.WeaponStatus[ATProp_SelectedSpell]--;
+							if (invoker.WeaponStatus[ATProp_SelectedSpell] < 0)
+							{
+								invoker.WeaponStatus[ATProp_SelectedSpell] = SpellCount - 1;
+							}
+						}
+					}
+					A_WeaponReady(WRF_NOFIRE);
+					return;
+				}
+				A_WeaponReady(WRF_ALL);
+			}
+			Goto ReadyEnd;
+		Select0:
+			ARCT A 0
+			{
+				invoker.InitStorage();
+				A_Overlay(10, 'ReadyBook');
+			}
+			Goto Select0Small;
+		Deselect0:
+			ARCT A 0
+			{
+				invoker.WeaponStatus[ATProp_Flags] &= ~ATF_InSpellMenu;
+			}
+			Goto Deselect0Small;
+		DeadLowered:
+			ARTC A -1 A_ClearOverlays(10, 10);
+			Stop;
+		User3:
+			ARCT A 0 A_SelectWeapon("PickupManager");
+			Goto Ready;
+		Fire:
+			ARCT E 5
+			{
+				player.GetPSPrite(PSP_WEAPON).frame = random(1, 3);
+				FLineTraceData Data;
+				LineTrace(angle, 192, pitch, TRF_NOSKY | TRF_ALLACTORS, height - 6, 0, 0, Data);
+				if (Data.HitType == Data.TRACE_HitActor && Data.HitActor is 'ArcanumRuneSlot')
+				{
+					let RuneSlot = ArcanumRuneSlot(Data.HitActor);
+					let Sigil = ArcanumSigil(RuneSlot.master);
+
+					if (Sigil && Sigil.master == self)
+					{
+						RuneSlot.ActivateRune(self);
+					}
+				}
+			}
+			ARCT A 2;
+			Goto Nope;
+		AltFire:
+			ARCT A 1;
+			ARCT A 0
+			{
+				ArcanumSpell SelSpell = invoker.GetSelectedSpell();
+				int ST = SelSpell.GetSpellType();
+
+				if (ST & ArcanumSpell.SType_SelfOrMass && !(ST & ArcanumSpell.SType_Targeted) && pitch < min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - 4))
+				{
+					A_SetPitch(pitch + 10, SPF_INTERPOLATE);
+					A_Refire('AltFire');
+					return;
+				}
+
+				if (ST & ArcanumSpell.SType_SelfOrMass && pitch >= min(player.MaxPitch - 4, ArcanumSigil.SelfCastMaxPitch) || ST & ArcanumSpell.SType_Targeted)
+				{
+					SetWeaponState('ActuallyAltFire');
+					return;
+				}
+			}
+			Goto Nope;
+		ActuallyAltFire:
+			ARCT E 5
+			{
+				ArcanumSpellTree SelTree = invoker.GetSelectedTree();
+				ArcanumSpell SelSpell = invoker.GetSelectedSpell();
+
+				let plr = HDPlayerPawn(self);
+
+				int SpellCost = SelSpell.GetCost();
+
+				if (plr.regenblues >= SelSpell.GetCatalystAmount() + SpellCost)
+				{
+					FLineTraceData Data;
+					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 12, 0, 0, Data);
+					if (Data.HitType == Data.TRACE_HitNone || Data.HitType == Data.TRACE_HitFloor)
+					{
+						SelSpell.GainExperience();
+						plr.regenblues -= SpellCost;
+
+						plr.aggravateddamage += SelSpell.GetAggroGain();
+
+						ArcanumSigil c = ArcanumSigil(Spawn(SelSpell.GetSigil(), Data.HitLocation));
+						c.angle = angle;
+						if (!c.bDONTPITCH)
+						{
+							c.pitch = pitch;
+						}
+						c.master = self;
+						c.SigilLevel = SelSpell.Level;
+
+						int SpellType = SelSpell.GetSpellType();
+						if (SpellType & ArcanumSpell.SType_SelfOrMass && pitch >= min(player.MaxPitch - 4, ArcanumSigil.SelfCastMaxPitch))
+						{
+							c.SigilType = ArcanumSpell.SType_SelfOrMass;
+						}
+						else
+						{
+							c.SigilType = ArcanumSpell.SType_Targeted;
+						}
+					}
+				}
+				else
+				{
+					A_WeaponMessage("You feel too weak to cast "..SelSpell.GetName()..".");
+				}
+			}
+			ARCT A 2;
+			Goto Nope;
+	}
+}
+
+class ArcanumSigil : Actor abstract
+{
+	override void PostBeginPlay()
+	{
+		Scale.y *= 1.0 + 0.2 * abs(sin(pitch));
+
+		// [Ace] Make sure the circle is never inside the ground.
+		double RelZ = pos.z - floorz;
+		double Diff = RelZ - Height * cos(pitch);
+		if (Diff < 0)
+		{
+			SetOrigin((pos.x, pos.y, RelZ + abs(Diff)), false);
+		}
+
+		InitRuneSlots();
+		A_StartSound("Arcanum/Sigil/Spawn", CHAN_BODY);
+
+		Super.PostBeginPlay();
+	}
+
+	protected void CreateRuneSlot(vector2 offCenter, vector2 size, double scaleMult = 1.0, double decayMult = 1.0)
+	{
+		double Stretch = 1.0 + 0.2 * abs(cos(pitch));
+		
+		Actor a; bool success;
+		double Extra = (abs(pitch) != 90 ? (pitch > 0 ? ArcanumMath.Pi : (pitch < 0 ? -ArcanumMath.Pi : 0)) : 0);
+		[success, a] = A_SpawnItemEx("ArcanumRuneSlot", offcenter.y * sin(pitch - Extra), offcenter.x, offcenter.y * (cos(pitch - Extra) / Stretch), flags: SXF_NOCHECKPOSITION | SXF_SETMASTER | SXF_TRANSFERSTENCILCOL | SXF_TRANSFERPITCH);
+		if (success)
+		{
+			let Rune = ArcanumRuneSlot(a);
+			Rune.Scale *= 0.09 * scaleMult; // [Ace] 0.09 is the standardized value. Use scale mult to scale it up or down. I am not tying it to size because it's BLEH. Scaling in this engine is ten kinds of FUCKED.
+			Rune.roll = random(0, 359);
+			Rune.A_SetSize(size.x, size.y);
+			Rune.SetOrigin(Rune.pos - (0, 0, Rune.Height / 2.0), false); // [Ace] Offset the slot to account for Doom's collision.
+			Rune.DecaySpeedMult = decayMult;
+			Rune.FadeOutSpeedMult = FadeOutSpeedMult;
+		}
+
+		RuneSlots.Push(ArcanumRuneSlot(a));
+	}
+
+	override void Tick()
+	{
+		if (arcanum_debug)
+		{
+			ArcanumDebug.DrawCollisionBox(self);
+			ArcanumDebug.DrawXYZ(self);
+		}
+
+		if (HasTriggered && ReactionTime <= 0 || !HasTriggered && GetAge() >= 35 * 30)
+		{
+			Destroy();
+			return;
+		}
+
+		int ActiveRunesCount = 0;
+		int RuneSlotsCount = RuneSlots.Size();
+		for (int i = 0; i < RuneSlotsCount; ++i)
+		{
+			if (RuneSlots[i] && RuneSlots[i].Active)
+			{
+				ActiveRunesCount++;
+			}
+		}
+
+		if (ActiveRunesCount == RuneSlotsCount)
+		{
+			if (!bNOHEIGHTADJUST)
+			{
+				A_SetSize(-1, 1); // [Ace] So it shoots from the center.
+			}
+			if (SigilType == ArcanumSpell.SType_Targeted)
+			{
+				ActivateTargeted();
+				HasTriggered = true;
+			}
+			else if (SigilType == ArcanumSpell.SType_SelfOrMass)
+			{
+				ActivateSelfOrMass();
+				HasTriggered = true;
+			}
+		}
+
+		Super.Tick();
+	}
+
+	protected virtual void OnDisappearing() { }
+	protected virtual void ActivateTargeted() { }
+	protected virtual void ActivateSelfOrMass() { }
+	protected virtual void InitRuneSlots() { } // [Ace] Technically not initializing any runes allows you to make insta-cast spells.
+
+	const SelfCastMaxPitch = 86;
+
+	private Array<ArcanumRuneSlot> RuneSlots;
+
+	int SigilLevel;
+	int SigilType;
+	bool HasTriggered;
+
+	protected double AddAlpha;
+	property AddAlpha: AddAlpha;
+
+	protected double FadeOutSpeedMult;
+	property FadeOutSpeedMult: FadeOutSpeedMult;
+
+	int SigilBehaviourFlags;
+	flagdef NoHeightAdjust: SigilBehaviourFlags, 0;
+	flagdef DontPitch: SigilBehaviourFlags, 1;
+
+	Default
+	{
+		Height 22;
+		Radius 25;
+		ArcanumSigil.AddAlpha 1.0;
+		ArcanumSigil.FadeOutSpeedMult 1.0;
+		ReactionTime 0;
+		+NOINTERACTION
+		+BRIGHT
+		RenderStyle "AddShaded";	
+	}
+
+	States
+	{
+		Spawn:
+			#### # -1 // [Ace] The main sigil is invisible because I don't feel like defining multiple models for each sigil. The Add ones are automatically adjusted.
+			{
+				for (double i = -0.5; i <= 0.5; i += 0.05)
+				{
+					// [Ace] TO FIX: When at 45 degree pitch, the sigils are placed diagonally of each other, which blurs the shape. Gotta add more trig but that's for later.
+					Actor a; bool success;
+					[success, a] = A_SpawnItemEx("ArcanumSigilAdd", i * cos(pitch), 0, i * sin(pitch), flags: SXF_NOCHECKPOSITION | SXF_SETMASTER | SXF_TRANSFERSPRITEFRAME | SXF_TRANSFERSTENCILCOL | SXF_TRANSFERPITCH);
+					if (success)
+					{
+						let AddSigil = ArcanumSigilAdd(a);
+						AddSigil.A_SetScale(Scale.x * (1.0 - abs(i) / 30.0), Scale.y * (1.0 - abs(i) / 30.0));
+						AddSigil.AddAlpha = AddAlpha;
+						AddSigil.FadeOutSpeedMult = FadeOutSpeedMult;
+					}
+				}
+			}
+			Stop;
+	}
+}
+
+// [Ace] This is what you shoot to activate the spell.
+class ArcanumRuneSlot : Actor
+{
+	override void PostBeginPlay()
+	{
+		SetShade(Color(255, int(fillcolor.r * 1.3), int(fillcolor.g * 1.3), int(fillcolor.b * 1.3)));
+
+		Super.PostBeginPlay();
+	}
+
+	void ActivateRune(Actor activator)
+	{
+		let Sigil = ArcanumSigil(master);
+		if (IsDisappearing || !Sigil || Sigil.HasTriggered || Sigil.SigilType == ArcanumSpell.SType_SelfOrMass && Sigil.Distance2D(activator) > Sigil.Radius || Sigil.SigilType == ArcanumSpell.SType_Targeted && activator.AbsAngle(angle, activator.AngleTo(self)) > 60)
+		{
+			return;
+		}
+
+		SetStateLabel("Trigger");
+		A_StartSound("Arcanum/Sigil/Spawn", CHAN_BODY);
+		Active = true;
+		Alpha = default.Alpha;
+
+		for (int i = 0; i < 128; ++i)
+		{
+			double PartSpawnRoll = random(0, 360);
+			double sinroll = sin(PartSpawnRoll);
+			double cosroll = cos(PartSpawnRoll);
+			double sinp = sin(pitch);
+			double cosp = cos(pitch);
+			double sinpn = sin(pitch - 90);
+			double cospn = cos(pitch - 90);
+			A_SpawnParticle(fillcolor, SPF_FULLBRIGHT | SPF_RELATIVE, random(4, 12), frandom(1.5, 3), 0, Radius * sinroll * sinp, Radius * cosroll, Height / 2 + Radius * sinroll * cosp, 2 * sinpn, 0, 2 * cospn);
+			A_SpawnParticle(fillcolor, SPF_FULLBRIGHT | SPF_RELATIVE, random(4, 12), frandom(1.5, 3), 0, Radius * sinroll * sinp, Radius * cosroll, Height / 2 + Radius * sinroll * cosp, -2 * sinpn, 0, -2 * cospn);
+		}
+	}
+
+	override void Tick()
+	{
+		if (arcanum_debug)
+		{
+			ArcanumDebug.DrawCollisionBox(self);
+		}
+
+		let Sigil = ArcanumSigil(master);
+		if (!Sigil && !IsDisappearing)
+		{
+			Active = false;
+			SetStateLabel('Disappear');
+			IsDisappearing = true;
+			return;
+		}
+
+		if (!IsDisappearing && Sigil.HasTriggered)
+		{
+			Alpha = default.Alpha;
+			A_ChangeLinkFlags(true);
+			return;
+		}
+
+		if (Active)
+		{
+			A_FadeOut(0.005 * DecaySpeedMult, 0);
+			if (Alpha < 0)
+			{
+				Alpha = default.Alpha;
+				Active = false;
+				A_ChangeLinkFlags(false);
+				SetStateLabel('Spawn');
+				return;
+			}
+		}
+
+		Super.Tick();
+	}
+
+	bool Active;
+	bool IsDisappearing;
+	double DecaySpeedMult; // [Ace] The naming sucks, but this is actually how fast the rune fades out and gets deactivated. FadeOut is for completely disappearing.
+	double FadeOutSpeedMult;
+
+	Default
+	{
+		+NOGRAVITY
+		+THRUACTORS
+		+INVISIBLE
+		-SOLID
+		+BRIGHT
+		Alpha 1.0;
+		RenderStyle "AddShaded";
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A -1;
+			Stop;
+		Trigger:
+			ARUN # -1
+			{
+				if (!Active)
+				{
+					frame = random(0, 25);
+					A_SpawnItemEx("ArcanumRuneGlyph", 0, 0, Height / 2, flags: SXF_NOCHECKPOSITION | SXF_SETMASTER | SXF_TRANSFERSTENCILCOL | SXF_TRANSFERSCALE | SXF_TRANSFERPITCH);
+				}
+			}
+			Stop;
+		Disappear:
+			ARUN # 1 A_FadeOut(0.025 * FadeOutSpeedMult);
+			Loop;
+	}
+}
+
+// --------------------------------------------------
+// DECORATIVE ACTORS
+// --------------------------------------------------
+
+class ArcanumSigilAdd : ArcanumSigil
+{
+	override void PostBeginPlay()
+	{
+		Actor.PostBeginPlay();
+	}
+
+	override void Tick()
+	{
+		if (IsDisappearing)
+		{
+			Actor.Tick();
+			return;
+		}
+
+		Alpha = AddAlpha * frandom(0.02, 0.15);
+		
+		if (!master || !IsDisappearing && master.InStateSequence(master.CurState, master.FindState('Disappear')))
+		{
+			SetStateLabel("Disappear");
+			IsDisappearing = true;
+			return;
+		}
+
+		Actor.Tick();
+	}
+
+	private bool IsDisappearing;
+
+	States
+	{
+		Disappear:
+			#### # 1
+			{
+				A_FadeOut(0.001 * AddAlpha * FadeOutSpeedMult);
+				OnDisappearing();
+			}
+			Loop;
+	}
+}
+
+class ArcanumRuneGlyph : Actor // [Ace] Used because I need it to be centered. Models are fucky.
+{
+	Default
+	{
+		+BRIGHT
+		+NOINTERACTION
+		RenderStyle "AddShaded";
+	}
+
+	States
+	{
+		Spawn:
+			#### # 1
+			{
+				let RuneSlot = ArcanumRuneSlot(master);
+				if (!RuneSlot || !RuneSlot.IsDisappearing && !RuneSlot.Active)
+				{
+					Destroy();
+					return;
+				}
+
+				sprite = RuneSlot.sprite;
+				frame = RuneSlot.frame;
+				alpha = RuneSlot.alpha;
+				angle = RuneSlot.angle;
+				pitch = RuneSlot.pitch;
+				roll = RuneSlot.roll;
+				scale = RuneSlot.scale;
+			}
+			Loop;
+	}
+}
+
+// --------------------------------------------------
+// DEBUG & MISC
+// --------------------------------------------------
+
+class ArcanumMath
+{
+	const Pi = 3.14159;
+}
+
+class ArcanumDebug play
+{
+	static void DrawCollisionBox(Actor a, Color col = 0xFF0000)
+	{
+		a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, 0, 0, a.Height);
+		a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, a.Radius, 0, a.Height / 2);
+		a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, 0, a.Radius, a.Height / 2);
+		a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, 0, 0, a.Height / 2);
+		a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, 0, -a.Radius, a.Height / 2);
+		a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, -a.Radius, 0, a.Height / 2);
+		a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, 0, 0, 0);
+
+		for (double i = -a.Radius; i <= a.Radius; i += 0.25)
+		{
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, a.Radius, i, 0);
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 90, a.Radius, i, 0);
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 180, a.Radius, i, 0);
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 270, a.Radius, i, 0);
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, a.Radius, i, a.Height);
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 90, a.Radius, i, a.Height);
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 180, a.Radius, i, a.Height);
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 270, a.Radius, i, a.Height);
+		}
+
+		for (double i = 0; i <= a.Height; i += 0.25)
+		{
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, a.Radius, a.Radius, i);
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, a.Radius, -a.Radius, i);
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, -a.Radius, a.Radius, i);
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 0.5, 0, -a.Radius, -a.Radius, i);
+		}
+	}
+	
+	static void DrawXYZ(Actor a, double lengthx = 128, Color col = 0xFF0000)
+	{
+		for (double i = 0; i < a.Height; i += 0.5)
+		{
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 2, 0, i * sin(a.pitch), 0, i * cos(a.pitch));
+		}
+		for (double i = 0; i < a.Radius; i += 0.5)
+		{
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 2, 0, 0, i);
+		}
+		for (double i = 0; i < lengthx; i += 0.50)
+		{
+			a.A_SpawnParticle(col, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 2, 0, i * cos(a.pitch), 0, i * sin(-a.pitch));
+		}
+	}
+}

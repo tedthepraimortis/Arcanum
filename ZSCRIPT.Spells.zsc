@@ -1,0 +1,448 @@
+class ArcanumSpellBrain : Thinker
+{
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+		ChangeStatNum(STAT_STATIC);
+
+		for (int i = 0; i < AllClasses.Size(); ++i)
+		{
+			if (AllClasses[i] is 'ArcanumSpell' && AllClasses[i].GetClassName() != 'ArcanumSpell')
+			{
+				ArcanumSpell Spell = ArcanumSpell(new(AllClasses[i]));
+				Spell.Level = 1;
+
+				int TreesSize = Trees.Size();
+				int TreeIndex = TreesSize;
+				for (int i = 0; i < TreesSize; ++i)
+				{
+					if (Trees[i].GetClass() == Spell.GetTree())
+					{
+						TreeIndex = i;
+						break;
+					}
+				}
+
+				if (TreeIndex == Trees.Size()) // [Ace] Brand new tree, never used.
+				{
+					ArcanumSpellTree Tree = ArcanumSpellTree(new(Spell.GetTree()));
+					Tree.Spells.Push(Spell);
+					Trees.Push(Tree);
+				}
+				else
+				{
+					Trees[TreeIndex].InsertSpell(Spell);
+				}
+			}
+		}
+	}
+
+	int SpellCountInTree(class<ArcanumSpellTree> tree)
+	{
+		for (int i = 0; i < Trees.Size(); ++i)
+		{
+			if (Trees[i].GetClass() == tree)
+			{
+				return Trees[i].Spells.Size();
+			}
+		}
+
+		return 0;
+	}
+
+	Array<ArcanumSpellTree> Trees;
+
+	int TrackedPlayer;
+}
+
+class ArcanumSpellTree abstract play
+{
+	virtual string GetName() const { return "None"; }
+	virtual string GetDescription() const { return "Spells in this tree do stuff."; }
+	Array<ArcanumSpell> Spells;
+
+	void InsertSpell(ArcanumSpell spl)
+	{
+		int InsIndex = 0;
+		int SpellsCount = Spells.Size();
+		if (SpellsCount > 0)
+		{
+			for (int i = 0; i < SpellsCount; ++i)
+			{
+				if (spl.GetIndex() >= Spells[i].GetIndex())
+				{
+					InsIndex = i + 1;
+				}
+				else
+				{
+					InsIndex = i;
+				}
+			}
+		}
+		Spells.Insert(InsIndex, spl);
+	}
+}
+
+class ArcanumTreeDestruction : ArcanumSpellTree
+{
+	override string GetName() { return "\c[Red]Destruction\c-"; }
+	override string GetDescription() { return "Those who wish to destroy the world may find out how trivial it is. But is it really what you want?\n\nThis tree contains spells to call down thunder, annihilate entire hordes, or light a candle."; }
+}
+
+class ArcanumTreeRestoration : ArcanumSpellTree
+{
+	override string GetName() { return "\c[Tan]Restoration\c-"; }
+	override string GetDescription() { return "It is a wise man's goal to heal the world.\n\nRestoration spells give you the ability to resurrect friends or foes, heal their wounds, cleanse their body, and protect it."; }
+}
+
+class ArcanumTreeAlteration : ArcanumSpellTree
+{
+	override string GetName() { return "\c[Green]Alteration\c-"; }
+	override string GetDescription() { return "Nothing is as it appears. Manipulate the world to your liking.\n\nThe school of Alteration lets you destroy entire walls or otherwise manipulate objects."; }
+}
+
+class ArcanumTreeConjuration : ArcanumSpellTree
+{
+	override string GetName() { return "\c[Purple]Conjuration\c-"; }
+	override string GetDescription() { return "If it does not exist, make it.\n\nConjuration is for the strongest of magi. With it, you can summon monsters or materialize objects."; }
+}
+
+class ArcanumSpell abstract play
+{
+	enum SType
+	{
+		SType_SelfOrMass = 1 << 0,
+		SType_Targeted = 1 << 1
+	}
+
+	static const int ExperienceReqs[] = { 75, 180, 250, 320, 400 }; // [Ace] Pulled these out my ass. Probably gonna need rebalancing.
+
+	virtual class<ArcanumSpellTree> GetTree() const { return null; }
+	virtual int GetIndex() const { return -1; }
+	virtual string GetName() const { return "Newspapers Ignizzle"; }
+	virtual int GetSpellType() const { return -1; }
+	virtual int GetCatalystAmount() const { return 0; }
+	virtual clearscope string GetDescription() { return "Bet you can't figure out what this does."; }
+	virtual string GetTechnicalInfo() const { return "Anything goes."; }
+	virtual int GetExperienceGain() const { return 1; }
+	virtual int GetMaxLevel() const { return ExperienceReqs.Size(); }
+	virtual int GetCost() const { return 0; }
+	virtual int GetAggroGain() const { return 1; }
+	virtual class<ArcanumSigil> GetSigil() const { return null; }
+
+	void GainExperience()
+	{
+		if (Level >= min(GetMaxLevel(), ExperienceReqs.Size()))
+		{
+			return;
+		}
+
+		Experience += GetExperienceGain();
+		if (Experience >= ExperienceReqs[Level - 1])
+		{
+			Experience -= ExperienceReqs[Level - 1];
+			Level++;
+		}
+	}
+
+	int Experience;
+	int Level;
+}
+
+// --------------------------------------------------
+// DESTRUCTION
+// --------------------------------------------------
+
+class FireballSpell : ArcanumSpell
+{
+	override int GetIndex() { return 0; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
+	override string GetName() { return "Fireball"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 100; }
+	override string GetDescription() { return String.Format("Barrage target area with \c[Gold]%i\c- fireballs.", 10 + 5 * Level); }
+	override string GetTechnicalInfo() { return "Targeted, Thermal, Dangerous"; }
+	override int GetExperienceGain() { return 1; }
+	override int GetCost() { return 10; }
+	override int GetAggroGain() { return 2; }
+	override class<ArcanumSigil> GetSigil() { return 'FireballSigil'; }
+}
+
+class ClaymoreSpell : ArcanumSpell
+{
+	override int GetIndex() { return 10; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
+	override string GetName() { return "Claymore"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 100; }
+	override string GetDescription() { return "Activate the rune to create a trap that will activate when an enemy is in front of it."; }
+	override string GetTechnicalInfo() { return "Targeted, Physical, Dangerous"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 20; }
+	override int GetAggroGain() { return 2; }
+	override class<ArcanumSigil> GetSigil() { return 'ClaymoreSigil'; }
+}
+
+class ThunderclapSpell : ArcanumSpell
+{
+	override int GetIndex() { return 20; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
+	override string GetName() { return "Thunderclap"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 300; }
+	override string GetDescription() { return String.Format("Strikes target area with \c[Gold]%i\c- lightning bolt%s.", Level, Level > 1 ? "s" : ""); }
+	override string GetTechnicalInfo() { return "Targeted, AoE"; }
+	override int GetExperienceGain() { return 2; }
+	override int GetCost() { return 40; }
+	override int GetAggroGain() { return 5; }
+	override class<ArcanumSigil> GetSigil() { return 'ThunderclapSigil'; }
+}
+
+// class GodraySpell : ArcanumSpell
+// {
+// 	override int GetIndex() { return 30; }
+// 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
+// 	override string GetName() { return "God Ray"; }
+// 	override int GetSpellType() { return SType_Targeted; }
+// 	override int GetCatalystAmount() { return 600; }
+// 	override string GetDescription() { return "Releases a beam of pure energy, obliterating the target and heavily damaging everything in the area."; }
+// 	override string GetTechnicalInfo() { return "Targeted"; }
+// 	override int GetCost() { return 75; }
+// 	override class<ArcanumSigil> GetSigil() { return 'GodraySigil'; }
+// }
+
+class ImmolationSpell : ArcanumSpell
+{
+	override int GetIndex() { return 40; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
+	override string GetName() { return "Immolation"; }
+	override int GetSpellType() { return SType_SelfOrMass; }
+	override int GetCatalystAmount() { return 1000; }
+	override string GetDescription() { return "Sets nearby visible enemies on fire."; }
+	override string GetTechnicalInfo() { return "Mass"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 140; }
+	override int GetAggroGain() { return 12; }
+	override class<ArcanumSigil> GetSigil() { return 'ImmolationSigil'; }
+}
+
+// class BlackHoleSpell : ArcanumSpell
+// {
+// 	override int GetIndex() { return 50; }
+// 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
+// 	override string GetName() { return "Black Hole"; }
+// 	override int GetSpellType() { return SType_Targeted; }
+// 	override int GetCatalystAmount() { return 2000; }
+// 	override string GetDescription() { return "Creates a moving black hole that sucks in everything and erases it from existence."; }
+// 	override string GetTechnicalInfo() { return "Targeted, Extremely Dangerous"; }
+// 	override int GetCost() { return 300; }
+// 	override class<ArcanumSigil> GetSigil() { return 'BlackHoleSigil'; }
+// }
+
+// --------------------------------------------------
+// RESTORATION
+// --------------------------------------------------
+
+class HemostasisSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
+	override int GetIndex() { return 0; }
+	override string GetName() { return "Hemostasis"; }
+	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int GetCatalystAmount() { return 75; }
+	override string GetDescription() { return String.Format("Closes open wounds and fixes \c[Gold]%i%%\c- of unstable wounds.", 10 * Level); }
+	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
+	override int GetExperienceGain() { return 2; }
+	override int GetCost() { return 15; }
+	override int GetAggroGain() { return 1; }
+	override class<ArcanumSigil> GetSigil() { return 'HemostasisSigil'; }
+}
+
+class ConvalescenceSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
+	override int GetIndex() { return 10; }
+	override string GetName() { return "Convalescence"; }
+	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int GetCatalystAmount() { return 200; }
+	override string GetDescription() { return String.Format("Fixes all wounds and restores \c[Gold]%i%%\c- of missing health. Heals \c[Gold]%i\c- burns. Restores lost blood. Removes incap.", 25 + 10 * Level, 10 * Level); }
+	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
+	override int GetExperienceGain() { return 2; }
+	override int GetCost() { return 50; }
+	override int GetAggroGain() { return 5; }
+	override class<ArcanumSigil> GetSigil() { return 'ConvalescenceSigil'; }
+}
+
+class TransfusionSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
+	override int GetIndex() { return 20; }
+	override string GetName() { return "Transfusion"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 400; }
+	override string GetDescription() { return String.Format("Transfers \c[Gold]5%%\c- of your blues to the target."); }
+	override string GetTechnicalInfo() { return "Targeted, Touch"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 20; }
+	override class<ArcanumSigil> GetSigil() { return 'TransfusionSigil'; }
+}
+
+class ResurrectSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
+	override int GetIndex() { return 30; }
+	override string GetName() { return "Resurrect"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 300; }
+	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within 2m of where the rune is pointing.", 2 * Level); }
+	override string GetTechnicalInfo() { return "Targeted, Touch"; }
+	override int GetExperienceGain() { return 3; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 50; }
+	override class<ArcanumSigil> GetSigil() { return 'ResurrectSigil'; }
+}
+
+class SoulGuardSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
+	override int GetIndex() { return 40; }
+	override string GetName() { return "Soul Guard"; }
+	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int GetCatalystAmount() { return 800; }
+	override string GetDescription() { return String.Format("Grants the target \c[Gold]%i\c- layer%s of spiritual armor.", Level, Level > 1 ? "s" : ""); }
+	override string GetTechnicalInfo() { return "Self, Targeted"; }
+	override int GetExperienceGain() { return 10; }
+	override int GetMaxLevel() { return 3; }
+	override int GetCost() { return 120; }
+	override int GetAggroGain() { return 10; }
+	override class<ArcanumSigil> GetSigil() { return 'SoulGuardSigil'; }
+}
+
+class RevitalizationSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
+	override int GetIndex() { return 50; }
+	override string GetName() { return "Revitalization"; }
+	override int GetSpellType() { return SType_SelfOrMass; }
+	override int GetCatalystAmount() { return 1400; }
+	override string GetDescription() { return String.Format("Heals all visible nearby entities by \c[Gold]75%%\c- of their total health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-, but only for others. Restores lost blood. Removes incap.", 30 * Level, 15 * Level); }
+	override string GetTechnicalInfo() { return "Mass"; }
+	override int GetMaxLevel() { return 3; }
+	override int GetExperienceGain() { return 10; }
+	override int GetCost() { return 120; }
+	override int GetAggroGain() { return 25; }
+	override class<ArcanumSigil> GetSigil() { return 'RevitalizationSigil'; }
+}
+
+class InvulnerabilitySpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
+	override int GetIndex() { return 60; }
+	override string GetName() { return "Invulnerability"; }
+	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int GetCatalystAmount() { return 2000; }
+	override string GetDescription() { return "Grants temporary invulnerability that lasts 90 seconds."; }
+	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 500; }
+	override int GetAggroGain() { return 40; }
+	override class<ArcanumSigil> GetSigil() { return 'InvulnerabilitySigil'; }
+}
+
+// --------------------------------------------------
+// ALTERATION
+// --------------------------------------------------
+
+class FarReachSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 0; }
+	override string GetName() { return "Far Reach"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 40; }
+	override string GetDescription() { return "Open doors and trigger switches within a range of 40m."; }
+	override string GetTechnicalInfo() { return "Targeted"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 10; }
+	override class<ArcanumSigil> GetSigil() { return 'FarReachSigil'; }
+}
+
+class WorldbreakerSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 10; }
+	override string GetName() { return "Worldbreaker"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 200; }
+	override string GetDescription() { return String.Format("Destroys the target geometry. Maximum sector dimensions: \c[Gold]%ix%i\c-", 64 + 64 * Level, 16 + 16 * Level); }
+	override string GetTechnicalInfo() { return "Targeted, Touch"; }
+	override int GetMaxLevel() { return 3; }
+	override int GetExperienceGain() { return 5; }
+	override int GetCost() { return 50; }
+	override int GetAggroGain() { return 5; }
+	override class<ArcanumSigil> GetSigil() { return 'WorldbreakerSigil'; }
+}
+
+class HoradricMalusSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 20; }
+	override string GetName() { return "Horadric Malus"; }
+	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int GetCatalystAmount() { return 200; }
+	override string GetDescription() { return String.Format("Repairs worn armor by \c[Gold]%i%%\c- of its missing durability.", 25 * Level); }
+	override string GetTechnicalInfo() { return "Self, Targeted"; }
+	override int GetMaxLevel() { return 3; }
+	override int GetExperienceGain() { return 4; }
+	override int GetCost() { return 50; }
+	override class<ArcanumSigil> GetSigil() { return 'HoradricMalusSigil'; }
+}
+
+class ReenergizeSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 30; }
+	override string GetName() { return "Reenergize"; }
+	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int GetCatalystAmount() { return 300; }
+	override string GetDescription() { return String.Format("Restores up to \c[Gold]%i\c- battery charge, filling partial batteries first.", 20 * Level); }
+	override string GetTechnicalInfo() { return "Self, Targeted"; }
+	override int GetExperienceGain() { return 5; }
+	override int GetCost() { return 60; }
+	override class<ArcanumSigil> GetSigil() { return 'ReenergizeSigil'; }
+}
+
+class MassRecallSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 40; }
+	override string GetName() { return "Mass Recall"; }
+	override int GetSpellType() { return SType_SelfOrMass; }
+	override int GetCatalystAmount() { return 700; }
+	override string GetDescription() { return "Teleports all players, dead or alive, to the circle."; }
+	override string GetTechnicalInfo() { return "Mass"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 175; }
+	override int GetAggroGain() { return 20; }
+	override class<ArcanumSigil> GetSigil() { return 'MassRecallSigil'; }
+}
+
+// --------------------------------------------------
+// CONJURATION
+// --------------------------------------------------
+
+class GhostSquadSpell : ArcanumSpell
+{
+	override int GetIndex() { return 0; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
+	override string GetName() { return "Ghost Squad"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 400; }
+	override string GetDescription() { return String.Format("Summons \c[Gold]%i\c- ghost marine%s at target location.", Level, Level > 1 ? "s" : ""); }
+	override string GetTechnicalInfo() { return "Targeted"; }
+	override int GetMaxLevel() { return 3; }
+	override int GetExperienceGain() { return 3; }
+	override int GetCost() { return 80; }
+	override int GetAggroGain() { return 3; }
+	override class<ArcanumSigil> GetSigil() { return 'GhostSquadSigil'; }
+}

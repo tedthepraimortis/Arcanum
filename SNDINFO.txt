@@ -1,0 +1,2 @@
+$alias Arcanum/Sigil/Spawn misc/p_pkup
+$limit Arcanum/Sigil/Spawn 0

@@ -1,0 +1,973 @@
+// --------------------------------------------------
+// DESTRUCTION
+// --------------------------------------------------
+
+class FireballSigil : ArcanumSigil
+{
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+
+		ReactionTime = 10 + 5 * SigilLevel;
+	}
+
+	override void ActivateTargeted()
+	{
+		if (!AlreadyActivated)
+		{
+			BlockThingsIterator it = BlockThingsIterator.Create(self, 4200);
+			while (it.Next())
+			{
+				if (it.thing.bISMONSTER && it.thing.Health > 0 && !it.thing.bFRIENDLY && CheckSight(it.thing) && AbsAngle(angle, AngleTo(it.thing)) < 70)
+				{
+					ViableTargets.Push(it.thing);
+				}
+			}
+			AlreadyActivated = true;
+		}
+
+		int RandRoll = random(0, 359);
+		int TSize = ViableTargets.Size();
+		if (TSize > 0)
+		{
+			target = ViableTargets[random(0, ViableTargets.Size() - 1)];
+		}
+
+		Actor a = A_SpawnProjectile("ArdentipedeBall2", Height * cos(RandRoll), Height * sin(RandRoll), random(-4, 4), CMF_AIMDIRECTION, pitch + random(-2, 2));
+		if (a)
+		{
+			a.target = master;
+			a.bFRIENDLY = true;
+			a.A_ScaleVelocity(3.0);
+		}
+		ReactionTime--;
+	}
+
+	override void InitRuneSlots()
+	{
+		CreateRuneSlot((0, 17.25), (5, 8.33), 1.2, 3.0);
+		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 3.0);
+		CreateRuneSlot((0, -17.25), (5, 8.33), 1.2, 3.0);
+	}
+
+	private Array<Actor> ViableTargets;
+
+	private bool AlreadyActivated;
+
+	Default
+	{
+		+FRIENDLY
+		+ARCANUMSIGIL.NOHEIGHTADJUST
+		StencilColor "FF2200";
+	}
+
+	States
+	{
+		Spawn:
+			CRDE A 0;
+			Goto Super::Spawn;
+	}
+}
+
+class ClaymoreSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		double OldAngle = angle;
+		double OldPitch = pitch;
+		for (int i = -60; i <= 60; i += 20)
+		{
+			angle = OldAngle + i;
+			pitch = random(-30, 30);
+			Actor a = AimTarget();
+
+			if (a && (a.bISMONSTER || a.player) && a.Health > 0 && Distance2D(a) < 48)
+			{
+				Actor xpl = Spawn("WallChunker", pos);
+				xpl.target = tracer;
+				xpl.master = master;
+
+				Spawn("HDExplosion", pos);
+				HDActor.HDBlast(self, fragradius: 128, immolateradius: 128, immolateamount: 60);
+				HDActor.HDBlast(self, fragradius: 128, immolateradius: 128, immolateamount: 60);
+				ReactionTime = 0;
+				break;
+			}
+		}
+		angle = OldAngle;
+		pitch = OldPitch;
+		ReactionTime--;
+	}
+
+	override void InitRuneSlots()
+	{
+		CreateRuneSlot((0, -8.5), (6.5, 10.83), 2.0);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 3.0;
+		+ARCANUMSIGIL.DONTPITCH
+		+ARCANUMSIGIL.NOHEIGHTADJUST
+		ReactionTime 0xFFFFFF;
+		StencilColor "77AFFF";
+	}
+
+	States
+	{
+		Spawn:
+			CRDE B 0;
+			Goto Super::Spawn;
+	}
+}
+
+class ThunderclapSigil : ArcanumSigil
+{
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+
+		ReactionTime = 8 * SigilLevel;
+	}
+
+	override void ActivateTargeted()
+	{
+		if (GetAge() % 8 == 0)
+		{
+			FLineTraceData Data;
+			LineTrace(angle + frandom(-1.5, 1.5), 12600, pitch + frandom(-1.3, 1.3), 0, 0, 0, 0, Data);
+
+			if (Data.HitType != Data.TRACE_HitNone && Data.HitType != Data.TRACE_HasHitSky)
+			{
+				Actor BSpot = spawn("BeamSpot", Data.HitLocation - Data.HitDir, ALLOW_REPLACE);
+				BSpot.master = master;
+				BSpot.target = self;
+				BSpot.stamina = 144;
+				BSpot.angle = angle;
+				BSpot.pitch = pitch;
+			}
+		}
+		ReactionTime--;
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (4, 6.66);
+		CreateRuneSlot((8.75, -6.5), Size, 1.3, 5.0);
+		CreateRuneSlot((0, 8.25), Size, 1.3, 5.0);
+		CreateRuneSlot((-8.75, -6.5), Size, 1.3, 5.0);
+	}
+
+	Default
+	{
+		StencilColor "77AFFF";
+	}
+
+	States
+	{
+		Spawn:
+			CRDE C 0;
+			Goto Super::Spawn;
+	}
+}
+
+// class GodraySigil : ArcanumSigil
+// {
+// 	override void ActivateSelfOrMass()
+// 	{
+// 		A_RadiusGive("Heat", 1024, RGF_MONSTERS, 1000);
+// 	}
+
+// 	override void InitRuneSlots()
+// 	{
+// 		vector2 Size = (5, 9);
+// 		CreateRuneSlot((0, 2), Size);
+// 		CreateRuneSlot((0, 2), Size);
+// 		CreateRuneSlot((0, 2), Size);
+// 		CreateRuneSlot((0, 2), Size);
+// 		CreateRuneSlot((0, 2), Size);
+// 	}
+
+// 	Default
+// 	{
+// 		Height 35;
+// 		StencilColor "FF6600";
+// 		Scale 0.75;
+// 	}
+
+// 	States
+// 	{
+// 		Spawn:
+// 			CRDE D 0;
+// 			Goto Super::Spawn;
+// 	}
+// }
+
+class ImmolationSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		A_RadiusGive("Heat", 1024, RGF_MONSTERS, 1000);
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (6, 10);
+		CreateRuneSlot((0, 16), Size, 1.6, 3.5);
+		CreateRuneSlot((0, -16), Size, 1.6, 3.5);
+		CreateRuneSlot((15.25, 0), Size, 1.6, 3.5);
+		CreateRuneSlot((-15.25, 0), Size, 1.6, 3.5);
+	}
+
+	Default
+	{
+		StencilColor "FF8811";
+	}
+
+	States
+	{
+		Spawn:
+			CRDE E 0;
+			Goto Super::Spawn;
+	}
+}
+
+// class BlackHoleSigil : ArcanumSigil
+// {
+// 	override void ActivateSelfOrMass()
+// 	{
+// 		A_RadiusGive("Heat", 1024, RGF_MONSTERS, 1000);
+// 	}
+
+// 	override void InitRuneSlots()
+// 	{
+// 		vector2 Size = (5, 9);
+// 		CreateRuneSlot((0, 2), Size);
+// 		CreateRuneSlot((0, 2), Size);
+// 		CreateRuneSlot((0, 2), Size);
+// 		CreateRuneSlot((0, 2), Size);
+// 		CreateRuneSlot((0, 2), Size);
+// 	}
+
+// 	Default
+// 	{
+// 		Height 35;
+// 		StencilColor "111111";
+// 		Scale 0.75;
+// 	}
+
+// 	States
+// 	{
+// 		Spawn:
+// 			CRDE F 0;
+// 			Goto Super::Spawn;
+// 	}
+// }
+
+// --------------------------------------------------
+// RESTORATION
+// --------------------------------------------------
+
+class HemostasisSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		let plr = HDPlayerPawn(AimTarget());
+		if (plr && plr.Health > 0 && Distance3D(plr) <= 42 * 2)
+		{
+			DoHealing(plr);
+		}
+	}
+
+	override void ActivateSelfOrMass()
+	{
+		let plr = HDPlayerPawn(master);
+		if (plr)
+		{
+			DoHealing(plr);
+		}
+	}
+
+	private void DoHealing(HDPlayerPawn plr)
+	{
+		plr.unstablewoundcount *= int(1.0 - 0.1 * SigilLevel);
+		plr.woundcount = 0;
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (4, 6.66);
+		CreateRuneSlot((-6, 14.5), Size, 1.0, 1.5); CreateRuneSlot((6, 14.5), Size, 1.0, 1.5);
+		CreateRuneSlot((-11, 5), Size, 1.0, 1.5); CreateRuneSlot((11, 5), Size, 1.0, 1.5);
+		CreateRuneSlot((-11, -5), Size, 1.0, 1.5); CreateRuneSlot((11, -5), Size, 1.0, 1.5);
+		CreateRuneSlot((-6, -14.5), Size, 1.0, 1.5); CreateRuneSlot((6, -14.5), Size, 1.0, 1.5);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 2.0;
+		StencilColor "FF9E9E";
+	}
+
+	States
+	{
+		Spawn:
+			CRRE A 0;
+			Goto Super::Spawn;
+	}
+}
+
+class ConvalescenceSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		Actor a = AimTarget();
+		if (a && a.Health > 0 && Distance3D(a) <= 42 * 2)
+		{
+			DoHealing(a);
+		}
+	}
+
+	override void ActivateSelfOrMass()
+	{
+		if (master)
+		{
+			DoHealing(master);
+		}
+	}
+
+	private void DoHealing(Actor a)
+	{
+		let plr = HDPlayerPawn(a);
+		let mon = HDMobBase(a);
+		if (plr)
+		{
+			plr.unstablewoundcount = 0;
+			plr.woundcount = 0;
+			plr.burncount -= 10 * SigilLevel;
+			plr.bloodloss = 0;
+			int MissingHealth = plr.MaxHealth() - plr.Health;
+			plr.GiveBody(int(MissingHealth * (25 + 0.10 * SigilLevel)));
+			plr.incaptimer = 0;
+		}
+		else if (mon)
+		{
+			int MissingHealth = mon.SpawnHealth() - mon.Health;
+			mon.GiveBody(int(MissingHealth * (25 + 0.10 * SigilLevel)));
+
+			let humon = HDMobMan(mon);
+			if (humon)
+			{
+				humon.stunned = 0;
+				humon.bodydamage = 0; // [Ace] Eh, why not?
+				humon.bloodloss = 0;
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 BigSize = (4, 6.66);
+		vector2 SmallSize = (3, 5);
+		CreateRuneSlot((-9.3, 16.5), SmallSize, 0.9, 1.6); CreateRuneSlot((9.3, 16.5), SmallSize, 0.9, 1.6);
+		CreateRuneSlot((-17, 0), BigSize, 1.2, 5.5); CreateRuneSlot((17, 0), BigSize, 1.2, 5.5);
+		CreateRuneSlot((-9.3, -16.5), SmallSize, 0.9, 1.6); CreateRuneSlot((9.3, -16.5), SmallSize, 0.9, 1.6);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 2.0;
+		StencilColor "FF0A0A";
+	}
+
+	States
+	{
+		Spawn:
+			CRRE B 0;
+			Goto Super::Spawn;
+	}
+}
+
+class TransfusionSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		let plr = HDPlayerPawn(AimTarget());
+		let you = HDPlayerPawn(master);
+		if (plr && you) // [Ace] <3
+		{
+			int AmountTransferred = int(you.regenblues * 0.05);
+			you.regenblues -= AmountTransferred;
+			plr.regenblues += AmountTransferred;
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (4, 6.66);
+		CreateRuneSlot((-13.25, 13.25), Size, 1.25, 3.25);
+		CreateRuneSlot((13.25, 13.25), Size, 1.25, 3.25);
+		CreateRuneSlot((-13.25, -13.25), Size, 1.25, 3.25);
+		CreateRuneSlot((13.25, -13.25), Size, 1.25, 3.25);
+	}
+
+	Default
+	{
+		+ARCANUMSIGIL.DONTPITCH
+		ArcanumSigil.FadeOutSpeedMult 3.0;
+		StencilColor "3333FF";
+	}
+
+	States
+	{
+		Spawn:
+			CRRE C 0;
+			Goto Super::Spawn;
+	}
+}
+
+class ResurrectSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		FLineTraceData Data;
+		LineTrace(angle, 42 * 2, pitch, 0, 0, 0, 0, Data);
+
+		HDMobBase Enemy;
+		HDPlayerCorpse PCorpse;
+
+		int NumRevives = 0;
+		BlockThingsIterator it = BlockThingsIterator.CreateFromPos(Data.HitLocation.x, Data.HitLocation.y, Data.HitLocation.z, 0, 84, false);
+		while (it.Next())
+		{
+			if (!it.thing.bCORPSE)
+			{
+				continue;
+			}
+
+			Enemy = HDMobBase(it.thing);
+			PCorpse = HDPlayerCorpse(it.thing);
+
+			if (PCorpse && HDPlayerPawn(PCorpse.master))
+			{
+				HDPlayerPawn(PCorpse.master).respawndelay = 0;
+				NumRevives++;
+			}
+			else if (Enemy)
+			{
+				Enemy.bodydamage = 0;
+				master.RaiseActor(Enemy);
+				Enemy.bFRIENDLY = true;
+				NumRevives++;
+			}
+
+			if (NumRevives == 2 * SigilLevel)
+			{
+				break;
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (3, 5);
+		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 6.0);
+		CreateRuneSlot((0, 17.1), Size, 0.85, 1.75);
+		CreateRuneSlot((-16.6, 5.28), Size, 0.85, 1.75); CreateRuneSlot((16.6, 5.28), Size, 0.85, 1.75);
+		CreateRuneSlot((-10.10, -14.1), Size, 0.85, 1.75); CreateRuneSlot((10.10, -14.1), Size, 0.85, 1.75);
+	}
+
+	Default
+	{
+		ArcanumSigil.AddAlpha 1.75;
+		StencilColor "331177";
+	}
+
+	States
+	{
+		Spawn:
+			CRRE D 0;
+			Goto Super::Spawn;
+	}
+}
+
+class SoulGuardSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		let plr = HDPlayerPawn(AimTarget());
+		if (plr && plr.Health > 0)
+		{
+			GiveSpiritualArmor(plr);
+		}
+	}
+
+	override void ActivateSelfOrMass()
+	{
+		let plr = HDPlayerPawn(master);
+		if (plr)
+		{
+			GiveSpiritualArmor(plr);
+		}
+	}
+
+	private void GiveSpiritualArmor(HDPlayerPawn plr)
+	{
+		plr.A_GiveInventory("SpiritualArmour", SigilLevel);
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (5, 8.33);
+		CreateRuneSlot((-19.75, 0), Size, 1.25, 3.8);
+		CreateRuneSlot((0, 19.75), Size, 1.25, 3.8);
+		CreateRuneSlot((19.75, 0), Size, 1.25, 3.8);
+		CreateRuneSlot((0, -19.75), Size, 1.25, 3.8);
+	}
+
+	Default
+	{
+		StencilColor "44FF44";
+	}
+
+	States
+	{
+		Spawn:
+			CRRE E 0;
+			Goto Super::Spawn;
+	}
+}
+
+class RevitalizationSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		HDMobBase Other;
+		HDPlayerPawn PActor;
+
+		BlockThingsIterator it = BlockThingsIterator.Create(self, 1024);
+		while (it.Next())
+		{
+			if (!CheckSight(it.thing) || it.thing.Health <= 0)
+			{
+				continue;
+			}
+
+			Other = HDMobBase(it.thing);
+			PActor = HDPlayerPawn(it.thing);
+
+			if (PActor)
+			{
+				if (PActor != master)
+				{
+					PActor.aggravateddamage -= 15 * SigilLevel;
+				}
+
+				PActor.bloodloss = 0;
+				PActor.burncount -= 30 * SigilLevel;
+				PActor.MaxHealth(); // [Ace] So everything is clamped.
+				PActor.GiveBody(int(PActor.MaxHealth() * 0.75));
+				PActor.incaptimer = 0;
+			}
+			else if (Other)
+			{
+				Other.bodydamage = 0;
+				Other.GiveBody(int(Other.SpawnHealth() * 0.75));
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 BigSize = (4, 6.66);
+		CreateRuneSlot((-15.9, 0), BigSize, 1.2, 1.75); CreateRuneSlot((15.9, 0), BigSize, 1.2, 1.75);
+		CreateRuneSlot((0, 15.9), BigSize, 1.2, 1.75); CreateRuneSlot((0, -15.9), BigSize, 1.2, 1.75);
+
+		vector2 SmallSize = (3, 5);
+		CreateRuneSlot((-8.65, 8.65), SmallSize, 0.8, 1.75); CreateRuneSlot((8.65, 8.65), SmallSize, 0.8, 1.75);
+		CreateRuneSlot((-8.65, -8.65), SmallSize, 0.8, 1.75); CreateRuneSlot((8.65, -8.65), SmallSize, 0.8, 1.75);
+	}
+
+	Default
+	{
+		StencilColor "FF66FF";
+	}
+
+	States
+	{
+		Spawn:
+			CRRE F 0;
+			Goto Super::Spawn;
+	}
+}
+
+class InvulnerabilitySigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		let plr = HDPlayerPawn(AimTarget());
+		if (plr && plr.Health > 0)
+		{
+			GiveInvulnerability(plr);
+		}
+	}
+
+	override void ActivateSelfOrMass()
+	{
+		let plr = HDPlayerPawn(master);
+		if (plr)
+		{
+			GiveInvulnerability(plr);
+		}
+	}
+
+	private void GiveInvulnerability(HDPlayerPawn plr)
+	{
+		HDUPK Sphere = GreenSphere(Spawn("GreenSphere", plr.pos));
+		Sphere.picktarget = plr;
+		Sphere.A_HDUPKGive();
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 BigSize = (4, 6.66);
+		CreateRuneSlot((-11.55, 0), BigSize, 1.1, 2.5);
+		CreateRuneSlot((0, 11.55), BigSize, 1.1, 2.5);
+		CreateRuneSlot((11.55, 0), BigSize, 1.1, 2.5);
+		CreateRuneSlot((0, -11.55), BigSize, 1.1, 2.5);
+
+		vector2 SmallSize = (3, 5);
+		CreateRuneSlot((-20.55, 0), SmallSize, 0.7, 1.2);
+		CreateRuneSlot((0, 20.55), SmallSize, 0.7, 1.2);
+		CreateRuneSlot((20.55, 0), SmallSize, 0.7, 1.2);
+		CreateRuneSlot((0, -20.55), SmallSize, 0.7, 1.2);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 3.0;
+		StencilColor "11FF11";
+	}
+
+	States
+	{
+		Spawn:
+			CRRE G 0;
+			Goto Super::Spawn;
+	}
+}
+
+// --------------------------------------------------
+// ALTERATION
+// --------------------------------------------------
+
+class FarReachSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		FLineTraceData Data;
+		LineTrace(angle, 42 * 40, pitch, 0, 0, 0, 0, Data);
+
+		if (Data.HitLine)
+		{
+			Data.HitLine.Activate(master, 0, SPAC_Use);
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		CreateRuneSlot((0, 0), (6, 10), 2.2);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 4.0;
+		StencilColor "FFFF99";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL A 0;
+			Goto Super::Spawn;
+	}
+}
+
+class WorldbreakerSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		A_StartSound("weapons/bigcrack", CHAN_AUTO);
+		A_StartSound("world/explode", CHAN_VOICE);
+		DoorDestroyer.DestroyDoor(self, 64 + 64 * SigilLevel, 16 + 16 * SigilLevel, 42 * 2); 
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (3.5, 5.83);
+		CreateRuneSlot((-7.8, 9.1), Size, 1.0, 4.0); CreateRuneSlot((7.8, 9.1), Size, 1.0, 4.0);
+		CreateRuneSlot((-18, 0), Size, 1.0, 2.0); CreateRuneSlot((18, 0), Size, 1.0, 2.0);
+		CreateRuneSlot((-7.8, -9.1), Size, 1.0, 4.0); CreateRuneSlot((7.8, -9.1), Size,1.07, 4.0);
+	}
+
+	Default
+	{
+		+ARCANUMSIGIL.DONTPITCH
+		StencilColor "44FF44";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL B 0;
+			Goto Super::Spawn;
+	}
+}
+
+class HoradricMalusSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		let plr = HDPlayerPawn(AimTarget());
+		if (plr && plr.Health > 0)
+		{
+			RepairArmor(plr);
+		}
+	}
+
+	override void ActivateSelfOrMass()
+	{
+		let plr = HDPlayerPawn(master);
+		if (plr)
+		{
+			RepairArmor(plr);
+		}
+	}
+
+	private void RepairArmor(HDPlayerPawn plr)
+	{
+		let Armor = HDArmourWorn(plr.FindInventory("HDArmourWorn"));
+		if (Armor)
+		{
+			int MaxDurability = Armor.Mega ? 70 : 144;
+			int DurabilityMissing = MaxDurability - Armor.Durability;
+			Armor.Durability += int(DurabilityMissing * (0.50 + 10 * SigilLevel));
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 BigSize = (4, 6.66);
+		CreateRuneSlot((-14, 0), BigSize, 1.0, 5.0); CreateRuneSlot((14, 0), BigSize, 1.0, 5.0);
+
+		vector2 MedSize = (3, 5);
+		CreateRuneSlot((-7.8, 7.1), MedSize, 0.7, 2.5); CreateRuneSlot((7.8, 7.1), MedSize, 0.7, 1.75);
+		CreateRuneSlot((-7.8, -7.1), MedSize, 0.7, 2.5); CreateRuneSlot((7.8, -7.1), MedSize, 0.7, 1.75);
+
+		vector2 SmallSize = (2, 3.33);
+		CreateRuneSlot((0, 11), SmallSize, 0.5, 1.5); CreateRuneSlot((0, -11), SmallSize, 0.5, 1.25);
+	}
+
+	Default
+	{
+		StencilColor "998456";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL C 0;
+			Goto Super::Spawn;
+	}
+}
+
+class ReenergizeSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		let plr = HDPlayerPawn(AimTarget());
+		if (plr && plr.Health > 0)
+		{
+			RechargeBatteries(plr);
+		}
+	}
+
+	override void ActivateSelfOrMass()
+	{
+		let plr = HDPlayerPawn(master);
+		if (plr)
+		{
+			RechargeBatteries(plr);
+		}
+	}
+
+	private void RechargeBatteries(HDPlayerPawn plr)
+	{
+		int RemainingCharges = 20 * SigilLevel;
+		let Stack = HDBattery(plr.FindInventory("HDBattery"));
+		if (Stack)
+		{
+			while (RemainingCharges > 0)
+			{
+				int Index = AceCore.GetHighestBattery(Stack, Stack.MaxPerUnit);
+				if (Index > -1)
+				{
+					int AmountToMax = Stack.MaxPerUnit - Stack.Mags[Index];
+					Stack.Mags[Index] += min(RemainingCharges, AmountToMax);
+					RemainingCharges -= AmountToMax;
+				}
+				else
+				{
+					break;
+				}
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (2.2, 3.66);
+		CreateRuneSlot((-4.6, 8.40), Size, 0.75); CreateRuneSlot((4.6, 8.40), Size, 0.7, 2.5);
+		CreateRuneSlot((-4.6, -8.40), Size, 0.75); CreateRuneSlot((4.6,- 8.40), Size, 0.7, 2.5);
+
+		CreateRuneSlot((-8.5, 4.5), Size, 0.75); CreateRuneSlot((8.5, 4.5), Size, 0.7, 2.5);
+		CreateRuneSlot((-8.5, -4.5), Size, 0.75); CreateRuneSlot((8.5,- 4.5), Size, 0.7, 2.5);
+	}
+
+	Default
+	{
+		StencilColor "33FF00";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL D 0;
+			Goto Super::Spawn;
+	}
+}
+
+
+class MassRecallSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		int AngOff = 0;
+		for (int i = 0; i < MAXPLAYERS; ++i)
+		{
+			if (!players[i].mo || players[i].mo == master)
+			{
+				continue;
+			}
+
+			let plr = players[i].mo;
+			if (plr.Health > 0)
+			{
+				plr.Warp(master, 64, 0, 0, AngOff);
+				plr.A_StartSound("misc/teleport", 20);
+				AngOff += 45;
+			}
+		}
+
+		if (hd_pof)
+		{
+			ThinkerIterator it = ThinkerIterator.Create("HDPlayerCorpse", STAT_DEFAULT);
+			HDPlayerCorpse PCorpse;
+			while ((PCorpse = HDPlayerCorpse(it.Next())))
+			{
+				PCorpse.Warp(master, 64, 0, 0, AngOff);
+				PCorpse.A_StartSound("misc/teleport", 20);
+				AngOff += 45;
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (5, 8.3);
+		CreateRuneSlot((-41.9, 0), Size, 1.75, 2.0); CreateRuneSlot((41.9, 0), Size, 1.75, 2.0);
+
+		vector2 BigSize = (6, 10);
+		CreateRuneSlot((-13.25, 25.75), BigSize, 2.0, 4.0); CreateRuneSlot((13.25, 25.75), BigSize, 2.0, 4.0);
+		CreateRuneSlot((-13.25, -25.75), BigSize, 2.0, 4.0); CreateRuneSlot((13.25, -25.75), BigSize, 2.0, 4.0);
+	}
+
+	Default
+	{
+		ArcanumSigil.AddAlpha 0.7;
+		Height 63;
+		Radius 75;
+		StencilColor "22DDFF";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL E 0;
+			Goto Super::Spawn;
+	}
+}
+
+// --------------------------------------------------
+// CONJURATION
+// --------------------------------------------------
+
+class GhostSquadSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		FLineTraceData Data;
+		LineTrace(angle, 42 * 100, pitch, 0, 0, 0, 0, Data);
+
+		vector3 OldPos = master.pos;
+		if (Data.HitType != Data.TRACE_HitNone && Data.HitType != Data.TRACE_HasHitSky)
+		{
+			master.SetXYZ(Data.HitLocation - Data.HitDir);
+			master.A_StartSound("misc/p_pkup", CHAN_AUTO, attenuation: ATTN_NONE);
+			master.A_AlertMonsters();
+			master.A_SpawnItemEx("GhostMarine", 0, 0, 0, -8, 0, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
+			master.A_SpawnItemEx("HDSmoke", 0, 0, 0, 8, 0, 0, 0, SXF_NOCHECKPOSITION);
+
+			if (SigilLevel > 1)
+			{
+				master.A_SpawnItemEx("GhostMarine", 0, 0, 0, 0, 5, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
+				master.A_SpawnItemEx("GhostMarine", 0, 0, 0, 0, -5, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
+			}
+			if (SigilLevel > 2)
+			{
+				master.A_SpawnItemEx("HDSmoke", 0, 0, 0, 0, 5, 0, 0, SXF_NOCHECKPOSITION);
+				master.A_SpawnItemEx("HDSmoke", 0, 0, 0, 0, -5, 0, 0, SXF_NOCHECKPOSITION);
+			}
+
+			string deadawaken;
+			switch (random(0, 3))
+			{
+				case 0: deadawaken = "\cj'They shall stand again and hear there\n\cja horn in the hills ringing.\n\n\cjWhose shall the horn be?'"; break;
+				case 1: deadawaken = "\cj'For this war will last through years uncounted\n\n\cjand you shall be summoned once again ere the end.'"; break;
+				case 2: deadawaken = "\cj'Faint cries I heard,and dim horns blowing,\n\n\cjand a murmur as of countless far voices:\n\n\n\cjit was like the echo of some forgotten battle\n\n\cjin the Dark Years long ago.'"; break;
+				case 3: deadawaken = "\cj'Pale swords were drawn; but I know not\n\n\cjwhether their blades would still bite,\n\n\n\cjfor the Dead needed no longer\n\n\cjany weapon but fear.'"; break;
+			}
+			A_PrintBold(deadawaken, deadawaken.length() * 0.05, "NewSmallFont");
+			master.SetXYZ(OldPos);
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (2, 3.33);
+		CreateRuneSlot((-8.4, 0), Size, 0.5, 4.0); CreateRuneSlot((8.4, 0), Size, 0.5, 4.0);
+		CreateRuneSlot((0, -8.4), Size, 0.5, 4.0); CreateRuneSlot((0, 8.4), Size, 0.5, 4.0);
+	}
+
+	Default
+	{
+		StencilColor "B4C8A3";
+	}
+
+	States
+	{
+		Spawn:
+			CRCN A 0;
+			Goto Super::Spawn;
+	}
+}
