@@ -375,7 +375,7 @@ class HDArcanumTome : HDWeapon
 
 				int SpellCost = SelSpell.GetCost();
 
-				if (plr.regenblues >= SelSpell.GetCatalystAmount() + SpellCost)
+				if (plr.regenblues >= max(SelSpell.GetCatalystAmount(), SpellCost))
 				{
 					FLineTraceData Data;
 					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 12, 0, 0, Data);
