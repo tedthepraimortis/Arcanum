@@ -15,7 +15,7 @@ class ArcanumHandler : StaticEventHandler
 		switch (e.Replacement.GetClassName())
 		{
 			case 'Lumberjack':
-				if (random[arcanrand]() <= 32)
+				if (random[arcanrand]() <= 64)
 				{
 					e.Replacement = "HDArcanumTome";
 				}
