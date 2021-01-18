@@ -1,2 +1,4 @@
-$alias Arcanum/Sigil/Spawn misc/p_pkup
+Arcanum/Sigil/Spawn ARSIGSPW
 $limit Arcanum/Sigil/Spawn 0
+
+Arcanum/Rune/Spawn ARRUNSPW

@@ -202,6 +202,7 @@ class HDArcanumTome : HDWeapon
 		HDWeapon.BarrelSize 5, 2, 1; // [Ace] I don't even know why.
 		Scale 0.6;
 		Tag "Arcanum tome";
+		Inventory.PickupSound "weapons/pocket";
 		HDWeapon.Refid "arc";
 		Inventory.MaxAmount 1;
 		Inventory.PickupMessage "You picked up the Arcanum tome of knowledge. Infinite power awaits those with the energy within.";
@@ -556,7 +557,7 @@ class ArcanumRuneSlot : Actor
 		}
 
 		SetStateLabel("Trigger");
-		A_StartSound("Arcanum/Sigil/Spawn", CHAN_BODY);
+		A_StartSound("Arcanum/Rune/Spawn", CHAN_BODY);
 		Active = true;
 		Alpha = default.Alpha;
 
