@@ -943,11 +943,12 @@ class GhostSquadSigil : ArcanumSigil
 			if (SigilLevel > 1)
 			{
 				master.A_SpawnItemEx("GhostMarine", 0, 0, 0, 0, 5, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
-				master.A_SpawnItemEx("GhostMarine", 0, 0, 0, 0, -5, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
+				master.A_SpawnItemEx("HDSmoke", 0, 0, 0, 0, 5, 0, 0, SXF_NOCHECKPOSITION);
+				
 			}
 			if (SigilLevel > 2)
 			{
-				master.A_SpawnItemEx("HDSmoke", 0, 0, 0, 0, 5, 0, 0, SXF_NOCHECKPOSITION);
+				master.A_SpawnItemEx("GhostMarine", 0, 0, 0, 0, -5, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
 				master.A_SpawnItemEx("HDSmoke", 0, 0, 0, 0, -5, 0, 0, SXF_NOCHECKPOSITION);
 			}
 
@@ -967,8 +968,8 @@ class GhostSquadSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (2, 3.33);
-		CreateRuneSlot((-8.4, 0), Size, 0.5, 3.0); CreateRuneSlot((8.4, 0), Size, 0.5, 3.0);
-		CreateRuneSlot((0, -8.4), Size, 0.5, 3.0); CreateRuneSlot((0, 8.4), Size, 0.5, 3.0);
+		CreateRuneSlot((-8.4, 0), Size, 0.5, 2.5); CreateRuneSlot((8.4, 0), Size, 0.5, 2.5);
+		CreateRuneSlot((0, -8.4), Size, 0.5, 2.5); CreateRuneSlot((0, 8.4), Size, 0.5, 2.5);
 	}
 
 	Default
