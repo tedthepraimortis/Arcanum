@@ -371,9 +371,9 @@ class ConvalescenceSigil : ArcanumSigil
 	{
 		vector2 BigSize = (4, 6.66);
 		vector2 SmallSize = (3, 5);
-		CreateRuneSlot((-9.3, 16.5), SmallSize, 0.9, 1.6); CreateRuneSlot((9.3, 16.5), SmallSize, 0.9, 1.6);
-		CreateRuneSlot((-17, 0), BigSize, 1.2, 5.5); CreateRuneSlot((17, 0), BigSize, 1.2, 5.5);
-		CreateRuneSlot((-9.3, -16.5), SmallSize, 0.9, 1.6); CreateRuneSlot((9.3, -16.5), SmallSize, 0.9, 1.6);
+		CreateRuneSlot((-9.3, 16.5), SmallSize, 0.9, 2.0); CreateRuneSlot((9.3, 16.5), SmallSize, 0.9, 2.0);
+		CreateRuneSlot((-17, 0), BigSize, 1.2, 2.0); CreateRuneSlot((17, 0), BigSize, 1.2, 2.0);
+		CreateRuneSlot((-9.3, -16.5), SmallSize, 0.9, 2.0); CreateRuneSlot((9.3, -16.5), SmallSize, 0.9, 2.0);
 	}
 
 	Default
@@ -439,7 +439,8 @@ class ResurrectSigil : ArcanumSigil
 		HDPlayerCorpse PCorpse;
 
 		int NumRevives = 0;
-		BlockThingsIterator it = BlockThingsIterator.CreateFromPos(Data.HitLocation.x, Data.HitLocation.y, Data.HitLocation.z, 0, 84, false);
+		vector3 AdjustedLocation = Data.HitLocation - Data.HitDir;
+		BlockThingsIterator it = BlockThingsIterator.CreateFromPos(AdjustedLocation.x, AdjustedLocation.y, AdjustedLocation.z, 0, 84, false);
 		while (it.Next())
 		{
 			if (!it.thing.bCORPSE)
@@ -473,10 +474,10 @@ class ResurrectSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (3, 5);
-		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 6.0);
-		CreateRuneSlot((0, 17.1), Size, 0.85, 1.75);
-		CreateRuneSlot((-16.6, 5.28), Size, 0.85, 1.75); CreateRuneSlot((16.6, 5.28), Size, 0.85, 1.75);
-		CreateRuneSlot((-10.10, -14.1), Size, 0.85, 1.75); CreateRuneSlot((10.10, -14.1), Size, 0.85, 1.75);
+		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 1.25);
+		CreateRuneSlot((0, 17.1), Size, 0.85, 1.25);
+		CreateRuneSlot((-16.6, 5.28), Size, 0.85, 1.25); CreateRuneSlot((16.6, 5.28), Size, 0.85, 1.25);
+		CreateRuneSlot((-10.10, -14.1), Size, 0.85, 1.25); CreateRuneSlot((10.10, -14.1), Size, 0.85, 1.25);
 	}
 
 	Default
@@ -521,10 +522,10 @@ class SoulGuardSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (5, 8.33);
-		CreateRuneSlot((-19.75, 0), Size, 1.25, 3.8);
-		CreateRuneSlot((0, 19.75), Size, 1.25, 3.8);
-		CreateRuneSlot((19.75, 0), Size, 1.25, 3.8);
-		CreateRuneSlot((0, -19.75), Size, 1.25, 3.8);
+		CreateRuneSlot((-19.75, 0), Size, 1.25, 3.5);
+		CreateRuneSlot((0, 19.75), Size, 1.25, 3.5);
+		CreateRuneSlot((19.75, 0), Size, 1.25, 3.5);
+		CreateRuneSlot((0, -19.75), Size, 1.25, 3.5);
 	}
 
 	Default
@@ -633,16 +634,16 @@ class InvulnerabilitySigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 BigSize = (4, 6.66);
-		CreateRuneSlot((-11.55, 0), BigSize, 1.1, 2.5);
-		CreateRuneSlot((0, 11.55), BigSize, 1.1, 2.5);
-		CreateRuneSlot((11.55, 0), BigSize, 1.1, 2.5);
-		CreateRuneSlot((0, -11.55), BigSize, 1.1, 2.5);
+		CreateRuneSlot((-11.55, 0), BigSize, 1.1, 1.5);
+		CreateRuneSlot((0, 11.55), BigSize, 1.1, 1.5);
+		CreateRuneSlot((11.55, 0), BigSize, 1.1, 1.5);
+		CreateRuneSlot((0, -11.55), BigSize, 1.1, 1.5);
 
 		vector2 SmallSize = (3, 5);
-		CreateRuneSlot((-20.55, 0), SmallSize, 0.7, 1.2);
-		CreateRuneSlot((0, 20.55), SmallSize, 0.7, 1.2);
-		CreateRuneSlot((20.55, 0), SmallSize, 0.7, 1.2);
-		CreateRuneSlot((0, -20.55), SmallSize, 0.7, 1.2);
+		CreateRuneSlot((-20.55, 0), SmallSize, 0.7, 1.5);
+		CreateRuneSlot((0, 20.55), SmallSize, 0.7, 1.5);
+		CreateRuneSlot((20.55, 0), SmallSize, 0.7, 1.5);
+		CreateRuneSlot((0, -20.55), SmallSize, 0.7, 1.5);
 	}
 
 	Default
@@ -707,9 +708,9 @@ class WorldbreakerSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (3.5, 5.83);
-		CreateRuneSlot((-7.8, 9.1), Size, 1.0, 4.0); CreateRuneSlot((7.8, 9.1), Size, 1.0, 4.0);
+		CreateRuneSlot((-7.8, 9.1), Size, 1.0, 2.0); CreateRuneSlot((7.8, 9.1), Size, 1.0, 2.0);
 		CreateRuneSlot((-18, 0), Size, 1.0, 2.0); CreateRuneSlot((18, 0), Size, 1.0, 2.0);
-		CreateRuneSlot((-7.8, -9.1), Size, 1.0, 4.0); CreateRuneSlot((7.8, -9.1), Size,1.07, 4.0);
+		CreateRuneSlot((-7.8, -9.1), Size, 1.0, 2.0); CreateRuneSlot((7.8, -9.1), Size,1.07, 2.0);
 	}
 
 	Default
@@ -760,14 +761,14 @@ class HoradricMalusSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 BigSize = (4, 6.66);
-		CreateRuneSlot((-14, 0), BigSize, 1.0, 5.0); CreateRuneSlot((14, 0), BigSize, 1.0, 5.0);
+		CreateRuneSlot((-14, 0), BigSize, 1.0, 1.5); CreateRuneSlot((14, 0), BigSize, 1.0, 1.5);
 
 		vector2 MedSize = (3, 5);
-		CreateRuneSlot((-7.8, 7.1), MedSize, 0.7, 2.5); CreateRuneSlot((7.8, 7.1), MedSize, 0.7, 1.75);
-		CreateRuneSlot((-7.8, -7.1), MedSize, 0.7, 2.5); CreateRuneSlot((7.8, -7.1), MedSize, 0.7, 1.75);
+		CreateRuneSlot((-7.8, 7.1), MedSize, 0.7, 1.5); CreateRuneSlot((7.8, 7.1), MedSize, 0.7, 1.5);
+		CreateRuneSlot((-7.8, -7.1), MedSize, 0.7, 1.5); CreateRuneSlot((7.8, -7.1), MedSize, 0.7, 1.5);
 
 		vector2 SmallSize = (2, 3.33);
-		CreateRuneSlot((0, 11), SmallSize, 0.5, 1.5); CreateRuneSlot((0, -11), SmallSize, 0.5, 1.25);
+		CreateRuneSlot((0, 11), SmallSize, 0.5, 1.5); CreateRuneSlot((0, -11), SmallSize, 0.5, 1.5);
 	}
 
 	Default
@@ -829,11 +830,11 @@ class ReenergizeSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (2.2, 3.66);
-		CreateRuneSlot((-4.6, 8.40), Size, 0.75); CreateRuneSlot((4.6, 8.40), Size, 0.7, 2.5);
-		CreateRuneSlot((-4.6, -8.40), Size, 0.75); CreateRuneSlot((4.6,- 8.40), Size, 0.7, 2.5);
+		CreateRuneSlot((-4.6, 8.40), Size, 0.65, 2.0); CreateRuneSlot((4.6, 8.40), Size, 0.65, 2.0);
+		CreateRuneSlot((-4.6, -8.40), Size, 0.65, 2.0); CreateRuneSlot((4.6,- 8.40), Size, 0.65, 2.0);
 
-		CreateRuneSlot((-8.5, 4.5), Size, 0.75); CreateRuneSlot((8.5, 4.5), Size, 0.7, 2.5);
-		CreateRuneSlot((-8.5, -4.5), Size, 0.75); CreateRuneSlot((8.5,- 4.5), Size, 0.7, 2.5);
+		CreateRuneSlot((-8.5, 4.5), Size, 0.65, 2.0); CreateRuneSlot((8.5, 4.5), Size, 0.65, 2.0);
+		CreateRuneSlot((-8.5, -4.5), Size, 0.65, 2.0); CreateRuneSlot((8.5,- 4.5), Size, 0.65, 2.0);
 	}
 
 	Default
@@ -887,11 +888,11 @@ class MassRecallSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (5, 8.3);
-		CreateRuneSlot((-41.9, 0), Size, 1.75, 2.0); CreateRuneSlot((41.9, 0), Size, 1.75, 2.0);
+		CreateRuneSlot((-41.9, 0), Size, 1.75, 2.25); CreateRuneSlot((41.9, 0), Size, 1.75, 2.25);
 
 		vector2 BigSize = (6, 10);
-		CreateRuneSlot((-13.25, 25.75), BigSize, 2.0, 4.0); CreateRuneSlot((13.25, 25.75), BigSize, 2.0, 4.0);
-		CreateRuneSlot((-13.25, -25.75), BigSize, 2.0, 4.0); CreateRuneSlot((13.25, -25.75), BigSize, 2.0, 4.0);
+		CreateRuneSlot((-13.25, 25.75), BigSize, 2.0, 2.25); CreateRuneSlot((13.25, 25.75), BigSize, 2.0, 2.25);
+		CreateRuneSlot((-13.25, -25.75), BigSize, 2.0, 2.25); CreateRuneSlot((13.25, -25.75), BigSize, 2.0, 2.25);
 	}
 
 	Default
@@ -957,8 +958,8 @@ class GhostSquadSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (2, 3.33);
-		CreateRuneSlot((-8.4, 0), Size, 0.5, 4.0); CreateRuneSlot((8.4, 0), Size, 0.5, 4.0);
-		CreateRuneSlot((0, -8.4), Size, 0.5, 4.0); CreateRuneSlot((0, 8.4), Size, 0.5, 4.0);
+		CreateRuneSlot((-8.4, 0), Size, 0.5, 3.0); CreateRuneSlot((8.4, 0), Size, 0.5, 3.0);
+		CreateRuneSlot((0, -8.4), Size, 0.5, 3.0); CreateRuneSlot((0, 8.4), Size, 0.5, 3.0);
 	}
 
 	Default

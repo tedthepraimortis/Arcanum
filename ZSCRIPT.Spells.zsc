@@ -193,7 +193,7 @@ class ThunderclapSpell : ArcanumSpell
 	override string GetDescription() { return String.Format("Strikes target area with \c[Gold]%i\c- lightning bolt%s.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Targeted, AoE"; }
 	override int GetExperienceGain() { return 2; }
-	override int GetCost() { return 40; }
+	override int GetCost() { return 30; }
 	override int GetAggroGain() { return 5; }
 	override class<ArcanumSigil> GetSigil() { return 'ThunderclapSigil'; }
 }
@@ -296,9 +296,9 @@ class ResurrectSpell : ArcanumSpell
 	override int GetCatalystAmount() { return 300; }
 	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within 2m of where the rune is pointing.", 2 * Level); }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
-	override int GetExperienceGain() { return 3; }
+	override int GetExperienceGain() { return 5; }
 	override int GetMaxLevel() { return 1; }
-	override int GetCost() { return 50; }
+	override int GetCost() { return 70; }
 	override class<ArcanumSigil> GetSigil() { return 'ResurrectSigil'; }
 }
 
@@ -311,9 +311,9 @@ class SoulGuardSpell : ArcanumSpell
 	override int GetCatalystAmount() { return 800; }
 	override string GetDescription() { return String.Format("Grants the target \c[Gold]%i\c- layer%s of spiritual armor.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Self, Targeted"; }
-	override int GetExperienceGain() { return 10; }
+	override int GetExperienceGain() { return 8; }
 	override int GetMaxLevel() { return 3; }
-	override int GetCost() { return 120; }
+	override int GetCost() { return 130; }
 	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'SoulGuardSigil'; }
 }
@@ -324,7 +324,7 @@ class RevitalizationSpell : ArcanumSpell
 	override int GetIndex() { return 50; }
 	override string GetName() { return "Revitalization"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int GetCatalystAmount() { return 1400; }
+	override int GetCatalystAmount() { return 1000; }
 	override string GetDescription() { return String.Format("Heals all visible nearby entities by \c[Gold]75%%\c- of their total health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-, but only for others. Restores lost blood. Removes incap.", 30 * Level, 15 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetMaxLevel() { return 3; }
