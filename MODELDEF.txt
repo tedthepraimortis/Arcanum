@@ -46,9 +46,11 @@ Model ArcanumSigilAdd
 	SurfaceSkin 0 0 "TransfusionSigil_d.png" FrameIndex CRRE C 0 0
 	SurfaceSkin 0 0 "ResurrectSigil_d.png" FrameIndex CRRE D 0 0
 	SurfaceSkin 0 0 "SoulGuardSigil_d.png" FrameIndex CRRE E 0 0
+	Scale 2.0 2.0 2.0
 	SurfaceSkin 0 0 "RevitalizationSigil_d.png" FrameIndex CRRE F 0 0
 	SurfaceSkin 0 0 "InvulnerabilitySigil_d.png" FrameIndex CRRE G 0 0
 
+	Scale 1.0 1.0 1.0
 	SurfaceSkin 0 0 "FarReachSigil_d.png" FrameIndex CRAL A 0 0
 	SurfaceSkin 0 0 "WorldBreakerSigil_d.png" FrameIndex CRAL B 0 0
 	SurfaceSkin 0 0 "HoradricMalusSigil_d.png" FrameIndex CRAL C 0 0

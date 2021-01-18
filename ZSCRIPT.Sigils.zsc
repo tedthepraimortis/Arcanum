@@ -474,10 +474,10 @@ class ResurrectSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (3, 5);
-		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 1.25);
-		CreateRuneSlot((0, 17.1), Size, 0.85, 1.25);
-		CreateRuneSlot((-16.6, 5.28), Size, 0.85, 1.25); CreateRuneSlot((16.6, 5.28), Size, 0.85, 1.25);
-		CreateRuneSlot((-10.10, -14.1), Size, 0.85, 1.25); CreateRuneSlot((10.10, -14.1), Size, 0.85, 1.25);
+		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 1.20);
+		CreateRuneSlot((0, 17.1), Size, 0.85, 1.20);
+		CreateRuneSlot((-16.6, 5.28), Size, 0.85, 1.20); CreateRuneSlot((16.6, 5.28), Size, 0.85, 1.20);
+		CreateRuneSlot((-10.10, -14.1), Size, 0.85, 1.20); CreateRuneSlot((10.10, -14.1), Size, 0.85, 1.20);
 	}
 
 	Default
@@ -582,17 +582,19 @@ class RevitalizationSigil : ArcanumSigil
 
 	override void InitRuneSlots()
 	{
-		vector2 BigSize = (4, 6.66);
-		CreateRuneSlot((-15.9, 0), BigSize, 1.2, 1.75); CreateRuneSlot((15.9, 0), BigSize, 1.2, 1.75);
-		CreateRuneSlot((0, 15.9), BigSize, 1.2, 1.75); CreateRuneSlot((0, -15.9), BigSize, 1.2, 1.75);
+		vector2 BigSize = (8, 13.33);
+		CreateRuneSlot((-31.8, 0), BigSize, 2.5, 1.75); CreateRuneSlot((31.8, 0), BigSize, 2.5, 1.75);
+		CreateRuneSlot((0, 31.8), BigSize, 2.5, 1.75); CreateRuneSlot((0, -31.8), BigSize, 2.5, 1.75);
 
-		vector2 SmallSize = (3, 5);
-		CreateRuneSlot((-8.65, 8.65), SmallSize, 0.8, 1.75); CreateRuneSlot((8.65, 8.65), SmallSize, 0.8, 1.75);
-		CreateRuneSlot((-8.65, -8.65), SmallSize, 0.8, 1.75); CreateRuneSlot((8.65, -8.65), SmallSize, 0.8, 1.75);
+		vector2 SmallSize = (6, 10);
+		CreateRuneSlot((-17.3, 17.3), SmallSize, 1.6, 1.75); CreateRuneSlot((17.3, 17.3), SmallSize, 1.6, 1.75);
+		CreateRuneSlot((-17.3, -17.3), SmallSize, 1.6, 1.75); CreateRuneSlot((17.3, -17.3), SmallSize, 1.6, 1.75);
 	}
 
 	Default
 	{
+		Height 44;
+		Radius 50;
 		StencilColor "FF66FF";
 	}
 
@@ -633,21 +635,23 @@ class InvulnerabilitySigil : ArcanumSigil
 
 	override void InitRuneSlots()
 	{
-		vector2 BigSize = (4, 6.66);
-		CreateRuneSlot((-11.55, 0), BigSize, 1.1, 1.5);
-		CreateRuneSlot((0, 11.55), BigSize, 1.1, 1.5);
-		CreateRuneSlot((11.55, 0), BigSize, 1.1, 1.5);
-		CreateRuneSlot((0, -11.55), BigSize, 1.1, 1.5);
+		vector2 BigSize = (8, 13.33);
+		CreateRuneSlot((-23, 0), BigSize, 2.2, 1.25);
+		CreateRuneSlot((0, 23), BigSize, 2.2, 1.25);
+		CreateRuneSlot((23, 0), BigSize, 2.2, 1.25);
+		CreateRuneSlot((0, -23), BigSize, 2.2, 1.25);
 
-		vector2 SmallSize = (3, 5);
-		CreateRuneSlot((-20.55, 0), SmallSize, 0.7, 1.5);
-		CreateRuneSlot((0, 20.55), SmallSize, 0.7, 1.5);
-		CreateRuneSlot((20.55, 0), SmallSize, 0.7, 1.5);
-		CreateRuneSlot((0, -20.55), SmallSize, 0.7, 1.5);
+		vector2 SmallSize = (6, 10);
+		CreateRuneSlot((-41.1, 0), SmallSize, 1.25, 1.25);
+		CreateRuneSlot((0, 41.1), SmallSize, 1.25, 1.25);
+		CreateRuneSlot((41.1, 0), SmallSize, 1.25, 1.25);
+		CreateRuneSlot((0, -41.1), SmallSize, 1.25, 1.25);
 	}
 
 	Default
 	{
+		Height 44;
+		Radius 50;
 		ArcanumSigil.FadeOutSpeedMult 3.0;
 		StencilColor "11FF11";
 	}
