@@ -165,6 +165,18 @@ class HDArcanumTome : HDWeapon
 		Super.DetachFromOwner();
 	}
 
+	override void AttachToOwner(Actor other)
+	{
+		let plr = HDPlayerPawn(other);
+		if (plr && BluesToGive > 0)
+		{
+			plr.regenblues = BluesToGive;
+			BluesToGive = 0;
+		}
+
+		Super.AttachToOwner(other);
+	}
+
 	private void InitStorage()
 	{
 		if (SpellStorage)
@@ -194,7 +206,17 @@ class HDArcanumTome : HDWeapon
 		return GetSelectedTree().Spells[WeaponStatus[ATProp_SelectedSpell]];
 	}
 
+	override void LoadoutConfigure(string input)
+	{
+		int StartBlues = GetLoadoutVar(input, "blues", 4);
+		if (StartBlues > 0)
+		{
+			BluesToGive = StartBlues;
+		}
+	}
+
 	ArcanumSpellBrain SpellStorage;
+	private int BluesToGive;
 
 	Default
 	{

@@ -15,6 +15,8 @@
 ---
 - The Arcanum tome of knowledge can only be found in the world.
 - Loadout code is `arc`.
+- Configuration codes are:
+	- `blues`: Starting blues.
 
 ### Incompatibilities
 ---
