@@ -212,15 +212,17 @@ class ImmolationSigil : ArcanumSigil
 
 	override void InitRuneSlots()
 	{
-		vector2 Size = (6, 10);
-		CreateRuneSlot((0, 16), Size, 1.6, 3.5);
-		CreateRuneSlot((0, -16), Size, 1.6, 3.5);
-		CreateRuneSlot((15.25, 0), Size, 1.6, 3.5);
-		CreateRuneSlot((-15.25, 0), Size, 1.6, 3.5);
+		vector2 Size = (10, 16.666);
+		CreateRuneSlot((0, 32), Size, 3.2, 3.5);
+		CreateRuneSlot((0, -32), Size, 3.2, 3.5);
+		CreateRuneSlot((30.5, 0), Size, 3.2, 3.5);
+		CreateRuneSlot((-30.5, 0), Size, 3.2, 3.5);
 	}
 
 	Default
 	{
+		Height 44;
+		Radius 50;
 		StencilColor "FF8811";
 	}
 
