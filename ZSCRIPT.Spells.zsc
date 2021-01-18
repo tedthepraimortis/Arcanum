@@ -360,7 +360,7 @@ class FarReachSpell : ArcanumSpell
 	override string GetName() { return "Far Reach"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 40; }
-	override string GetDescription() { return "Open doors and trigger switches within a range of 40m."; }
+	override string GetDescription() { return "Open doors, trigger switches, and pick up items within a range of 30m."; }
 	override string GetTechnicalInfo() { return "Targeted"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 10; }

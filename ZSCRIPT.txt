@@ -534,7 +534,8 @@ class ArcanumSigil : Actor abstract
 		ReactionTime 0;
 		+NOINTERACTION
 		+BRIGHT
-		RenderStyle "AddShaded";	
+		RenderStyle "AddShaded";
+		Species "ArcanumSigil";	
 	}
 
 	States
@@ -650,6 +651,7 @@ class ArcanumRuneSlot : Actor
 		+BRIGHT
 		Alpha 1.0;
 		RenderStyle "AddShaded";
+		Species "ArcanumSigil";	
 	}
 
 	States
@@ -725,6 +727,7 @@ class ArcanumRuneGlyph : Actor // [Ace] Used because I need it to be centered. M
 		+BRIGHT
 		+NOINTERACTION
 		RenderStyle "AddShaded";
+		Species "ArcanumSigil";	
 	}
 
 	States
