@@ -680,7 +680,7 @@ class FarReachSigil : ArcanumSigil
 			Data.HitLine.Activate(master, 0, SPAC_Use);
 		}
 
-		if (Data.HitActor && Data.HitActor is 'Inventory')
+		if (Data.HitActor && Data.HitActor.Species != 'ArcanumSigil')
 		{
 			GrabThinker.Grab(master, Data.HitActor);
 		}
@@ -717,9 +717,9 @@ class WorldbreakerSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (3.5, 5.83);
-		CreateRuneSlot((-7.8, 9.1), Size, 1.0, 2.0); CreateRuneSlot((7.8, 9.1), Size, 1.0, 2.0);
-		CreateRuneSlot((-18, 0), Size, 1.0, 2.0); CreateRuneSlot((18, 0), Size, 1.0, 2.0);
-		CreateRuneSlot((-7.8, -9.1), Size, 1.0, 2.0); CreateRuneSlot((7.8, -9.1), Size,1.07, 2.0);
+		CreateRuneSlot((-7.8, 9.1), Size, 1.0, 1.75); CreateRuneSlot((7.8, 9.1), Size, 1.0, 1.75);
+		CreateRuneSlot((-18, 0), Size, 1.0, 1.75); CreateRuneSlot((18, 0), Size, 1.0, 1.75);
+		CreateRuneSlot((-7.8, -9.1), Size, 1.0, 1.75); CreateRuneSlot((7.8, -9.1), Size,1.07, 1.75);
 	}
 
 	Default
@@ -770,14 +770,14 @@ class HoradricMalusSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 BigSize = (4, 6.66);
-		CreateRuneSlot((-14, 0), BigSize, 1.0, 1.5); CreateRuneSlot((14, 0), BigSize, 1.0, 1.5);
+		CreateRuneSlot((-14, 0), BigSize, 1.0, 1.35); CreateRuneSlot((14, 0), BigSize, 1.0, 1.35);
 
 		vector2 MedSize = (3, 5);
-		CreateRuneSlot((-7.8, 7.1), MedSize, 0.7, 1.5); CreateRuneSlot((7.8, 7.1), MedSize, 0.7, 1.5);
-		CreateRuneSlot((-7.8, -7.1), MedSize, 0.7, 1.5); CreateRuneSlot((7.8, -7.1), MedSize, 0.7, 1.5);
+		CreateRuneSlot((-7.8, 7.1), MedSize, 0.7, 1.35); CreateRuneSlot((7.8, 7.1), MedSize, 0.7, 1.35);
+		CreateRuneSlot((-7.8, -7.1), MedSize, 0.7, 1.35); CreateRuneSlot((7.8, -7.1), MedSize, 0.7, 1.35);
 
 		vector2 SmallSize = (2, 3.33);
-		CreateRuneSlot((0, 11), SmallSize, 0.5, 1.5); CreateRuneSlot((0, -11), SmallSize, 0.5, 1.5);
+		CreateRuneSlot((0, 11), SmallSize, 0.5, 1.35); CreateRuneSlot((0, -11), SmallSize, 0.5, 1.35);
 	}
 
 	Default
@@ -982,5 +982,63 @@ class GhostSquadSigil : ArcanumSigil
 		Spawn:
 			CRCN A 0;
 			Goto Super::Spawn;
+	}
+}
+
+class HolyForceSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		BlockThingsIterator it = BlockThingsIterator.Create(self, 840);
+		while (it.Next())
+		{
+			if (it.thing.GetClassName() == 'Necromancer' && !it.thing.CheckInventory("HolyCompeller", 1))
+			{
+				it.thing.A_GiveInventory("HolyCompeller");
+				break;
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (4, 6.66);
+		CreateRuneSlot((-32.1, 18.75), Size, 1.5, 2.5);
+		CreateRuneSlot((0, 18.75), Size, 1.5, 2.5);
+		CreateRuneSlot((32.1, 18.75), Size, 1.5, 2.5);
+		CreateRuneSlot((0, -37.1), Size, 1.5, 2.5);
+	}
+
+	Default
+	{
+		Height 44;
+		Radius 50;
+		StencilColor "AAAAAA";
+	}
+
+	States
+	{
+		Spawn:
+			CRCN B 0;
+			Goto Super::Spawn;
+	}
+}
+
+class HolyCompeller : Inventory
+{
+	override void DoEffect()
+	{
+		if (!owner)
+		{
+			Destroy();
+			return;
+		}
+
+		let Necro = Necromancer(owner);
+		if (Necro && Necro.tics > 20 && Necro.InStateSequence(Necro.CurState, Necro.FindState('painedandgone')))
+		{
+			Necro.A_Pain();
+			Necro.tics = 20;
+		}
 	}
 }

@@ -694,7 +694,7 @@ class ArcanumSigilAdd : ArcanumSigil
 			return;
 		}
 
-		Alpha = AddAlpha * frandom(0.02, 0.15);
+		Alpha = AddAlpha * frandom(0.02, 0.13);
 		
 		if (!master || !IsDisappearing && master.InStateSequence(master.CurState, master.FindState('Disappear')))
 		{

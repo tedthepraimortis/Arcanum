@@ -299,6 +299,7 @@ class ResurrectSpell : ArcanumSpell
 	override int GetExperienceGain() { return 5; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 70; }
+	override int GetAggroGain() { return 2; }
 	override class<ArcanumSigil> GetSigil() { return 'ResurrectSigil'; }
 }
 
@@ -445,4 +446,19 @@ class GhostSquadSpell : ArcanumSpell
 	override int GetCost() { return 80; }
 	override int GetAggroGain() { return 3; }
 	override class<ArcanumSigil> GetSigil() { return 'GhostSquadSigil'; }
+}
+
+class HolyForceSpell : ArcanumSpell
+{
+	override int GetIndex() { return 10; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
+	override string GetName() { return "Holy Force"; }
+	override int GetSpellType() { return SType_SelfOrMass; }
+	override int GetCatalystAmount() { return 160; }
+	override string GetDescription() { return String.Format("Forces an archvile to come out of hiding and prevents it from disappearing until it dies."); }
+	override string GetTechnicalInfo() { return "Mass"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 40; }
+	override int GetAggroGain() { return 3; }
+	override class<ArcanumSigil> GetSigil() { return 'HolyForceSigil'; }
 }
