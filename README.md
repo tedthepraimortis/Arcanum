@@ -15,3 +15,7 @@
 ---
 - The Arcanum tome of knowledge can only be found in the world.
 - Loadout code is `arc`.
+
+### Incompatibilities
+---
+- Josh's Action Bubbles seems to make the rune activation not work unless you are crouching.
