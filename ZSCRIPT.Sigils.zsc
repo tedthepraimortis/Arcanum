@@ -292,7 +292,7 @@ class HemostasisSigil : ArcanumSigil
 
 	private void DoHealing(HDPlayerPawn plr)
 	{
-		plr.unstablewoundcount *= int(1.0 - 0.1 * SigilLevel);
+		plr.unstablewoundcount *= int(1.0 - 0.2 * SigilLevel);
 		plr.woundcount = 0;
 	}
 
@@ -346,16 +346,16 @@ class ConvalescenceSigil : ArcanumSigil
 		{
 			plr.unstablewoundcount = 0;
 			plr.woundcount = 0;
-			plr.burncount -= 10 * SigilLevel;
+			plr.burncount -= 20 * SigilLevel;
 			plr.bloodloss = 0;
 			int MissingHealth = plr.MaxHealth() - plr.Health;
-			plr.GiveBody(int(MissingHealth * (25 + 0.10 * SigilLevel)));
+			plr.GiveBody(int(MissingHealth * 0.35));
 			plr.incaptimer = 0;
 		}
 		else if (mon)
 		{
 			int MissingHealth = mon.SpawnHealth() - mon.Health;
-			mon.GiveBody(int(MissingHealth * (25 + 0.10 * SigilLevel)));
+			mon.GiveBody(int(MissingHealth * 0.35));
 
 			let humon = HDMobMan(mon);
 			if (humon)
@@ -438,10 +438,10 @@ class ResurrectSigil : ArcanumSigil
 		HDMobBase Enemy;
 		HDPlayerCorpse PCorpse;
 
-		int NumRevives = 0;
+		int RevivesLeft = 3 * SigilLevel;
 		vector3 AdjustedLocation = Data.HitLocation - Data.HitDir;
 		BlockThingsIterator it = BlockThingsIterator.CreateFromPos(AdjustedLocation.x, AdjustedLocation.y, AdjustedLocation.z, 0, 84, false);
-		while (it.Next())
+		while (RevivesLeft > 0 && it.Next())
 		{
 			if (!it.thing.bCORPSE)
 			{
@@ -454,19 +454,14 @@ class ResurrectSigil : ArcanumSigil
 			if (PCorpse && HDPlayerPawn(PCorpse.master))
 			{
 				HDPlayerPawn(PCorpse.master).respawndelay = 0;
-				NumRevives++;
+				RevivesLeft--;
 			}
 			else if (Enemy)
 			{
 				Enemy.bodydamage = 0;
 				master.RaiseActor(Enemy);
 				Enemy.bFRIENDLY = true;
-				NumRevives++;
-			}
-
-			if (NumRevives == 2 * SigilLevel)
-			{
-				break;
+				RevivesLeft--;
 			}
 		}
 	}
@@ -563,11 +558,11 @@ class RevitalizationSigil : ArcanumSigil
 			{
 				if (PActor != master)
 				{
-					PActor.aggravateddamage -= 15 * SigilLevel;
+					PActor.aggravateddamage -= 20 * SigilLevel;
 				}
 
 				PActor.bloodloss = 0;
-				PActor.burncount -= 30 * SigilLevel;
+				PActor.burncount -= 40 * SigilLevel;
 				PActor.MaxHealth(); // [Ace] So everything is clamped.
 				PActor.GiveBody(int(PActor.MaxHealth() * 0.75));
 				PActor.incaptimer = 0;

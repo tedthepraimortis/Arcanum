@@ -115,7 +115,7 @@ class ArcanumSpell abstract play
 		SType_Targeted = 1 << 1
 	}
 
-	static const int ExperienceReqs[] = { 75, 180, 250, 320, 400 }; // [Ace] Pulled these out my ass. Probably gonna need rebalancing.
+	static const int ExperienceReqs[] = { 100, 200, 300 }; // [Ace] Pulled these out my ass. Probably gonna need rebalancing.
 
 	virtual class<ArcanumSpellTree> GetTree() const { return null; }
 	virtual int GetIndex() const { return -1; }
@@ -192,7 +192,7 @@ class ThunderclapSpell : ArcanumSpell
 	override int GetCatalystAmount() { return 300; }
 	override string GetDescription() { return String.Format("Strikes target area with \c[Gold]%i\c- lightning bolt%s.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Targeted, AoE"; }
-	override int GetExperienceGain() { return 2; }
+	override int GetExperienceGain() { return 1; }
 	override int GetCost() { return 30; }
 	override int GetAggroGain() { return 5; }
 	override class<ArcanumSigil> GetSigil() { return 'ThunderclapSigil'; }
@@ -250,7 +250,7 @@ class HemostasisSpell : ArcanumSpell
 	override string GetName() { return "Hemostasis"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 75; }
-	override string GetDescription() { return String.Format("Closes open wounds and fixes \c[Gold]%i%%\c- of unstable wounds.", 10 * Level); }
+	override string GetDescription() { return String.Format("Closes open wounds and fixes \c[Gold]%i%%\c- of unstable wounds.", 20 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 2; }
 	override int GetCost() { return 15; }
@@ -265,7 +265,7 @@ class ConvalescenceSpell : ArcanumSpell
 	override string GetName() { return "Convalescence"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 200; }
-	override string GetDescription() { return String.Format("Fixes all wounds and restores \c[Gold]%i%%\c- of missing health. Heals \c[Gold]%i\c- burns. Restores lost blood. Removes incap.", 25 + 10 * Level, 10 * Level); }
+	override string GetDescription() { return String.Format("Fixes all wounds and restores 35%% of missing health. Heals \c[Gold]%i\c- burns. Restores lost blood. Removes incap.", 20 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 2; }
 	override int GetCost() { return 50; }
@@ -294,12 +294,11 @@ class ResurrectSpell : ArcanumSpell
 	override string GetName() { return "Resurrect"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 300; }
-	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within 2m of where the rune is pointing.", 2 * Level); }
+	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within 2m of where the rune is pointing.", 3 * Level); }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
 	override int GetExperienceGain() { return 5; }
-	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 70; }
-	override int GetAggroGain() { return 2; }
+	override int GetAggroGain() { return 5; }
 	override class<ArcanumSigil> GetSigil() { return 'ResurrectSigil'; }
 }
 
@@ -313,8 +312,7 @@ class SoulGuardSpell : ArcanumSpell
 	override string GetDescription() { return String.Format("Grants the target \c[Gold]%i\c- layer%s of spiritual armor.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Self, Targeted"; }
 	override int GetExperienceGain() { return 8; }
-	override int GetMaxLevel() { return 3; }
-	override int GetCost() { return 130; }
+	override int GetCost() { return 150; }
 	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'SoulGuardSigil'; }
 }
@@ -326,9 +324,8 @@ class RevitalizationSpell : ArcanumSpell
 	override string GetName() { return "Revitalization"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 1000; }
-	override string GetDescription() { return String.Format("Heals all visible nearby entities by \c[Gold]75%%\c- of their total health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-, but only for others. Restores lost blood. Removes incap.", 30 * Level, 15 * Level); }
+	override string GetDescription() { return String.Format("Heals all visible nearby entities by \c[Gold]75%%\c- of their total health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-, but only for others. Restores lost blood. Removes incap.", 40 * Level, 20 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
-	override int GetMaxLevel() { return 3; }
 	override int GetExperienceGain() { return 10; }
 	override int GetCost() { return 120; }
 	override int GetAggroGain() { return 25; }
@@ -342,7 +339,7 @@ class InvulnerabilitySpell : ArcanumSpell
 	override string GetName() { return "Invulnerability"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 2000; }
-	override string GetDescription() { return "Grants temporary invulnerability that lasts 90 seconds."; }
+	override string GetDescription() { return "Grants temporary invulnerability that lasts 90 seconds.\n\n\c[Fire]Warning: will set everything on fire.\c-"; }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 500; }
@@ -377,7 +374,6 @@ class WorldbreakerSpell : ArcanumSpell
 	override int GetCatalystAmount() { return 200; }
 	override string GetDescription() { return String.Format("Destroys the target geometry. Maximum sector dimensions: \c[Gold]%ix%i\c-", 64 + 64 * Level, 16 + 16 * Level); }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
-	override int GetMaxLevel() { return 3; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 50; }
 	override int GetAggroGain() { return 5; }
@@ -393,7 +389,6 @@ class HoradricMalusSpell : ArcanumSpell
 	override int GetCatalystAmount() { return 200; }
 	override string GetDescription() { return String.Format("Repairs worn armor by \c[Gold]%i%%\c- of its missing durability.", 25 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted"; }
-	override int GetMaxLevel() { return 3; }
 	override int GetExperienceGain() { return 4; }
 	override int GetCost() { return 50; }
 	override class<ArcanumSigil> GetSigil() { return 'HoradricMalusSigil'; }
@@ -409,7 +404,7 @@ class ReenergizeSpell : ArcanumSpell
 	override string GetDescription() { return String.Format("Restores up to \c[Gold]%i\c- battery charge, filling partial batteries first.", 20 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted"; }
 	override int GetExperienceGain() { return 5; }
-	override int GetCost() { return 60; }
+	override int GetCost() { return 50; }
 	override class<ArcanumSigil> GetSigil() { return 'ReenergizeSigil'; }
 }
 
@@ -441,7 +436,6 @@ class GhostSquadSpell : ArcanumSpell
 	override int GetCatalystAmount() { return 400; }
 	override string GetDescription() { return String.Format("Summons \c[Gold]%i\c- ghost marine%s at target location.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Targeted"; }
-	override int GetMaxLevel() { return 3; }
 	override int GetExperienceGain() { return 3; }
 	override int GetCost() { return 80; }
 	override int GetAggroGain() { return 3; }
