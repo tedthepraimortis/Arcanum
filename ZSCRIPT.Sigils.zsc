@@ -81,7 +81,7 @@ class ClaymoreSigil : ArcanumSigil
 			pitch = random(-30, 30);
 			Actor a = AimTarget();
 
-			if (a && (a.bISMONSTER || a.player) && a.Health > 0 && Distance2D(a) < 48)
+			if (a && a.Health > 0 && Distance2D(a) < 48)
 			{
 				Actor xpl = Spawn("WallChunker", pos);
 				xpl.target = tracer;
