@@ -387,9 +387,9 @@ class HoradricMalusSpell : ArcanumSpell
 	override string GetName() { return "Horadric Malus"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 200; }
-	override string GetDescription() { return String.Format("Repairs worn armor by \c[Gold]%i%%\c- of its missing durability.", 25 * Level); }
+	override string GetDescription() { return String.Format("Repairs worn armor by \c[Gold]%i%%\c- of its missing durability.", 20 + 10 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted"; }
-	override int GetExperienceGain() { return 4; }
+	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 50; }
 	override class<ArcanumSigil> GetSigil() { return 'HoradricMalusSigil'; }
 }
@@ -437,7 +437,7 @@ class GhostSquadSpell : ArcanumSpell
 	override string GetDescription() { return String.Format("Summons \c[Gold]%i\c- ghost marine%s at target location.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Targeted"; }
 	override int GetExperienceGain() { return 3; }
-	override int GetCost() { return 80; }
+	override int GetCost() { return 100; }
 	override int GetAggroGain() { return 3; }
 	override class<ArcanumSigil> GetSigil() { return 'GhostSquadSigil'; }
 }

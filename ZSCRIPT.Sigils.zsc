@@ -758,7 +758,7 @@ class HoradricMalusSigil : ArcanumSigil
 		{
 			int MaxDurability = Armor.Mega ? 70 : 144;
 			int DurabilityMissing = MaxDurability - Armor.Durability;
-			Armor.Durability += int(DurabilityMissing * (0.50 + 0.10 * SigilLevel));
+			Armor.Durability += int(DurabilityMissing * (0.20 + 0.10 * SigilLevel));
 		}
 	}
 
@@ -834,11 +834,11 @@ class ReenergizeSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (2.2, 3.66);
-		CreateRuneSlot((-4.6, 8.40), Size, 0.65, 2.0); CreateRuneSlot((4.6, 8.40), Size, 0.65, 2.0);
-		CreateRuneSlot((-4.6, -8.40), Size, 0.65, 2.0); CreateRuneSlot((4.6,- 8.40), Size, 0.65, 2.0);
+		CreateRuneSlot((-4.6, 8.40), Size, 0.65, 1.5); CreateRuneSlot((4.6, 8.40), Size, 0.65, 1.5);
+		CreateRuneSlot((-4.6, -8.40), Size, 0.65, 1.5); CreateRuneSlot((4.6,- 8.40), Size, 0.65, 1.5);
 
-		CreateRuneSlot((-8.5, 4.5), Size, 0.65, 2.0); CreateRuneSlot((8.5, 4.5), Size, 0.65, 2.0);
-		CreateRuneSlot((-8.5, -4.5), Size, 0.65, 2.0); CreateRuneSlot((8.5,- 4.5), Size, 0.65, 2.0);
+		CreateRuneSlot((-8.5, 4.5), Size, 0.65, 1.5); CreateRuneSlot((8.5, 4.5), Size, 0.65, 1.5);
+		CreateRuneSlot((-8.5, -4.5), Size, 0.65, 1.5); CreateRuneSlot((8.5,- 4.5), Size, 0.65, 1.5);
 	}
 
 	Default
