@@ -220,6 +220,7 @@ class HDArcanumTome : HDWeapon
 
 	Default
 	{
+		+HDWEAPON.FITSINBACKPACK
 		+INVENTORY.INVBAR
 		HDWeapon.BarrelSize 5, 2, 1; // [Ace] I don't even know why.
 		Scale 0.6;
