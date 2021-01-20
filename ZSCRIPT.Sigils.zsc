@@ -207,7 +207,16 @@ class ImmolationSigil : ArcanumSigil
 {
 	override void ActivateSelfOrMass()
 	{
-		A_RadiusGive("Heat", 1024, RGF_MONSTERS, 1000);
+		BlockThingsIterator it = BlockThingsIterator.Create(self, 1024);
+		while (it.Next())
+		{
+			if (it.thing.Health <= 0 || it.thing.bFRIENDLY || !CheckSight(it.thing))
+			{
+				continue;
+			}
+
+			it.thing.A_GiveInventory("Heat", 1000);
+		}
 	}
 
 	override void InitRuneSlots()
