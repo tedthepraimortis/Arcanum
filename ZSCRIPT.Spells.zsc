@@ -218,7 +218,7 @@ class ImmolationSpell : ArcanumSpell
 	override string GetName() { return "Immolation"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 1000; }
-	override string GetDescription() { return "Sets nearby visible enemies on fire."; }
+	override string GetDescription() { return "Sets nearby enemies on fire."; }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 140; }

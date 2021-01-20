@@ -207,7 +207,7 @@ class ImmolationSigil : ArcanumSigil
 {
 	override void ActivateSelfOrMass()
 	{
-		BlockThingsIterator it = BlockThingsIterator.Create(self, 1024);
+		BlockThingsIterator it = BlockThingsIterator.Create(self, 42 * 10);
 		while (it.Next())
 		{
 			if (it.thing.Health <= 0 || it.thing.bFRIENDLY)
