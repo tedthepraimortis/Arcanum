@@ -207,10 +207,17 @@ class ImmolationSigil : ArcanumSigil
 {
 	override void ActivateSelfOrMass()
 	{
+		bool PlayedSound;
 		BlockThingsIterator it = BlockThingsIterator.Create(self, 42 * 10);
 		while (it.Next())
 		{
-			if (it.thing.Health <= 0 || it.thing.bFRIENDLY)
+			if (!PlayedSound)
+			{
+				PlayCastSound("Arcanum/Destruction/Immolation");
+				PlayedSound = true;
+			}
+
+			if (it.thing.Health <= 0 || !it.thing.bISMONSTER || it.thing.bFRIENDLY)
 			{
 				continue;
 			}
@@ -301,6 +308,7 @@ class HemostasisSigil : ArcanumSigil
 
 	private void DoHealing(HDPlayerPawn plr)
 	{
+		PlayCastSound("Arcanum/Restoration/Hemostasis");
 		plr.unstablewoundcount *= int(1.0 - 0.2 * SigilLevel);
 		plr.woundcount = 0;
 	}
@@ -353,6 +361,7 @@ class ConvalescenceSigil : ArcanumSigil
 		let mon = HDMobBase(a);
 		if (plr)
 		{
+			PlayCastSound("Arcanum/Restoration/Convalescence");
 			plr.unstablewoundcount = 0;
 			plr.woundcount = 0;
 			plr.burncount -= 20 * SigilLevel;
@@ -363,6 +372,7 @@ class ConvalescenceSigil : ArcanumSigil
 		}
 		else if (mon)
 		{
+			PlayCastSound("Arcanum/Restoration/Convalescence");
 			int MissingHealth = mon.SpawnHealth() - mon.Health;
 			mon.GiveBody(int(MissingHealth * 0.35));
 
@@ -407,6 +417,7 @@ class TransfusionSigil : ArcanumSigil
 		let you = HDPlayerPawn(master);
 		if (plr && you) // [Ace] <3
 		{
+			PlayCastSound("Arcanum/Restoration/Transfusion");
 			int AmountTransferred = int(you.regenblues * 0.05);
 			you.regenblues -= AmountTransferred;
 			plr.regenblues += AmountTransferred;
@@ -447,6 +458,7 @@ class ResurrectSigil : ArcanumSigil
 		HDMobBase Enemy;
 		HDPlayerCorpse PCorpse;
 
+		bool PlayedSound;
 		int RevivesLeft = 3 * SigilLevel;
 		vector3 AdjustedLocation = Data.HitLocation - Data.HitDir;
 		BlockThingsIterator it = BlockThingsIterator.CreateFromPos(AdjustedLocation.x, AdjustedLocation.y, AdjustedLocation.z, 0, 84, false);
@@ -455,6 +467,12 @@ class ResurrectSigil : ArcanumSigil
 			if (!it.thing.bCORPSE)
 			{
 				continue;
+			}
+
+			if (!PlayedSound)
+			{
+				PlayCastSound("Arcanum/Restoration/Resurrect");
+				PlayedSound = true;
 			}
 
 			Enemy = HDMobBase(it.thing);
@@ -520,6 +538,7 @@ class SoulGuardSigil : ArcanumSigil
 
 	private void GiveSpiritualArmor(HDPlayerPawn plr)
 	{
+		PlayCastSound("Arcanum/Restoration/SoulGuard");
 		plr.A_GiveInventory("SpiritualArmour", SigilLevel);
 	}
 
@@ -582,6 +601,7 @@ class RevitalizationSigil : ArcanumSigil
 				Other.GiveBody(int(Other.SpawnHealth() * 0.75));
 			}
 		}
+		PlayCastSound("Arcanum/Restoration/Revitalization");
 	}
 
 	override void InitRuneSlots()
@@ -681,11 +701,13 @@ class FarReachSigil : ArcanumSigil
 
 		if (Data.HitLine)
 		{
+			PlayCastSound("Arcanum/Alteration/FarReach");
 			Data.HitLine.Activate(master, 0, SPAC_Use);
 		}
 
 		if (Data.HitActor && Data.HitActor.Species != 'ArcanumSigil')
 		{
+			PlayCastSound("Arcanum/Alteration/FarReach");
 			GrabThinker.Grab(master, Data.HitActor);
 		}
 	}
@@ -765,6 +787,7 @@ class HoradricMalusSigil : ArcanumSigil
 		let Armor = HDArmourWorn(plr.FindInventory("HDArmourWorn"));
 		if (Armor)
 		{
+			PlayCastSound("Arcanum/Alteration/HoradricMalus");
 			int MaxDurability = Armor.Mega ? 70 : 144;
 			int DurabilityMissing = MaxDurability - Armor.Durability;
 			Armor.Durability += int(DurabilityMissing * (0.20 + 0.10 * SigilLevel));
@@ -819,6 +842,7 @@ class ReenergizeSigil : ArcanumSigil
 
 	private void RechargeBatteries(HDPlayerPawn plr)
 	{
+		bool PlayedSound;
 		int RemainingCharges = 20 * SigilLevel;
 		let Stack = HDBattery(plr.FindInventory("HDBattery"));
 		if (Stack)
@@ -828,6 +852,11 @@ class ReenergizeSigil : ArcanumSigil
 				int Index = AceCore.GetHighestBattery(Stack, Stack.MaxPerUnit);
 				if (Index > -1)
 				{
+					if (!PlayedSound)
+					{
+						PlayCastSound("Arcanum/Alteration/Reenergize");
+						PlayedSound = true;
+					}
 					int AmountToMax = Stack.MaxPerUnit - Stack.Mags[Index];
 					Stack.Mags[Index] += min(RemainingCharges, AmountToMax);
 					RemainingCharges -= AmountToMax;
@@ -868,6 +897,7 @@ class MassRecallSigil : ArcanumSigil
 {
 	override void ActivateSelfOrMass()
 	{
+		bool PlayedSound;
 		int AngOff = 0;
 		for (int i = 0; i < MAXPLAYERS; ++i)
 		{
@@ -879,6 +909,11 @@ class MassRecallSigil : ArcanumSigil
 			let plr = players[i].mo;
 			if (plr.Health > 0)
 			{
+				if (!PlayedSound)
+				{
+					PlayCastSound("Arcanum/Alteration/MassRecall");
+					PlayedSound = true;
+				}
 				plr.Warp(master, 64, 0, 0, AngOff);
 				plr.A_StartSound("misc/teleport", 20);
 				AngOff += 45;
@@ -891,6 +926,11 @@ class MassRecallSigil : ArcanumSigil
 			HDPlayerCorpse PCorpse;
 			while ((PCorpse = HDPlayerCorpse(it.Next())))
 			{
+				if (!PlayedSound)
+				{
+					PlayCastSound("Arcanum/Alteration/MassRecall");
+					PlayedSound = true;
+				}
 				PCorpse.Warp(master, 64, 0, 0, AngOff);
 				PCorpse.A_StartSound("misc/teleport", 20);
 				AngOff += 45;
@@ -939,7 +979,7 @@ class GhostSquadSigil : ArcanumSigil
 		if (Data.HitType != Data.TRACE_HitNone && Data.HitType != Data.TRACE_HasHitSky)
 		{
 			master.SetXYZ(Data.HitLocation - Data.HitDir);
-			master.A_StartSound("misc/p_pkup", CHAN_AUTO, attenuation: ATTN_NONE);
+			PlayCastSound("Arcanum/Conjuration/GhostSquad");
 			master.A_AlertMonsters();
 			master.A_SpawnItemEx("GhostMarine", 0, 0, 0, -8, 0, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
 			master.A_SpawnItemEx("HDSmoke", 0, 0, 0, 8, 0, 0, 0, SXF_NOCHECKPOSITION);
@@ -998,6 +1038,7 @@ class HolyForceSigil : ArcanumSigil
 		{
 			if (it.thing.GetClassName() == 'Necromancer' && !it.thing.CheckInventory("HolyCompeller", 1))
 			{
+				PlayCastSound("Arcanum/Conjuration/HolyForce");
 				it.thing.A_GiveInventory("HolyCompeller");
 				break;
 			}

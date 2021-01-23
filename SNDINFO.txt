@@ -2,3 +2,20 @@ Arcanum/Sigil/Spawn ARSIGSPW
 $limit Arcanum/Sigil/Spawn 0
 
 Arcanum/Rune/Spawn ARRUNSPW
+
+Arcanum/Destruction/Immolation ARCDES04
+
+Arcanum/Restoration/Hemostasis ARCRES01
+Arcanum/Restoration/Convalescence ARCRES02
+Arcanum/Restoration/Transfusion ARCRES03
+Arcanum/Restoration/Resurrect ARCRES04
+Arcanum/Restoration/SoulGuard ARCRES05
+Arcanum/Restoration/Revitalization ARCRES06
+
+Arcanum/Alteration/FarReach ARCALT01
+Arcanum/Alteration/HoradricMalus ARCALT03
+Arcanum/Alteration/Reenergize ARCALT04
+Arcanum/Alteration/MassRecall ARCALT05
+
+$alias Arcanum/Conjuration/GhostSquad misc/p_pkup
+Arcanum/Conjuration/HolyForce ARCCON02

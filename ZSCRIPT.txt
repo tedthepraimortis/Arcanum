@@ -458,6 +458,11 @@ class ArcanumSigil : Actor abstract
 		RuneSlots.Push(ArcanumRuneSlot(a));
 	}
 
+	protected void PlayCastSound(string snd)
+	{
+		A_StartSound(snd, 10, 0, pitch: frandom(0.9, 1.0));
+	}
+
 	override void Tick()
 	{
 		if (arcanum_debug)
