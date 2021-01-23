@@ -324,7 +324,7 @@ class RevitalizationSpell : ArcanumSpell
 	override string GetName() { return "Revitalization"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 1000; }
-	override string GetDescription() { return String.Format("Heals all visible nearby entities by \c[Gold]75%%\c- of their total health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-, but only for others. Restores lost blood. Removes incap.", 40 * Level, 20 * Level); }
+	override string GetDescription() { return String.Format("Heals all visible nearby entities by 75%% of their total health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-, but only for others. Restores lost blood. Removes incap.", 40 * Level, 20 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 10; }
 	override int GetCost() { return 120; }
