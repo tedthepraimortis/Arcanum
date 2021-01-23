@@ -428,7 +428,7 @@ class ArcanumSigil : Actor abstract
 		double Diff = RelZ - Height * cos(pitch);
 		if (Diff < 0)
 		{
-			SetOrigin((pos.x, pos.y, RelZ + abs(Diff)), false);
+			SetOrigin((pos.x, pos.y, pos.z + abs(Diff)), false);
 		}
 
 		InitRuneSlots();
