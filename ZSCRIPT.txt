@@ -1,4 +1,4 @@
-version "4.0"
+version "4.5"
 
 #include "ZSCRIPT.Spells.zsc"
 #include "ZSCRIPT.Sigils.zsc"
@@ -36,7 +36,9 @@ class ArcanumHandler : StaticEventHandler
 			}
 		}
 		ArcanumSpellBrain Brain = new('ArcanumSpellBrain');
+		Brain.ChangeStatNum(Thinker.STAT_STATIC);
 		Brain.TrackedPlayer = e.PlayerNumber;
+		Brain.InitSpells(); // [Ace] Because PostBeginPlay seems to be called a bit too late on it. In fact, it doesn't seem to be called at all.
 	}
 }
 
