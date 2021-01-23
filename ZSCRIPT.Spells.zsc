@@ -305,7 +305,7 @@ class SoulGuardSpell : ArcanumSpell
 	override int GetIndex() { return 40; }
 	override string GetName() { return "Soul Guard"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int GetCatalystAmount() { return 800; }
+	override int GetCatalystAmount() { return 1200; }
 	override string GetDescription() { return String.Format("Grants \c[Gold]%i\c- layer%s of spiritual armor.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Self, Targeted"; }
 	override int GetExperienceGain() { return 8; }
