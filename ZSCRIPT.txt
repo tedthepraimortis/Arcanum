@@ -238,9 +238,10 @@ class HDArcanumTome : HDWeapon
 				}
 			}
 
-			for (int i = 0; i < 30; ++i)
+			int VSize = ValidSpells.Size();
+			for (int i = 0; VSize > 0 && i < 30; ++i)
 			{
-				ValidSpells[random(0, ValidSpells.Size() - 1)].GainExperience();
+				ValidSpells[random(0, VSize - 1)].GainExperience();
 			}
 
 			other.A_StartSound("weapons/pocket");
