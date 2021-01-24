@@ -13,6 +13,7 @@ Arcanum/Restoration/SoulGuard ARCRES05
 Arcanum/Restoration/Revitalization ARCRES06
 
 Arcanum/Alteration/FarReach ARCALT01
+Arcanum/Alteration/Worldbreaker ARCALT02
 Arcanum/Alteration/HoradricMalus ARCALT03
 Arcanum/Alteration/Reenergize ARCALT04
 Arcanum/Alteration/MassRecall ARCALT05

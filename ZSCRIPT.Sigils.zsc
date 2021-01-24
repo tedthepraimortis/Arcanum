@@ -735,9 +735,19 @@ class WorldbreakerSigil : ArcanumSigil
 {
 	override void ActivateTargeted()
 	{
-		A_StartSound("weapons/bigcrack", CHAN_AUTO);
-		A_StartSound("world/explode", CHAN_VOICE);
-		DoorDestroyer.DestroyDoor(self, 64 + 64 * SigilLevel, 16 + 16 * SigilLevel, 42 * 2); 
+		ReactionTime--;
+		if (ReactionTime == 0)
+		{
+			A_StartSound("weapons/bigcrack", CHAN_AUTO);
+			A_StartSound("world/explode", CHAN_VOICE);
+			DoorDestroyer.DestroyDoor(self, 64 + 64 * SigilLevel, 16 + 16 * SigilLevel, 42 * 2); 
+		}
+
+		if (!PlayedSound)
+		{
+			PlayCastSound("Arcanum/Alteration/Worldbreaker");
+			PlayedSound = true;
+		}
 	}
 
 	override void InitRuneSlots()
@@ -748,8 +758,11 @@ class WorldbreakerSigil : ArcanumSigil
 		CreateRuneSlot((-7.8, -9.1), Size, 1.0, 1.75); CreateRuneSlot((7.8, -9.1), Size,1.07, 1.75);
 	}
 
+	private bool PlayedSound;
+
 	Default
 	{
+		ReactionTime 110;
 		+ARCANUMSIGIL.DONTPITCH
 		StencilColor "44FF44";
 	}
