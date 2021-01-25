@@ -708,7 +708,20 @@ class FarReachSigil : ArcanumSigil
 		if (Data.HitActor && Data.HitActor.Species != 'ArcanumSigil')
 		{
 			PlayCastSound("Arcanum/Alteration/FarReach");
-			GrabThinker.Grab(master, Data.HitActor);
+
+			if (Data.HitActor != master)
+			{
+				GrabThinker.Grab(master, Data.HitActor);
+			}
+			else
+			{
+				master.angle = angle;
+				master.pitch = pitch;
+				master.player.ReadyWeapon = HDFist(master.FindInventory('HDFist'));
+				master.A_ChangeVelocity(50, 0, 12, CVF_RELATIVE);
+				master.DamageMobj(master, master, 20, 'Falling');
+				HDPlayerPawn(master).lastvel = master.vel;
+			}
 		}
 	}
 
