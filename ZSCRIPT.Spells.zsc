@@ -391,10 +391,24 @@ class HoradricMalusSpell : ArcanumSpell
 	override class<ArcanumSigil> GetSigil() { return 'HoradricMalusSigil'; }
 }
 
-class ReenergizeSpell : ArcanumSpell
+class FeatherSpell : ArcanumSpell
 {
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override int GetIndex() { return 30; }
+	override string GetName() { return "Feather"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 120; }
+	override string GetDescription() { return String.Format("Creates a circle at target location. Falling into the circle reduces your vertical velocity."); }
+	override string GetTechnicalInfo() { return "Targeted"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 30; }
+	override class<ArcanumSigil> GetSigil() { return 'FeatherSigil'; }
+}
+
+class ReenergizeSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 40; }
 	override string GetName() { return "Reenergize"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 300; }
@@ -408,7 +422,7 @@ class ReenergizeSpell : ArcanumSpell
 class MassRecallSpell : ArcanumSpell
 {
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 40; }
+	override int GetIndex() { return 50; }
 	override string GetName() { return "Mass Recall"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 700; }

@@ -833,6 +833,76 @@ class HoradricMalusSigil : ArcanumSigil
 	}
 }
 
+class FeatherSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		FLineTraceData Data;
+		LineTrace(angle, 42 * 100, pitch, TRF_THRUACTORS, 0, 0, 0, Data);
+
+		PlayCastSound("Arcanum/Alteration/Feather");
+		Actor a = Spawn("FeatherEffect", Data.HitLocation);
+		a.tracer = master;
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (3.5, 5.83);
+		CreateRuneSlot((-10.6, 0), Size, 1.0, 4.0);
+		CreateRuneSlot((10.6, 0), Size, 1.0, 4.0);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 3.0;
+		StencilColor "C4BF87";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL D 0;
+			Goto Super::Spawn;
+	}
+}
+
+class FeatherEffect : Actor
+{
+	Default
+	{
+		+NOINTERACTION
+		Alpha 1.0;
+		ReactionTime 35 * 15;
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 1
+			{
+				if (tracer && tracer.vel.z < -8 && Distance2D(tracer) < 192 && tracer.pos.z - pos.z < 1024)
+				{
+					tracer.vel.z *= 0.92;
+				}
+
+				for (int i = 0; i < 360; ++i)
+				{
+					if (!random(0, 12))
+					{
+						A_SpawnParticle(0xC4BF87, SPF_FULLBRIGHT | SPF_RELATIVE, random(10, 20), random(5, 10), i, random(0, 192), 0, 2, 0, 2, frandom(1, 16), startalphaf: alpha);
+					}
+					A_SpawnParticle(0xC4BF87, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 18, i, 192, 0, 2, startalphaf: alpha);
+				}
+
+				if (--ReactionTime <= 0)
+				{
+					A_FadeOut(0.02);
+				}
+			}
+			Loop;
+	}
+}
+
 class ReenergizeSigil : ArcanumSigil
 {
 	override void ActivateTargeted()
@@ -900,11 +970,10 @@ class ReenergizeSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL D 0;
+			CRAL E 0;
 			Goto Super::Spawn;
 	}
 }
-
 
 class MassRecallSigil : ArcanumSigil
 {
@@ -972,7 +1041,7 @@ class MassRecallSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL E 0;
+			CRAL F 0;
 			Goto Super::Spawn;
 	}
 }

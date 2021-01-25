@@ -3,20 +3,21 @@ $limit Arcanum/Sigil/Spawn 0
 
 Arcanum/Rune/Spawn ARRUNSPW
 
-Arcanum/Destruction/Immolation ARCDES04
+Arcanum/Destruction/Immolation "Sounds/Destruction/Immolation.wav"
 
-Arcanum/Restoration/Hemostasis ARCRES01
-Arcanum/Restoration/Convalescence ARCRES02
-Arcanum/Restoration/Transfusion ARCRES03
-Arcanum/Restoration/Resurrect ARCRES04
-Arcanum/Restoration/SoulGuard ARCRES05
-Arcanum/Restoration/Revitalization ARCRES06
+Arcanum/Restoration/Hemostasis "Sounds/Restoration/Hemostasis.wav"
+Arcanum/Restoration/Convalescence "Sounds/Restoration/Convalescence.wav"
+Arcanum/Restoration/Transfusion "Sounds/Restoration/Transfusion.wav"
+Arcanum/Restoration/Resurrect "Sounds/Restoration/Resurrect.wav"
+Arcanum/Restoration/SoulGuard "Sounds/Restoration/SoulGuard.wav"
+Arcanum/Restoration/Revitalization "Sounds/Restoration/Revitalization.wav"
 
-Arcanum/Alteration/FarReach ARCALT01
-Arcanum/Alteration/Worldbreaker ARCALT02
-Arcanum/Alteration/HoradricMalus ARCALT03
-Arcanum/Alteration/Reenergize ARCALT04
-Arcanum/Alteration/MassRecall ARCALT05
+Arcanum/Alteration/FarReach "Sounds/Alteration/FarReach.wav"
+Arcanum/Alteration/Worldbreaker "Sounds/Alteration/Worldbreaker.wav"
+Arcanum/Alteration/HoradricMalus "Sounds/Alteration/HoradricMalus.wav"
+Arcanum/Alteration/Feather "Sounds/Alteration/Feather.wav"
+Arcanum/Alteration/Reenergize "Sounds/Alteration/Reenergize.wav"
+Arcanum/Alteration/MassRecall "Sounds/Alteration/MassRecall.wav"
 
 $alias Arcanum/Conjuration/GhostSquad misc/p_pkup
-Arcanum/Conjuration/HolyForce ARCCON02
+Arcanum/Conjuration/HolyForce "Sounds/Conjuration/HolyForce.wav"
