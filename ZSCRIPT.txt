@@ -25,20 +25,17 @@ class ArcanumHandler : StaticEventHandler
 
 	override void PlayerEntered(PlayerEvent e)
 	{
-		// [Ace] Don't create a new thinker if one already exists.
-		ThinkerIterator it = ThinkerIterator.Create('ArcanumSpellBrain', Thinker.STAT_STATIC);
-		ArcanumSpellBrain ExistingBrain;
-		while ((ExistingBrain = ArcanumSpellBrain(it.Next())))
-		{
-			if (ExistingBrain.TrackedPlayer == e.PlayerNumber)
-			{
-				return;
-			}
-		}
-		ArcanumSpellBrain Brain = new('ArcanumSpellBrain');
-		Brain.ChangeStatNum(Thinker.STAT_STATIC);
-		Brain.TrackedPlayer = e.PlayerNumber;
+		ArcanumSpellBrain Brain = ArcanumSpellBrain.Get(e.PlayerNumber);
 		Brain.InitSpells(); // [Ace] Because PostBeginPlay seems to be called a bit too late on it. In fact, it doesn't seem to be called at all.
+	}
+
+	override void NetworkProcess(ConsoleEvent e)
+	{
+		if (e.Name ~== "ARC_ReInitSpells")
+		{
+			ArcanumSpellBrain Brain = ArcanumSpellBrain.Get(e.Player);
+			Brain.InitSpells();
+		}
 	}
 }
 
@@ -188,16 +185,7 @@ class HDArcanumTome : HDWeapon
 			return;
 		}
 
-		ThinkerIterator it = ThinkerIterator.Create('ArcanumSpellBrain', STAT_STATIC);
-		ArcanumSpellBrain Brain;
-		while ((Brain = ArcanumSpellBrain(it.Next())))
-		{
-			if (Brain.TrackedPlayer == owner.PlayerNumber())
-			{
-				SpellStorage = Brain;
-				break;
-			}
-		}
+		SpellStorage = ArcanumSpellBrain.Get(owner.PlayerNumber());
 	}
 
 	private clearscope ArcanumSpellTree GetSelectedTree()

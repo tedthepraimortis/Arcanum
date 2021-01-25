@@ -11,11 +11,11 @@ class ArcanumSpellBrain : Thinker
 
 				int TreesSize = Trees.Size();
 				int TreeIndex = TreesSize;
-				for (int i = 0; i < TreesSize; ++i)
+				for (int j = 0; j < TreesSize; ++j)
 				{
-					if (Trees[i].GetClass() == Spell.GetTree())
+					if (Trees[j].GetClass() == Spell.GetTree())
 					{
-						TreeIndex = i;
+						TreeIndex = j;
 						break;
 					}
 				}
@@ -28,10 +28,33 @@ class ArcanumSpellBrain : Thinker
 				}
 				else
 				{
-					Trees[TreeIndex].InsertSpell(Spell);
+					// [Ace] Don't duplicate spells.
+					if (!Trees[TreeIndex].SpellExists(Spell.GetClass()))
+					{
+						Trees[TreeIndex].InsertSpell(Spell);
+					}
 				}
 			}
 		}
+	}
+
+	static ArcanumSpellBrain Get(int num)
+	{
+		ThinkerIterator it = ThinkerIterator.Create('ArcanumSpellBrain', STAT_STATIC);
+		ArcanumSpellBrain Brain;
+		while ((Brain = ArcanumSpellBrain(it.Next())))
+		{
+			if (Brain.TrackedPlayer == num)
+			{
+				return Brain;
+			}
+		}
+
+		// [Ace] Create a new one if none exist.
+		Brain = new('ArcanumSpellBrain');
+		Brain.ChangeStatNum(Thinker.STAT_STATIC);
+		Brain.TrackedPlayer = num;
+		return Brain;
 	}
 
 	int SpellCountInTree(class<ArcanumSpellTree> tree)
@@ -77,6 +100,19 @@ class ArcanumSpellTree abstract play
 			}
 		}
 		Spells.Insert(InsIndex, spl);
+	}
+
+	bool SpellExists(class<ArcanumSpell> spell)
+	{
+		for (int i = 0; i < Spells.Size(); ++i)
+		{
+			if (Spells[i].GetClass() == spell)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
 
@@ -402,6 +438,7 @@ class FeatherSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Targeted"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 30; }
+	override int GetAggroGain() { return 2; }
 	override class<ArcanumSigil> GetSigil() { return 'FeatherSigil'; }
 }
 

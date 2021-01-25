@@ -1,0 +1,1 @@
+alias ARC_ReInitSpells "netevent ARC_ReInitSpells"
