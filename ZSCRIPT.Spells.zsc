@@ -96,6 +96,7 @@ class ArcanumSpellTree abstract play
 				else
 				{
 					InsIndex = i;
+					break;
 				}
 			}
 		}
