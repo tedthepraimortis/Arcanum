@@ -719,7 +719,7 @@ class FarReachSigil : ArcanumSigil
 				master.pitch = pitch;
 				master.player.ReadyWeapon = HDFist(master.FindInventory('HDFist'));
 				master.A_ChangeVelocity(40, 0, 10, CVF_RELATIVE);
-				master.DamageMobj(master, master, 20, 'Falling');
+				master.DamageMobj(master, master, 20, 'Internal');
 				HDPlayerPawn(master).lastvel = master.vel;
 			}
 		}
