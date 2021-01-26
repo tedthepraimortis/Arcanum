@@ -685,6 +685,7 @@ class ArcanumRuneSlot : Actor
 		+INVISIBLE
 		-SOLID
 		+BRIGHT
+		+NOSECTOR
 		Alpha 1.0;
 		RenderStyle "AddShaded";
 		Species "ArcanumSigil";	
