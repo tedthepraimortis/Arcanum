@@ -227,9 +227,13 @@ class HDArcanumTome : HDWeapon
 			}
 
 			int VSize = ValidSpells.Size();
-			for (int i = 0; VSize > 0 && i < 30; ++i)
+			for (int i = 0; VSize > 0 && i < 15; ++i)
 			{
-				ValidSpells[random(0, VSize - 1)].GainExperience();
+				let CurSpell = ValidSpells[random(0, VSize - 1)];
+				if (CurSpell.GainExperience())
+				{
+					other.A_Log(CurSpell.GetName().." has gained a level.", true);
+				}
 			}
 
 			other.A_StartSound("weapons/pocket");
@@ -404,7 +408,11 @@ class HDArcanumTome : HDWeapon
 					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 12, 0, 0, Data);
 					if (Data.HitType == Data.TRACE_HitNone || Data.HitType == Data.TRACE_HitFloor)
 					{
-						SelSpell.GainExperience();
+						if (SelSpell.GainExperience())
+						{
+							A_Log(SelSpell.GetName().." has gained a level.", true);
+						}
+						
 						plr.regenblues -= SpellCost;
 
 						plr.aggravateddamage += SelSpell.GetAggroGain();

@@ -164,11 +164,12 @@ class ArcanumSpell abstract play
 	virtual int GetAggroGain() const { return 1; }
 	virtual class<ArcanumSigil> GetSigil() const { return null; }
 
-	void GainExperience()
+	// [Ace] Returns whether or not the spell leveled up.
+	bool GainExperience()
 	{
 		if (Level >= min(GetMaxLevel(), ExperienceReqs.Size()))
 		{
-			return;
+			return false;
 		}
 
 		Experience += GetExperienceGain();
@@ -176,7 +177,10 @@ class ArcanumSpell abstract play
 		{
 			Experience -= ExperienceReqs[Level - 1];
 			Level++;
+			return true;
 		}
+
+		return false;
 	}
 
 	int Experience;
