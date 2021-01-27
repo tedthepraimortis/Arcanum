@@ -180,11 +180,6 @@ class HDArcanumTome : HDWeapon
 
 	private void InitStorage()
 	{
-		if (SpellStorage)
-		{
-			return;
-		}
-
 		SpellStorage = ArcanumSpellBrain.Get(owner.PlayerNumber());
 	}
 
