@@ -75,13 +75,13 @@ class ClaymoreSigil : ArcanumSigil
 	{
 		double OldAngle = angle;
 		double OldPitch = pitch;
-		for (int i = -60; i <= 60; i += 20)
+		for (int i = -80; i <= 80; i += 20)
 		{
 			angle = OldAngle + i;
-			pitch = random(-30, 30);
+			pitch = random(-20, 20);
 			Actor a = AimTarget();
 
-			if (a && a.Health > 0 && Distance2D(a) < 48)
+			if (a && a.Health > 0 && Distance2D(a) < 64)
 			{
 				Actor xpl = Spawn("WallChunker", pos);
 				xpl.target = tracer;
