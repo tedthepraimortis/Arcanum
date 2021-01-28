@@ -200,7 +200,6 @@ class FireballSpell : ArcanumSpell
 	override int GetCatalystAmount() { return 100; }
 	override string GetDescription() { return String.Format("Barrage target area with \c[Gold]%i\c- fireballs.", 10 + 5 * Level); }
 	override string GetTechnicalInfo() { return "Targeted, Thermal, Dangerous"; }
-	override int GetExperienceGain() { return 1; }
 	override int GetCost() { return 10; }
 	override int GetAggroGain() { return 2; }
 	override class<ArcanumSigil> GetSigil() { return 'FireballSigil'; }
@@ -230,8 +229,7 @@ class ThunderclapSpell : ArcanumSpell
 	override int GetCatalystAmount() { return 300; }
 	override string GetDescription() { return String.Format("Strikes target area with \c[Gold]%i\c- lightning bolt%s.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Targeted, AoE"; }
-	override int GetExperienceGain() { return 1; }
-	override int GetCost() { return 30; }
+	override int GetCost() { return 20; }
 	override int GetAggroGain() { return 5; }
 	override class<ArcanumSigil> GetSigil() { return 'ThunderclapSigil'; }
 }
@@ -486,12 +484,12 @@ class GhostSquadSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
 	override string GetName() { return "Ghost Squad"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int GetCatalystAmount() { return 400; }
+	override int GetCatalystAmount() { return 700; }
 	override string GetDescription() { return String.Format("Summons \c[Gold]%i\c- ghost marine%s at target location.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Targeted"; }
 	override int GetExperienceGain() { return 3; }
-	override int GetCost() { return 100; }
-	override int GetAggroGain() { return 3; }
+	override int GetCost() { return 150; }
+	override int GetAggroGain() { return 8; }
 	override class<ArcanumSigil> GetSigil() { return 'GhostSquadSigil'; }
 }
 
@@ -501,11 +499,11 @@ class HolyForceSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
 	override string GetName() { return "Holy Force"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int GetCatalystAmount() { return 160; }
+	override int GetCatalystAmount() { return 400; }
 	override string GetDescription() { return String.Format("Forces an archvile to come out of hiding and prevents it from disappearing until it dies."); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetMaxLevel() { return 1; }
-	override int GetCost() { return 40; }
+	override int GetCost() { return 60; }
 	override int GetAggroGain() { return 3; }
 	override class<ArcanumSigil> GetSigil() { return 'HolyForceSigil'; }
 }
