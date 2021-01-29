@@ -1,0 +1,135 @@
+#include "Spells/Destruction/Fireball.zsc"
+#include "Spells/Destruction/Claymore.zsc"
+#include "Spells/Destruction/Thunderclap.zsc"
+#include "Spells/Destruction/Immolation.zsc"
+
+#include "Spells/Restoration/Hemostasis.zsc"
+#include "Spells/Restoration/Convalescence.zsc"
+#include "Spells/Restoration/Transfusion.zsc"
+#include "Spells/Restoration/Resurrect.zsc"
+#include "Spells/Restoration/SoulGuard.zsc"
+#include "Spells/Restoration/Revitalization.zsc"
+#include "Spells/Restoration/Invulnerability.zsc"
+
+#include "Spells/Alteration/FarReach.zsc"
+#include "Spells/Alteration/Worldbreaker.zsc"
+#include "Spells/Alteration/HoradricMalus.zsc"
+#include "Spells/Alteration/Feather.zsc"
+#include "Spells/Alteration/Reenergize.zsc"
+#include "Spells/Alteration/Displacement.zsc"
+#include "Spells/Alteration/MassRecall.zsc"
+
+#include "Spells/Conjuration/GhostSquad.zsc"
+#include "Spells/Conjuration/HolyForce.zsc"
+
+class ArcanumSpellTree abstract play
+{
+	virtual string GetName() const { return "None"; }
+	virtual string GetDescription() const { return "Spells in this tree do stuff."; }
+	Array<ArcanumSpell> Spells;
+
+	void InsertSpell(ArcanumSpell spl)
+	{
+		int InsIndex = 0;
+		int SpellsCount = Spells.Size();
+		if (SpellsCount > 0)
+		{
+			for (int i = 0; i < SpellsCount; ++i)
+			{
+				if (spl.GetIndex() >= Spells[i].GetIndex())
+				{
+					InsIndex = i + 1;
+				}
+				else
+				{
+					InsIndex = i;
+					break;
+				}
+			}
+		}
+		Spells.Insert(InsIndex, spl);
+	}
+
+	bool SpellExists(class<ArcanumSpell> spell)
+	{
+		for (int i = 0; i < Spells.Size(); ++i)
+		{
+			if (Spells[i].GetClass() == spell)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+}
+
+class ArcanumTreeDestruction : ArcanumSpellTree
+{
+	override string GetName() { return "\c[Red]Destruction\c-"; }
+	override string GetDescription() { return "Those who wish to destroy the world may find out how trivial it is. But is it really what you want?\n\nThis tree contains spells to call down thunder, annihilate entire hordes, or light a candle."; }
+}
+
+class ArcanumTreeRestoration : ArcanumSpellTree
+{
+	override string GetName() { return "\c[Tan]Restoration\c-"; }
+	override string GetDescription() { return "It is a wise man's goal to heal the world.\n\nRestoration spells give you the ability to resurrect friends or foes, heal their wounds, cleanse their body, and protect it."; }
+}
+
+class ArcanumTreeAlteration : ArcanumSpellTree
+{
+	override string GetName() { return "\c[Green]Alteration\c-"; }
+	override string GetDescription() { return "Nothing is as it appears. Manipulate the world to your liking.\n\nThe school of Alteration lets you destroy entire walls or otherwise manipulate objects."; }
+}
+
+class ArcanumTreeConjuration : ArcanumSpellTree
+{
+	override string GetName() { return "\c[Purple]Conjuration\c-"; }
+	override string GetDescription() { return "If it does not exist, make it.\n\nConjuration is for the strongest of magi. With it, you can summon monsters or materialize objects."; }
+}
+
+class ArcanumSpell abstract play
+{
+	enum SType
+	{
+		SType_SelfOrMass = 1 << 0,
+		SType_Targeted = 1 << 1
+	}
+
+	static const int ExperienceReqs[] = { 100, 200, 300 }; // [Ace] Pulled these out my ass. Probably gonna need rebalancing.
+
+	virtual class<ArcanumSpellTree> GetTree() const { return null; }
+	virtual int GetIndex() const { return -1; }
+	virtual string GetName() const { return "Newspapers Ignizzle"; }
+	virtual int GetSpellType() const { return -1; }
+	virtual int GetCatalystAmount() const { return 0; }
+	virtual clearscope string GetDescription() { return "Bet you can't figure out what this does."; }
+	virtual string GetTechnicalInfo() const { return "Anything goes."; }
+	virtual int GetExperienceGain() const { return 1; }
+	virtual int GetMaxLevel() const { return ExperienceReqs.Size(); }
+	virtual int GetCost() const { return 0; }
+	virtual int GetAggroGain() const { return 1; }
+	virtual class<ArcanumSigil> GetSigil() const { return null; }
+
+	// [Ace] Returns whether or not the spell leveled up.
+	bool GainExperience()
+	{
+		if (Level >= min(GetMaxLevel(), ExperienceReqs.Size()))
+		{
+			return false;
+		}
+
+		Experience += GetExperienceGain();
+		if (Experience >= ExperienceReqs[Level - 1])
+		{
+			Experience -= ExperienceReqs[Level - 1];
+			Level++;
+			return true;
+		}
+
+		return false;
+	}
+
+	int Experience;
+	int Level;
+}

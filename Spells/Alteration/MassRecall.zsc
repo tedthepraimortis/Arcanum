@@ -1,0 +1,85 @@
+class MassRecallSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 60; }
+	override string GetName() { return "Mass Recall"; }
+	override int GetSpellType() { return SType_SelfOrMass; }
+	override int GetCatalystAmount() { return 700; }
+	override string GetDescription() { return "Teleports all players, dead or alive, to the circle."; }
+	override string GetTechnicalInfo() { return "Mass"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 175; }
+	override int GetAggroGain() { return 20; }
+	override class<ArcanumSigil> GetSigil() { return 'MassRecallSigil'; }
+}
+
+class MassRecallSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		bool PlayedSound;
+		int AngOff = 0;
+		for (int i = 0; i < MAXPLAYERS; ++i)
+		{
+			if (!players[i].mo || players[i].mo == master)
+			{
+				continue;
+			}
+
+			let plr = players[i].mo;
+			if (plr.Health > 0)
+			{
+				if (!PlayedSound)
+				{
+					PlayCastSound(self, "Arcanum/Alteration/MassRecall");
+					PlayedSound = true;
+				}
+				plr.Warp(master, 64, 0, 0, AngOff);
+				plr.A_StartSound("misc/teleport", 20);
+				AngOff += 45;
+			}
+		}
+
+		if (hd_pof)
+		{
+			ThinkerIterator it = ThinkerIterator.Create("HDPlayerCorpse", STAT_DEFAULT);
+			HDPlayerCorpse PCorpse;
+			while ((PCorpse = HDPlayerCorpse(it.Next())))
+			{
+				if (!PlayedSound)
+				{
+					PlayCastSound(self, "Arcanum/Alteration/MassRecall");
+					PlayedSound = true;
+				}
+				PCorpse.Warp(master, 64, 0, 0, AngOff);
+				PCorpse.A_StartSound("misc/teleport", 20);
+				AngOff += 45;
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (5, 8.3);
+		CreateRuneSlot((-41.9, 0), Size, 1.75, 2.25); CreateRuneSlot((41.9, 0), Size, 1.75, 2.25);
+
+		vector2 BigSize = (6, 10);
+		CreateRuneSlot((-13.25, 25.75), BigSize, 2.0, 2.25); CreateRuneSlot((13.25, 25.75), BigSize, 2.0, 2.25);
+		CreateRuneSlot((-13.25, -25.75), BigSize, 2.0, 2.25); CreateRuneSlot((13.25, -25.75), BigSize, 2.0, 2.25);
+	}
+
+	Default
+	{
+		ArcanumSigil.AddAlpha 0.7;
+		Height 63;
+		Radius 75;
+		StencilColor "22DDFF";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL G 0;
+			Goto Super::Spawn;
+	}
+}

@@ -1,0 +1,76 @@
+class ArcanumSpellBrain : Thinker
+{
+	void InitSpells()
+	{
+		for (int i = 0; i < AllClasses.Size(); ++i)
+		{
+			if (AllClasses[i] is 'ArcanumSpell' && AllClasses[i].GetClassName() != 'ArcanumSpell')
+			{
+				ArcanumSpell Spell = ArcanumSpell(new(AllClasses[i]));
+				Spell.Level = 1;
+
+				int TreesSize = Trees.Size();
+				int TreeIndex = TreesSize;
+				for (int j = 0; j < TreesSize; ++j)
+				{
+					if (Trees[j].GetClass() == Spell.GetTree())
+					{
+						TreeIndex = j;
+						break;
+					}
+				}
+
+				if (TreeIndex == Trees.Size()) // [Ace] Brand new tree, never used.
+				{
+					ArcanumSpellTree Tree = ArcanumSpellTree(new(Spell.GetTree()));
+					Tree.Spells.Push(Spell);
+					Trees.Push(Tree);
+				}
+				else
+				{
+					// [Ace] Don't duplicate spells.
+					if (!Trees[TreeIndex].SpellExists(Spell.GetClass()))
+					{
+						Trees[TreeIndex].InsertSpell(Spell);
+					}
+				}
+			}
+		}
+	}
+
+	static ArcanumSpellBrain Get(int num)
+	{
+		ThinkerIterator it = ThinkerIterator.Create('ArcanumSpellBrain', STAT_STATIC);
+		ArcanumSpellBrain Brain;
+		while ((Brain = ArcanumSpellBrain(it.Next())))
+		{
+			if (Brain.TrackedPlayer == num)
+			{
+				return Brain;
+			}
+		}
+
+		// [Ace] Create a new one if none exist.
+		Brain = new('ArcanumSpellBrain');
+		Brain.ChangeStatNum(Thinker.STAT_STATIC);
+		Brain.TrackedPlayer = num;
+		return Brain;
+	}
+
+	int SpellCountInTree(class<ArcanumSpellTree> tree)
+	{
+		for (int i = 0; i < Trees.Size(); ++i)
+		{
+			if (Trees[i].GetClass() == tree)
+			{
+				return Trees[i].Spells.Size();
+			}
+		}
+
+		return 0;
+	}
+
+	Array<ArcanumSpellTree> Trees;
+
+	int TrackedPlayer;
+}

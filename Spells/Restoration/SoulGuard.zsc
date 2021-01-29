@@ -1,0 +1,62 @@
+class SoulGuardSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
+	override int GetIndex() { return 40; }
+	override string GetName() { return "Soul Guard"; }
+	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int GetCatalystAmount() { return 1200; }
+	override string GetDescription() { return String.Format("Grants \c[Gold]%i\c- layer%s of spiritual armor.", Level, Level > 1 ? "s" : ""); }
+	override string GetTechnicalInfo() { return "Self, Targeted"; }
+	override int GetExperienceGain() { return 8; }
+	override int GetCost() { return 200; }
+	override int GetAggroGain() { return 10; }
+	override class<ArcanumSigil> GetSigil() { return 'SoulGuardSigil'; }
+}
+
+class SoulGuardSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		let plr = HDPlayerPawn(AimTarget());
+		if (plr && plr.Health > 0)
+		{
+			GiveSpiritualArmor(plr);
+		}
+	}
+
+	override void ActivateSelfOrMass()
+	{
+		let plr = HDPlayerPawn(master);
+		if (plr)
+		{
+			GiveSpiritualArmor(plr);
+		}
+	}
+
+	private void GiveSpiritualArmor(HDPlayerPawn plr)
+	{
+		PlayCastSound(self, "Arcanum/Restoration/SoulGuard");
+		plr.A_GiveInventory("SpiritualArmour", SigilLevel);
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (5, 8.33);
+		CreateRuneSlot((-19.75, 0), Size, 1.25, 3.5);
+		CreateRuneSlot((0, 19.75), Size, 1.25, 3.5);
+		CreateRuneSlot((19.75, 0), Size, 1.25, 3.5);
+		CreateRuneSlot((0, -19.75), Size, 1.25, 3.5);
+	}
+
+	Default
+	{
+		StencilColor "44FF44";
+	}
+
+	States
+	{
+		Spawn:
+			CRRE E 0;
+			Goto Super::Spawn;
+	}
+}

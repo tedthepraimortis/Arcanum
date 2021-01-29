@@ -1,0 +1,111 @@
+class DisplacementSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 50; }
+	override string GetName() { return "Displacement"; }
+	override int GetSpellType() { return SType_SelfOrMass; }
+	override int GetCatalystAmount() { return 400; }
+	override string GetDescription() { return "Gives you the ability to fly and move through walls for 4 seconds, then teleports you to where you cast the spell."; }
+	override string GetTechnicalInfo() { return "Self"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 70; }
+	override int GetAggroGain() { return 10; }
+	override class<ArcanumSigil> GetSigil() { return 'DisplacementSigil'; }
+}
+
+class DisplacementSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		if (!HasActivatedOnce)
+		{
+			PlayCastSound(self, "Arcanum/Alteration/Displacement/Start");
+			master.A_GiveInventory("DisplacementSpellPower");
+			HasActivatedOnce = true;
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (3, 5);
+		CreateRuneSlot((-16.4, 0), Size, 1.0, 2.5);
+		CreateRuneSlot((0, 16.4), Size, 1.0, 2.5);
+		CreateRuneSlot((16.4, 0), Size, 1.0, 2.5);
+		CreateRuneSlot((0, -16.4), Size, 1.0, 2.5);
+	}
+
+	
+	bool HasActivatedOnce;
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 2.0;
+		StencilColor "8EFACA";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL F 0;
+			Goto Super::Spawn;
+	}
+}
+
+class DisplacementSpellPower : Powerup
+{
+	override void InitEffect()
+	{
+		Super.InitEffect();
+
+		CastPos = owner.pos;
+
+		ToggleFlags(true);
+
+		if (owner.pos.z <= owner.floorz)
+		{
+			owner.vel.z = 4;
+		}
+	}
+
+	override void EndEffect()
+	{
+		Super.EndEffect();
+		if (!owner || !owner.player)
+		{
+			return;
+		}
+
+		owner.SetOrigin(CastPos, true);
+		HDPlayerPawn(owner).lastvel = (0, 0, 0);
+		owner.vel = (0, 0, 0);
+		owner.pitch = 0;
+		ArcanumSigil.PlayCastSound(owner, "Arcanum/Alteration/Displacement/End");
+
+		ToggleFlags(false);
+	}
+
+	private void ToggleFlags(bool val)
+	{
+		owner.bFLY = val;
+		owner.bNOGRAVITY = val;
+		owner.bINVISIBLE = val;
+		owner.bSHADOW = val;
+		owner.bNOTARGET = val;
+	}
+
+	override Color GetBlend()
+	{
+		double StartAlpha = EffectTics / double(default.EffectTics);
+
+		return Color(int(BlendColor.a * StartAlpha), BlendColor.r, BlendColor.g, BlendColor.b);
+	}
+
+	Vector3 CastPos;
+
+	Default
+	{
+		Powerup.Duration -4;
+		Powerup.Color "8EFACA", 0.3;
+		+INVENTORY.NOSCREENBLINK
+	}
+}

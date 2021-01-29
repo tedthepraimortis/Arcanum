@@ -1,0 +1,64 @@
+class FarReachSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 0; }
+	override string GetName() { return "Far Reach"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 40; }
+	override string GetDescription() { return "Open doors, trigger switches, and pick up items within a range of 30m.\n\n\c[Fire]You can launch yourself forward with this spell. Use with caution.\c-"; }
+	override string GetTechnicalInfo() { return "Targeted"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 10; }
+	override class<ArcanumSigil> GetSigil() { return 'FarReachSigil'; }
+}
+
+class FarReachSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		FLineTraceData Data;
+		LineTrace(angle, 42 * 40, pitch, TRF_ALLACTORS | TRF_THRUSPECIES, 0, 0, 0, Data);
+
+		if (Data.HitLine)
+		{
+			PlayCastSound(self, "Arcanum/Alteration/FarReach");
+			Data.HitLine.Activate(master, 0, SPAC_Use);
+		}
+
+		if (Data.HitActor && Data.HitActor.Species != 'ArcanumSigil')
+		{
+			PlayCastSound(self, "Arcanum/Alteration/FarReach");
+
+			if (Data.HitActor != master)
+			{
+				GrabThinker.Grab(master, Data.HitActor);
+			}
+			else
+			{
+				master.angle = angle;
+				master.pitch = pitch;
+				master.A_ChangeVelocity(40, 0, 10, CVF_RELATIVE);
+				master.DamageMobj(master, master, 20, 'Internal');
+				HDPlayerPawn(master).lastvel = master.vel;
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		CreateRuneSlot((0, 0), (6, 10), 2.2);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 4.0;
+		StencilColor "FFFF99";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL A 0;
+			Goto Super::Spawn;
+	}
+}

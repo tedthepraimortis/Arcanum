@@ -1,0 +1,82 @@
+class ResurrectSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
+	override int GetIndex() { return 30; }
+	override string GetName() { return "Resurrect"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 300; }
+	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within 2m of where the rune is pointing.", 3 * Level); }
+	override string GetTechnicalInfo() { return "Targeted, Touch"; }
+	override int GetExperienceGain() { return 5; }
+	override int GetCost() { return 70; }
+	override int GetAggroGain() { return 5; }
+	override class<ArcanumSigil> GetSigil() { return 'ResurrectSigil'; }
+}
+
+class ResurrectSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		FLineTraceData Data;
+		LineTrace(angle, 42 * 2, pitch, 0, 0, 0, 0, Data);
+
+		HDMobBase Enemy;
+		HDPlayerCorpse PCorpse;
+
+		bool PlayedSound;
+		int RevivesLeft = 3 * SigilLevel;
+		vector3 AdjustedLocation = Data.HitLocation - Data.HitDir;
+		BlockThingsIterator it = BlockThingsIterator.CreateFromPos(AdjustedLocation.x, AdjustedLocation.y, AdjustedLocation.z, 0, 84, false);
+		while (RevivesLeft > 0 && it.Next())
+		{
+			if (!it.thing.bCORPSE)
+			{
+				continue;
+			}
+
+			if (!PlayedSound)
+			{
+				PlayCastSound(self, "Arcanum/Restoration/Resurrect");
+				PlayedSound = true;
+			}
+
+			Enemy = HDMobBase(it.thing);
+			PCorpse = HDPlayerCorpse(it.thing);
+
+			if (PCorpse && HDPlayerPawn(PCorpse.master))
+			{
+				HDPlayerPawn(PCorpse.master).respawndelay = 0;
+				RevivesLeft--;
+			}
+			else if (Enemy)
+			{
+				Enemy.bodydamage = 0;
+				master.RaiseActor(Enemy);
+				Enemy.bFRIENDLY = true;
+				RevivesLeft--;
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (3, 5);
+		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 1.20);
+		CreateRuneSlot((0, 17.1), Size, 0.85, 1.20);
+		CreateRuneSlot((-16.6, 5.28), Size, 0.85, 1.20); CreateRuneSlot((16.6, 5.28), Size, 0.85, 1.20);
+		CreateRuneSlot((-10.10, -14.1), Size, 0.85, 1.20); CreateRuneSlot((10.10, -14.1), Size, 0.85, 1.20);
+	}
+
+	Default
+	{
+		ArcanumSigil.AddAlpha 1.75;
+		StencilColor "331177";
+	}
+
+	States
+	{
+		Spawn:
+			CRRE D 0;
+			Goto Super::Spawn;
+	}
+}

@@ -1,0 +1,73 @@
+class HolyForceSpell : ArcanumSpell
+{
+	override int GetIndex() { return 10; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
+	override string GetName() { return "Holy Force"; }
+	override int GetSpellType() { return SType_SelfOrMass; }
+	override int GetCatalystAmount() { return 400; }
+	override string GetDescription() { return String.Format("Forces an archvile to come out of hiding and prevents it from disappearing until it dies."); }
+	override string GetTechnicalInfo() { return "Mass"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 60; }
+	override int GetAggroGain() { return 3; }
+	override class<ArcanumSigil> GetSigil() { return 'HolyForceSigil'; }
+}
+
+class HolyForceSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		BlockThingsIterator it = BlockThingsIterator.Create(self, 840);
+		while (it.Next())
+		{
+			if (it.thing.GetClassName() == 'Necromancer' && !it.thing.CheckInventory("HolyCompeller", 1))
+			{
+				PlayCastSound(self, "Arcanum/Conjuration/HolyForce");
+				it.thing.A_GiveInventory("HolyCompeller");
+				break;
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (4, 6.66);
+		CreateRuneSlot((-32.1, 18.75), Size, 1.5, 2.5);
+		CreateRuneSlot((0, 18.75), Size, 1.5, 2.5);
+		CreateRuneSlot((32.1, 18.75), Size, 1.5, 2.5);
+		CreateRuneSlot((0, -37.1), Size, 1.5, 2.5);
+	}
+
+	Default
+	{
+		Height 44;
+		Radius 50;
+		StencilColor "AAAAAA";
+	}
+
+	States
+	{
+		Spawn:
+			CRCN B 0;
+			Goto Super::Spawn;
+	}
+}
+
+class HolyCompeller : Inventory
+{
+	override void DoEffect()
+	{
+		if (!owner)
+		{
+			Destroy();
+			return;
+		}
+
+		let Necro = Necromancer(owner);
+		if (Necro && Necro.tics > 20 && Necro.InStateSequence(Necro.CurState, Necro.FindState('painedandgone')))
+		{
+			Necro.A_Pain();
+			Necro.tics = 20;
+		}
+	}
+}

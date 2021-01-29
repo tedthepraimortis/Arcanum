@@ -17,6 +17,8 @@ Arcanum/Alteration/Worldbreaker "Sounds/Alteration/Worldbreaker.wav"
 Arcanum/Alteration/HoradricMalus "Sounds/Alteration/HoradricMalus.wav"
 Arcanum/Alteration/Feather "Sounds/Alteration/Feather.wav"
 Arcanum/Alteration/Reenergize "Sounds/Alteration/Reenergize.wav"
+Arcanum/Alteration/Displacement/Start "Sounds/Alteration/DisplacementStart.wav"
+Arcanum/Alteration/Displacement/End "Sounds/Alteration/DisplacementEnd.wav"
 Arcanum/Alteration/MassRecall "Sounds/Alteration/MassRecall.wav"
 
 $alias Arcanum/Conjuration/GhostSquad misc/p_pkup

@@ -1,0 +1,63 @@
+class ThunderclapSpell : ArcanumSpell
+{
+	override int GetIndex() { return 20; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
+	override string GetName() { return "Thunderclap"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 300; }
+	override string GetDescription() { return String.Format("Strikes target area with \c[Gold]%i\c- lightning bolt%s.", Level, Level > 1 ? "s" : ""); }
+	override string GetTechnicalInfo() { return "Targeted, AoE"; }
+	override int GetCost() { return 20; }
+	override int GetAggroGain() { return 5; }
+	override class<ArcanumSigil> GetSigil() { return 'ThunderclapSigil'; }
+}
+
+class ThunderclapSigil : ArcanumSigil
+{
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+
+		ReactionTime = 8 * SigilLevel;
+	}
+
+	override void ActivateTargeted()
+	{
+		if (GetAge() % 8 == 0)
+		{
+			FLineTraceData Data;
+			LineTrace(angle + frandom(-1.5, 1.5), 12600, pitch + frandom(-1.3, 1.3), 0, 0, 0, 0, Data);
+
+			if (Data.HitType != Data.TRACE_HitNone && Data.HitType != Data.TRACE_HasHitSky)
+			{
+				Actor BSpot = spawn("BeamSpot", Data.HitLocation - Data.HitDir, ALLOW_REPLACE);
+				BSpot.master = master;
+				BSpot.target = self;
+				BSpot.stamina = 144;
+				BSpot.angle = angle;
+				BSpot.pitch = pitch;
+			}
+		}
+		ReactionTime--;
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (4, 6.66);
+		CreateRuneSlot((8.75, -6.5), Size, 1.3, 5.0);
+		CreateRuneSlot((0, 8.25), Size, 1.3, 5.0);
+		CreateRuneSlot((-8.75, -6.5), Size, 1.3, 5.0);
+	}
+
+	Default
+	{
+		StencilColor "77AFFF";
+	}
+
+	States
+	{
+		Spawn:
+			CRDE C 0;
+			Goto Super::Spawn;
+	}
+}

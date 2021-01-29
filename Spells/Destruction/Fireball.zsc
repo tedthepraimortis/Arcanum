@@ -1,0 +1,80 @@
+class FireballSpell : ArcanumSpell
+{
+	override int GetIndex() { return 0; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
+	override string GetName() { return "Fireball"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 100; }
+	override string GetDescription() { return String.Format("Barrage target area with \c[Gold]%i\c- fireballs.", 10 + 5 * Level); }
+	override string GetTechnicalInfo() { return "Targeted, Thermal, Dangerous"; }
+	override int GetCost() { return 10; }
+	override int GetAggroGain() { return 2; }
+	override class<ArcanumSigil> GetSigil() { return 'FireballSigil'; }
+}
+
+class FireballSigil : ArcanumSigil
+{
+	override void PostBeginPlay()
+	{
+		Super.PostBeginPlay();
+
+		ReactionTime = 10 + 5 * SigilLevel;
+	}
+
+	override void ActivateTargeted()
+	{
+		if (!AlreadyActivated)
+		{
+			BlockThingsIterator it = BlockThingsIterator.Create(self, 4200);
+			while (it.Next())
+			{
+				if (it.thing.bISMONSTER && it.thing.Health > 0 && !it.thing.bFRIENDLY && CheckSight(it.thing) && AbsAngle(angle, AngleTo(it.thing)) < 70)
+				{
+					ViableTargets.Push(it.thing);
+				}
+			}
+			AlreadyActivated = true;
+		}
+
+		int RandRoll = random(0, 359);
+		int TSize = ViableTargets.Size();
+		if (TSize > 0)
+		{
+			target = ViableTargets[random(0, ViableTargets.Size() - 1)];
+		}
+
+		Actor a = A_SpawnProjectile("ArdentipedeBall2", Height * cos(RandRoll), Height * sin(RandRoll), random(-4, 4), CMF_AIMDIRECTION, pitch + random(-2, 2));
+		if (a)
+		{
+			a.target = master;
+			a.bFRIENDLY = true;
+			a.A_ScaleVelocity(3.0);
+		}
+		ReactionTime--;
+	}
+
+	override void InitRuneSlots()
+	{
+		CreateRuneSlot((0, 17.25), (5, 8.33), 1.2, 3.0);
+		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 3.0);
+		CreateRuneSlot((0, -17.25), (5, 8.33), 1.2, 3.0);
+	}
+
+	private Array<Actor> ViableTargets;
+
+	private bool AlreadyActivated;
+
+	Default
+	{
+		+FRIENDLY
+		+ARCANUMSIGIL.NOHEIGHTADJUST
+		StencilColor "FF2200";
+	}
+
+	States
+	{
+		Spawn:
+			CRDE A 0;
+			Goto Super::Spawn;
+	}
+}

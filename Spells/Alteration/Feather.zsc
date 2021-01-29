@@ -1,0 +1,84 @@
+class FeatherSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 30; }
+	override string GetName() { return "Feather"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 120; }
+	override string GetDescription() { return String.Format("Creates a circle at target location. Falling into the circle reduces your vertical velocity."); }
+	override string GetTechnicalInfo() { return "Targeted"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 30; }
+	override int GetAggroGain() { return 2; }
+	override class<ArcanumSigil> GetSigil() { return 'FeatherSigil'; }
+}
+
+class FeatherSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		FLineTraceData Data;
+		LineTrace(angle, 42 * 100, pitch, TRF_THRUACTORS, 0, 0, 0, Data);
+
+		PlayCastSound(self, "Arcanum/Alteration/Feather");
+		Actor a = Spawn("FeatherEffect", Data.HitLocation);
+		a.tracer = master;
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (3.5, 5.83);
+		CreateRuneSlot((-10.6, 0), Size, 1.0, 4.0);
+		CreateRuneSlot((10.6, 0), Size, 1.0, 4.0);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 3.0;
+		StencilColor "C4BF87";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL D 0;
+			Goto Super::Spawn;
+	}
+}
+
+class FeatherEffect : Actor
+{
+	Default
+	{
+		+NOINTERACTION
+		Alpha 1.0;
+		ReactionTime 35 * 15;
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A 1
+			{
+				if (tracer && tracer.vel.z < -8 && Distance2D(tracer) < 192 && tracer.pos.z - pos.z < 1024)
+				{
+					tracer.vel.z *= 0.92;
+				}
+
+				for (int i = 0; i < 360; ++i)
+				{
+					if (!random(0, 12))
+					{
+						A_SpawnParticle(0xC4BF87, SPF_FULLBRIGHT | SPF_RELATIVE, random(10, 20), random(5, 10), i, random(0, 192), 0, 2, 0, 2, frandom(1, 16), startalphaf: alpha);
+					}
+					A_SpawnParticle(0xC4BF87, SPF_FULLBRIGHT | SPF_RELATIVE, 1, 18, i, 192, 0, 2, startalphaf: alpha);
+				}
+
+				if (--ReactionTime <= 0)
+				{
+					A_FadeOut(0.02);
+				}
+			}
+			Loop;
+	}
+}

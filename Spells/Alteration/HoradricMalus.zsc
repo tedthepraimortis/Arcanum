@@ -1,0 +1,72 @@
+class HoradricMalusSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 20; }
+	override string GetName() { return "Horadric Malus"; }
+	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int GetCatalystAmount() { return 400; }
+	override string GetDescription() { return String.Format("Repairs worn armor by \c[Gold]%i%%\c- of its missing durability.", 20 + 10 * Level); }
+	override string GetTechnicalInfo() { return "Self, Targeted"; }
+	override int GetExperienceGain() { return 5; }
+	override int GetCost() { return 70; }
+	override class<ArcanumSigil> GetSigil() { return 'HoradricMalusSigil'; }
+}
+
+class HoradricMalusSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		let plr = HDPlayerPawn(AimTarget());
+		if (plr && plr.Health > 0)
+		{
+			RepairArmor(plr);
+		}
+	}
+
+	override void ActivateSelfOrMass()
+	{
+		let plr = HDPlayerPawn(master);
+		if (plr)
+		{
+			RepairArmor(plr);
+		}
+	}
+
+	private void RepairArmor(HDPlayerPawn plr)
+	{
+		let Armor = HDArmourWorn(plr.FindInventory("HDArmourWorn"));
+		if (Armor)
+		{
+			PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
+			int MaxDurability = Armor.Mega ? 70 : 144;
+			int DurabilityMissing = MaxDurability - Armor.Durability;
+			Armor.Durability += int(DurabilityMissing * (0.20 + 0.10 * SigilLevel));
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 BigSize = (4, 6.66);
+		CreateRuneSlot((-14, 0), BigSize, 1.0, 1.35); CreateRuneSlot((14, 0), BigSize, 1.0, 1.35);
+
+		vector2 MedSize = (3, 5);
+		CreateRuneSlot((-7.8, 7.1), MedSize, 0.7, 1.35); CreateRuneSlot((7.8, 7.1), MedSize, 0.7, 1.35);
+		CreateRuneSlot((-7.8, -7.1), MedSize, 0.7, 1.35); CreateRuneSlot((7.8, -7.1), MedSize, 0.7, 1.35);
+
+		vector2 SmallSize = (2, 3.33);
+		CreateRuneSlot((0, 11), SmallSize, 0.5, 1.35); CreateRuneSlot((0, -11), SmallSize, 0.5, 1.35);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 2.0;
+		StencilColor "998456";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL C 0;
+			Goto Super::Spawn;
+	}
+}

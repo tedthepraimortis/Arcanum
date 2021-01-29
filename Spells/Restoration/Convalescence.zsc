@@ -1,0 +1,87 @@
+class ConvalescenceSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
+	override int GetIndex() { return 10; }
+	override string GetName() { return "Convalescence"; }
+	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int GetCatalystAmount() { return 200; }
+	override string GetDescription() { return String.Format("Fixes all wounds and restores 35%% of missing health. Heals \c[Gold]%i\c- burns. Restores lost blood. Removes incap.", 20 * Level); }
+	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
+	override int GetExperienceGain() { return 2; }
+	override int GetCost() { return 50; }
+	override int GetAggroGain() { return 5; }
+	override class<ArcanumSigil> GetSigil() { return 'ConvalescenceSigil'; }
+}
+
+class ConvalescenceSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		Actor a = AimTarget();
+		if (a && a.Health > 0 && Distance3D(a) <= 42 * 2)
+		{
+			DoHealing(a);
+		}
+	}
+
+	override void ActivateSelfOrMass()
+	{
+		if (master)
+		{
+			DoHealing(master);
+		}
+	}
+
+	private void DoHealing(Actor a)
+	{
+		let plr = HDPlayerPawn(a);
+		let mon = HDMobBase(a);
+		if (plr)
+		{
+			PlayCastSound(self, "Arcanum/Restoration/Convalescence");
+			plr.unstablewoundcount = 0;
+			plr.woundcount = 0;
+			plr.burncount -= 20 * SigilLevel;
+			plr.bloodloss = 0;
+			int MissingHealth = plr.MaxHealth() - plr.Health;
+			plr.GiveBody(int(MissingHealth * 0.35));
+			plr.incaptimer = 0;
+		}
+		else if (mon)
+		{
+			PlayCastSound(self, "Arcanum/Restoration/Convalescence");
+			int MissingHealth = mon.SpawnHealth() - mon.Health;
+			mon.GiveBody(int(MissingHealth * 0.35));
+
+			let humon = HDMobMan(mon);
+			if (humon)
+			{
+				humon.stunned = 0;
+				humon.bodydamage = 0; // [Ace] Eh, why not?
+				humon.bloodloss = 0;
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 BigSize = (4, 6.66);
+		vector2 SmallSize = (3, 5);
+		CreateRuneSlot((-9.3, 16.5), SmallSize, 0.9, 1.75); CreateRuneSlot((9.3, 16.5), SmallSize, 0.9, 1.75);
+		CreateRuneSlot((-17, 0), BigSize, 1.2, 1.75); CreateRuneSlot((17, 0), BigSize, 1.2, 1.75);
+		CreateRuneSlot((-9.3, -16.5), SmallSize, 0.9, 1.75); CreateRuneSlot((9.3, -16.5), SmallSize, 0.9, 1.75);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 2.0;
+		StencilColor "FF0A0A";
+	}
+
+	States
+	{
+		Spawn:
+			CRRE B 0;
+			Goto Super::Spawn;
+	}
+}

@@ -1,0 +1,61 @@
+class ImmolationSpell : ArcanumSpell
+{
+	override int GetIndex() { return 40; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
+	override string GetName() { return "Immolation"; }
+	override int GetSpellType() { return SType_SelfOrMass; }
+	override int GetCatalystAmount() { return 1000; }
+	override string GetDescription() { return "Sets nearby enemies on fire."; }
+	override string GetTechnicalInfo() { return "Mass"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 140; }
+	override int GetAggroGain() { return 12; }
+	override class<ArcanumSigil> GetSigil() { return 'ImmolationSigil'; }
+}
+
+class ImmolationSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		bool PlayedSound;
+		BlockThingsIterator it = BlockThingsIterator.Create(self, 42 * 10);
+		while (it.Next())
+		{
+			if (!PlayedSound)
+			{
+				PlayCastSound(self, "Arcanum/Destruction/Immolation");
+				PlayedSound = true;
+			}
+
+			if (it.thing.Health <= 0 || !it.thing.bISMONSTER || it.thing.bFRIENDLY)
+			{
+				continue;
+			}
+
+			it.thing.A_GiveInventory("Heat", 1000);
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (10, 16.666);
+		CreateRuneSlot((0, 32), Size, 3.2, 3.5);
+		CreateRuneSlot((0, -32), Size, 3.2, 3.5);
+		CreateRuneSlot((30.5, 0), Size, 3.2, 3.5);
+		CreateRuneSlot((-30.5, 0), Size, 3.2, 3.5);
+	}
+
+	Default
+	{
+		Height 44;
+		Radius 50;
+		StencilColor "FF8811";
+	}
+
+	States
+	{
+		Spawn:
+			CRDE E 0;
+			Goto Super::Spawn;
+	}
+}
