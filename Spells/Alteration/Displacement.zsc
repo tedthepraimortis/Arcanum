@@ -91,6 +91,7 @@ class DisplacementSpellPower : Powerup
 		owner.bINVISIBLE = val;
 		owner.bSHADOW = val;
 		owner.bNOTARGET = val;
+		owner.bSHOOTABLE = !val;
 	}
 
 	override Color GetBlend()
