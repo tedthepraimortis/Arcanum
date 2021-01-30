@@ -5,7 +5,7 @@ version "4.5"
 #include "ZSCRIPT.ArcanumSigil.zsc"
 #include "ZSCRIPT.ArcanumTome.zsc"
 
-class ArcanumHandler : StaticEventHandler
+class ArcanumHandler : EventHandler
 {
 	override void CheckReplacement(ReplaceEvent e)
 	{
