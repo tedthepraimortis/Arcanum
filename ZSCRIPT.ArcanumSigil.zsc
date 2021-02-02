@@ -23,7 +23,9 @@ class ArcanumSigil : Actor abstract
 		double Stretch = 1.0 + 0.2 * abs(cos(pitch));
 		
 		Actor a; bool success;
-		double Extra = (abs(pitch) != 90 ? (pitch > 0 ? ArcanumMath.Pi : (pitch < 0 ? -ArcanumMath.Pi : 0)) : 0);
+		double sinp = sin(pitch);
+		double cosp = cos(pitch);
+		double Extra = (abs(pitch) != 90 ? (pitch > 0 ? ArcanumMath.Pi * cosp : (pitch < 0 ? -ArcanumMath.Pi * sinp : 0)) : 0);
 		[success, a] = A_SpawnItemEx("ArcanumRuneSlot", offcenter.y * sin(pitch - Extra), offcenter.x, offcenter.y * (cos(pitch - Extra) / Stretch), flags: SXF_NOCHECKPOSITION | SXF_SETMASTER | SXF_TRANSFERSTENCILCOL | SXF_TRANSFERPITCH);
 		if (success)
 		{
