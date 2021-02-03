@@ -161,7 +161,7 @@ class HDArcanumTome : HDWeapon
 		}
 	}
 
-	override void ActualPickup(Actor other)
+	override void ActualPickup(Actor other, bool silent)
 	{
 		let Tome = HDArcanumTome(other.FindInventory("HDArcanumTome"));
 		if (Tome && Tome.SpellStorage)
@@ -196,7 +196,7 @@ class HDArcanumTome : HDWeapon
 			return;
 		}
 		
-		Super.ActualPickup(other);
+		Super.ActualPickup(other, silent);
 	}
 
 	ArcanumSpellBrain SpellStorage;
