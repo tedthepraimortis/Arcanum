@@ -19,10 +19,9 @@ class FarReachSigil : ArcanumSigil
 		FLineTraceData Data;
 		LineTrace(angle, 42 * 40, pitch, TRF_ALLACTORS | TRF_THRUSPECIES, 0, 0, 0, Data);
 
-		if (Data.HitLine)
+		if (Data.HitLine && Data.HitLine.Activate(master, 0, SPAC_Use))
 		{
 			PlayCastSound(self, "Arcanum/Alteration/FarReach");
-			Data.HitLine.Activate(master, 0, SPAC_Use);
 		}
 
 		if (Data.HitActor && Data.HitActor.Species != 'ArcanumSigil')
