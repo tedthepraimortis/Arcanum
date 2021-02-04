@@ -2,6 +2,7 @@
 #include "Spells/Destruction/Claymore.zsc"
 #include "Spells/Destruction/Thunderclap.zsc"
 #include "Spells/Destruction/Immolation.zsc"
+#include "Spells/Destruction/Voidstorm.zsc"
 
 #include "Spells/Restoration/Hemostasis.zsc"
 #include "Spells/Restoration/Convalescence.zsc"

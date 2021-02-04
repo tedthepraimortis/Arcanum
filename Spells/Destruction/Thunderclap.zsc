@@ -30,8 +30,7 @@ class ThunderclapSigil : ArcanumSigil
 
 			if (Data.HitType != Data.TRACE_HitNone && Data.HitType != Data.TRACE_HasHitSky)
 			{
-				Actor BSpot = spawn("BeamSpot", Data.HitLocation - Data.HitDir, ALLOW_REPLACE);
-				BSpot.master = master;
+				Actor BSpot = Spawn("BeamSpot", Data.HitLocation - Data.HitDir, ALLOW_REPLACE);
 				BSpot.target = self;
 				BSpot.stamina = 144;
 				BSpot.angle = angle;
@@ -44,9 +43,9 @@ class ThunderclapSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (4, 6.66);
-		CreateRuneSlot((8.75, -6.5), Size, 1.3, 5.0);
-		CreateRuneSlot((0, 8.25), Size, 1.3, 5.0);
-		CreateRuneSlot((-8.75, -6.5), Size, 1.3, 5.0);
+		CreateRuneSlot((8.75, -6.5), Size, 1.3, 4.0);
+		CreateRuneSlot((0, 8.25), Size, 1.3, 4.0);
+		CreateRuneSlot((-8.75, -6.5), Size, 1.3, 4.0);
 	}
 
 	Default
