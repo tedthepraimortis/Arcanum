@@ -5,7 +5,7 @@ class VoidstormSpell : ArcanumSpell
 	override string GetName() { return "Voidstorm"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 2000; }
-	override string GetDescription() { return "Launches forward a black hole that sucks enemies in and removes them from existence. It explodes once it comes into contact with a wall."; }
+	override string GetDescription() { return "Launches forward a black hole that sucks enemies in and removes them from existence. It explodes once it comes into contact with a hard surface."; }
 	override string GetTechnicalInfo() { return "Mass, Dangerous"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 500; }
