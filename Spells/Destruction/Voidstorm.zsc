@@ -67,6 +67,8 @@ class VoidstormOrb : Actor
 		Scale 0.4;
 	}
 
+	const EffectRange = 42 * 12;
+
 	States
 	{
 		Spawn:
@@ -75,7 +77,7 @@ class VoidstormOrb : Actor
 			{
 				A_SetScale(frandom(0.40, 0.43));
 				roll -= 4;
-				BlockThingsIterator it = BlockThingsIterator.Create(self, 42 * 20);
+				BlockThingsIterator it = BlockThingsIterator.Create(self, EffectRange);
 				while (it.Next())
 				{
 					if (!it.thing.bISMONSTER || it.thing.bFRIENDLY)
@@ -108,7 +110,7 @@ class VoidstormOrb : Actor
 				{
 					angle = frandom(0, 359);
 					pitch = frandom(-90, 90);
-					A_CustomRailgun(0, 0, "", 0x15031C, RGF_SILENT | RGF_EXPLICITANGLE, 0, 10, "VoidstormOrbPuff", range: 42 * 20, duration: 15);
+					A_CustomRailgun(0, 0, "", 0x15031C, RGF_SILENT | RGF_EXPLICITANGLE, 0, 10, "VoidstormOrbPuff", range: EffectRange, duration: 15);
 				}
 
 				angle = OldAngle;
