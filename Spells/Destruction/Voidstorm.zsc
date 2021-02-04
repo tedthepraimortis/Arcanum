@@ -91,7 +91,7 @@ class VoidstormOrb : Actor
 
 					if (it.thing.Health > 0)
 					{
-						it.thing.DamageMobj(self, master, 10, 'None', DMG_FORCED);
+						it.thing.DamageMobj(self, target, 10, 'None', DMG_FORCED);
 					}
 
 					it.thing.A_Face(self, 0, 0);
