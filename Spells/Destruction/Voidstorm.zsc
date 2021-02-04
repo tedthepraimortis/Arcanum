@@ -80,7 +80,7 @@ class VoidstormOrb : Actor
 				BlockThingsIterator it = BlockThingsIterator.Create(self, EffectRange);
 				while (it.Next())
 				{
-					if (!it.thing.bISMONSTER || it.thing.bFRIENDLY)
+					if (!it.thing.bISMONSTER || it.thing.bFRIENDLY || !CheckSight(it.thing))
 					{
 						continue;
 					}
