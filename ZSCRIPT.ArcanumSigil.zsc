@@ -50,8 +50,8 @@ class ArcanumSigil : Actor abstract
 	{
 		if (arcanum_debug)
 		{
-			ArcanumDebug.DrawCollisionBox(self);
-			ArcanumDebug.DrawXYZ(self);
+			AceCore.DrawCollisionBox(self);
+			AceCore.DrawXYZ(self);
 		}
 
 		if (HasTriggered && ReactionTime <= 0 || !HasTriggered && GetAge() >= 35 * 30)
@@ -191,7 +191,7 @@ class ArcanumRuneSlot : Actor
 	{
 		if (arcanum_debug)
 		{
-			ArcanumDebug.DrawCollisionBox(self);
+			AceCore.DrawCollisionBox(self);
 		}
 
 		let Sigil = ArcanumSigil(master);
