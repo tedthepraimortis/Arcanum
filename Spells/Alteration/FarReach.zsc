@@ -36,7 +36,7 @@ class FarReachSigil : ArcanumSigil
 			{
 				master.angle = angle;
 				master.pitch = pitch;
-				master.A_ChangeVelocity(40, 0, 10, CVF_RELATIVE);
+				master.A_ChangeVelocity(40 * cos(pitch), 0, 40 * sin(-pitch), CVF_RELATIVE);
 				master.DamageMobj(master, master, 20, 'Internal');
 				HDPlayerPawn(master).lastvel = master.vel;
 			}
