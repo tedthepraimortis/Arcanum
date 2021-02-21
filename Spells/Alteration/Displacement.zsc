@@ -5,7 +5,7 @@ class DisplacementSpell : ArcanumSpell
 	override string GetName() { return "Displacement"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 400; }
-	override string GetDescription() { return "Severes your link to this world and gives you the ability to fly for 4 seconds, then teleports you to where you cast the spell. Enemies cannot see or target you while being displaced."; }
+	override string GetDescription() { return "Severs your link to this world and gives you the ability to fly for 4 seconds, then teleports you to where you cast the spell. Enemies cannot see or target you while being displaced."; }
 	override string GetTechnicalInfo() { return "Self"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 70; }
