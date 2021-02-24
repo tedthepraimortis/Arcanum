@@ -40,8 +40,8 @@ Model ArcanumSigilAdd
 	SurfaceSkin 0 0 "VoidstormSigil_d.png" FrameIndex CRDE E 0 0
 
 	Scale 1.0 1.0 1.0
-	SurfaceSkin 0 0 "HemostasisSigil_d.png" FrameIndex CRRE  A 0 0
-	SurfaceSkin 0 0 "ConvalescenceSigil_d.png" FrameIndex CRRE B 0 0
+	SurfaceSkin 0 0 "ConvalescenceSigil_d.png" FrameIndex CRRE  A 0 0
+	SurfaceSkin 0 0 "LifeForceSigil_d.png" FrameIndex CRRE B 0 0
 	SurfaceSkin 0 0 "TransfusionSigil_d.png" FrameIndex CRRE C 0 0
 	SurfaceSkin 0 0 "ResurrectSigil_d.png" FrameIndex CRRE D 0 0
 	SurfaceSkin 0 0 "SoulGuardSigil_d.png" FrameIndex CRRE E 0 0

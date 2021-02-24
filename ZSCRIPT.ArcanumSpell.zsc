@@ -4,8 +4,8 @@
 #include "Spells/Destruction/Immolation.zsc"
 #include "Spells/Destruction/Voidstorm.zsc"
 
-#include "Spells/Restoration/Hemostasis.zsc"
 #include "Spells/Restoration/Convalescence.zsc"
+#include "Spells/Restoration/LifeForce.zsc"
 #include "Spells/Restoration/Transfusion.zsc"
 #include "Spells/Restoration/Resurrect.zsc"
 #include "Spells/Restoration/SoulGuard.zsc"
