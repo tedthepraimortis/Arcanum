@@ -4,12 +4,12 @@ class ResurrectSpell : ArcanumSpell
 	override int GetIndex() { return 30; }
 	override string GetName() { return "Resurrect"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int GetCatalystAmount() { return 300; }
-	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within 2m of where the rune is pointing.", 3 * Level); }
+	override int GetCatalystAmount() { return 600; }
+	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within 2m of where the rune is pointing.", 10 * Level); }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
-	override int GetExperienceGain() { return 5; }
-	override int GetCost() { return 70; }
-	override int GetAggroGain() { return 5; }
+	override int GetExperienceGain() { return 3; }
+	override int GetCost() { return 80; }
+	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'ResurrectSigil'; }
 }
 
@@ -24,7 +24,7 @@ class ResurrectSigil : ArcanumSigil
 		HDPlayerCorpse PCorpse;
 
 		bool PlayedSound;
-		int RevivesLeft = 3 * SigilLevel;
+		int RevivesLeft = 10 * SigilLevel;
 		vector3 AdjustedLocation = Data.HitLocation - Data.HitDir;
 		BlockThingsIterator it = BlockThingsIterator.CreateFromPos(AdjustedLocation.x, AdjustedLocation.y, AdjustedLocation.z, 0, 84, false);
 		while (RevivesLeft > 0 && it.Next())
@@ -51,7 +51,7 @@ class ResurrectSigil : ArcanumSigil
 			else if (Enemy)
 			{
 				Enemy.bodydamage = 0;
-				master.RaiseActor(Enemy);
+				master.RaiseActor(Enemy, RF_NOCHECKPOSITION);
 				Enemy.bFRIENDLY = true;
 				RevivesLeft--;
 			}
