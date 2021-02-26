@@ -5,7 +5,7 @@ class ResurrectSpell : ArcanumSpell
 	override string GetName() { return "Resurrect"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 600; }
-	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within 2m of where the rune is pointing.", 10 * Level); }
+	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within \c[Gold]%i\c-m of where the rune's touch effect hits.", 10 * Level, 2 * Level); }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
 	override int GetExperienceGain() { return 3; }
 	override int GetCost() { return 80; }
@@ -26,7 +26,7 @@ class ResurrectSigil : ArcanumSigil
 		bool PlayedSound;
 		int RevivesLeft = 10 * SigilLevel;
 		vector3 AdjustedLocation = Data.HitLocation - Data.HitDir;
-		BlockThingsIterator it = BlockThingsIterator.CreateFromPos(AdjustedLocation.x, AdjustedLocation.y, AdjustedLocation.z, 0, 84, false);
+		BlockThingsIterator it = BlockThingsIterator.CreateFromPos(AdjustedLocation.x, AdjustedLocation.y, AdjustedLocation.z, 0, 84 * SigilLevel, false);
 		while (RevivesLeft > 0 && it.Next())
 		{
 			if (!it.thing.bCORPSE)
