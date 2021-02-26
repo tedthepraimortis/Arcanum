@@ -5,7 +5,7 @@ class FarReachSpell : ArcanumSpell
 	override string GetName() { return "Far Reach"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 40; }
-	override string GetDescription() { return "Open doors, trigger switches, and pick up items within a range of 30m.\n\n\c[Fire]You can launch yourself forward with this spell. Use with caution.\c-"; }
+	override string GetDescription() { return "Open doors, trigger switches, and pick up items within a range of 40m.\n\n\c[Fire]You can launch yourself forward with this spell. Use with caution.\c-"; }
 	override string GetTechnicalInfo() { return "Targeted"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 10; }
