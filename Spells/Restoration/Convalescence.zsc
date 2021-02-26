@@ -5,10 +5,10 @@ class ConvalescenceSpell : ArcanumSpell
 	override string GetName() { return "Convalescence"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 75; }
-	override string GetDescription() { return String.Format("Improves health regeneration for \c[Gold]%i\c- seconds.", 60 * Level); }
+	override string GetDescription() { return String.Format("Recover 1 health every \c[Gold]%i\c- heartbeat%s for 60 seconds.", 4 - Level, Level < GetMaxLevel() ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 2; }
-	override int GetCost() { return 20; }
+	override int GetCost() { return 25; }
 	override int GetAggroGain() { return 2; }
 	override class<ArcanumSigil> GetSigil() { return 'ConvalescenceSigil'; }
 }
@@ -36,7 +36,9 @@ class ConvalescenceSigil : ArcanumSigil
 	private void DoHealing(HDPlayerPawn plr)
 	{
 		PlayCastSound(self, "Arcanum/Restoration/Convalescence");
-		plr.A_GiveInventory("ConvalescenceEffectL"..SigilLevel);
+		plr.A_GiveInventory("ConvalescenceEffect");
+		let Effect = ConvalescenceEffect(plr.FindInventory("ConvalescenceEffect"));
+		Effect.Level = SigilLevel;
 	}
 
 	override void InitRuneSlots()
@@ -62,12 +64,12 @@ class ConvalescenceSigil : ArcanumSigil
 	}
 }
 
-class ConvalescenceEffectL1 : Powerup
+class ConvalescenceEffect : Powerup
 {
 	override void DoEffect()
 	{
 		let plr = HDPlayerPawn(owner);
-		if (plr && plr.beatcount == 0 && plr.beatcounter % 4 == 0)
+		if (plr && plr.beatcount == 0 && plr.beatcounter % (4 - Level) == 0 && plr.Health < plr.MaxHealth())
 		{
 			plr.GiveBody(1);
 		}
@@ -75,11 +77,10 @@ class ConvalescenceEffectL1 : Powerup
 		Super.DoEffect();
 	}
 
+	int Level;
+
 	Default
 	{
 		Powerup.Duration -60;
 	}
 }
-
-class ConvalescenceEffectL2 : ConvalescenceEffectL1 { Default { Powerup.Duration -120; } }
-class ConvalescenceEffectL3 : ConvalescenceEffectL1 { Default { Powerup.Duration -180; } }
