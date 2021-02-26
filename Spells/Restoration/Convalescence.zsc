@@ -42,10 +42,10 @@ class ConvalescenceSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (4, 6.66);
-		CreateRuneSlot((0, 13.4), Size, 1.0, 3);
-		CreateRuneSlot((0, -13.4), Size, 1.0, 3);
-		CreateRuneSlot((-15, 0), Size, 1.0, 3);
-		CreateRuneSlot((15, 0), Size, 1.0, 3);
+		CreateRuneSlot((0, 13.4), Size, 1.0, 2.5);
+		CreateRuneSlot((0, -13.4), Size, 1.0, 2.5);
+		CreateRuneSlot((-15, 0), Size, 1.0, 2.5);
+		CreateRuneSlot((15, 0), Size, 1.0, 2.5);
 	}
 
 	Default
