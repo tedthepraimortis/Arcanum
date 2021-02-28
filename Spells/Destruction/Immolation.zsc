@@ -17,14 +17,14 @@ class ImmolationSigil : ArcanumSigil
 {
 	override void ActivateSelfOrMass()
 	{
-		bool PlayedSound;
+		bool HasPlayedSound;
 		BlockThingsIterator it = BlockThingsIterator.Create(self, 42 * 10);
 		while (it.Next())
 		{
-			if (!PlayedSound)
+			if (!HasPlayedSound)
 			{
 				PlayCastSound(self, "Arcanum/Destruction/Immolation");
-				PlayedSound = true;
+				HasPlayedSound = true;
 			}
 
 			if (it.thing.Health <= 0 || !it.thing.bISMONSTER || it.thing.bFRIENDLY)
@@ -55,7 +55,7 @@ class ImmolationSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRDE D 0;
+			CRDE E 0;
 			Goto Super::Spawn;
 	}
 }

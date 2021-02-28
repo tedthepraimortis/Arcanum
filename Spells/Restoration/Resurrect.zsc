@@ -23,7 +23,7 @@ class ResurrectSigil : ArcanumSigil
 		HDMobBase Enemy;
 		HDPlayerCorpse PCorpse;
 
-		bool PlayedSound;
+		bool HasPlayedSound;
 		int RevivesLeft = 10 * SigilLevel;
 		vector3 AdjustedLocation = Data.HitLocation - Data.HitDir;
 		BlockThingsIterator it = BlockThingsIterator.CreateFromPos(AdjustedLocation.x, AdjustedLocation.y, AdjustedLocation.z, 0, 84 * SigilLevel, false);
@@ -34,10 +34,10 @@ class ResurrectSigil : ArcanumSigil
 				continue;
 			}
 
-			if (!PlayedSound)
+			if (!HasPlayedSound)
 			{
 				PlayCastSound(self, "Arcanum/Restoration/Resurrect");
-				PlayedSound = true;
+				HasPlayedSound = true;
 			}
 
 			Enemy = HDMobBase(it.thing);

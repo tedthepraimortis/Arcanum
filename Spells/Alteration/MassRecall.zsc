@@ -17,7 +17,7 @@ class MassRecallSigil : ArcanumSigil
 {
 	override void ActivateSelfOrMass()
 	{
-		bool PlayedSound;
+		bool HasPlayedSound;
 		int AngOff = 0;
 		for (int i = 0; i < MAXPLAYERS; ++i)
 		{
@@ -29,10 +29,10 @@ class MassRecallSigil : ArcanumSigil
 			let plr = players[i].mo;
 			if (plr.Health > 0)
 			{
-				if (!PlayedSound)
+				if (!HasPlayedSound)
 				{
 					PlayCastSound(self, "Arcanum/Alteration/MassRecall");
-					PlayedSound = true;
+					HasPlayedSound = true;
 				}
 				plr.Warp(master, 64, 0, 0, AngOff);
 				plr.A_StartSound("misc/teleport", 20);
@@ -46,10 +46,10 @@ class MassRecallSigil : ArcanumSigil
 			HDPlayerCorpse PCorpse;
 			while ((PCorpse = HDPlayerCorpse(it.Next())))
 			{
-				if (!PlayedSound)
+				if (!HasPlayedSound)
 				{
 					PlayCastSound(self, "Arcanum/Alteration/MassRecall");
-					PlayedSound = true;
+					HasPlayedSound = true;
 				}
 				PCorpse.Warp(master, 64, 0, 0, AngOff);
 				PCorpse.A_StartSound("misc/teleport", 20);

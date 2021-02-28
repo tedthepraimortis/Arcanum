@@ -45,7 +45,7 @@ class VoidstormSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRDE E 0;
+			CRDE F 0;
 			Goto Super::Spawn;
 	}
 }

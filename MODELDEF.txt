@@ -35,9 +35,10 @@ Model ArcanumSigilAdd
 	SurfaceSkin 0 0 "FireballSigil_d.png" FrameIndex CRDE A 0 0
 	SurfaceSkin 0 0 "ClaymoreSigil_d.png" FrameIndex CRDE B 0 0
 	SurfaceSkin 0 0 "ThunderclapSigil_d.png" FrameIndex CRDE C 0 0
+	SurfaceSkin 0 0 "HammerfistSigil_d.png" FrameIndex CRDE D 0 0
 	Scale 2.0 2.0 2.0
-	SurfaceSkin 0 0 "ImmolationSigil_d.png" FrameIndex CRDE D 0 0
-	SurfaceSkin 0 0 "VoidstormSigil_d.png" FrameIndex CRDE E 0 0
+	SurfaceSkin 0 0 "ImmolationSigil_d.png" FrameIndex CRDE E 0 0
+	SurfaceSkin 0 0 "VoidstormSigil_d.png" FrameIndex CRDE F 0 0
 
 	Scale 1.0 1.0 1.0
 	SurfaceSkin 0 0 "ConvalescenceSigil_d.png" FrameIndex CRRE  A 0 0

@@ -16,6 +16,10 @@
 - CVars are:
 	- `arcanum_invert [true/false]`: Inverts the spell scroll direction of Fire/Alt-fire. Does not affect tree selection. Client-side CVar.
 
+### Known Issues
+---
+- Sometimes some runes can spawn above the sigil when floors are involved. This is unfixable due to the engine not allowing anything below the floor or above the ceiling unless it has +NOINTERACTION, but at that point you would be completely unable to trigger the runes.
+
 ### Incompatibilities
 ---
 - Josh's Action Bubbles seems to make the rune activation not work unless you are crouching.

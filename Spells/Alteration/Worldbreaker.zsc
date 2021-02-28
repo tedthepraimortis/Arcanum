@@ -25,10 +25,10 @@ class WorldbreakerSigil : ArcanumSigil
 			DoorDestroyer.DestroyDoor(self, 128 * SigilLevel, 32 * SigilLevel, 32 * 2); 
 		}
 
-		if (!PlayedSound)
+		if (!HasPlayedSound)
 		{
 			PlayCastSound(self, "Arcanum/Alteration/Worldbreaker");
-			PlayedSound = true;
+			HasPlayedSound = true;
 		}
 	}
 
@@ -40,7 +40,7 @@ class WorldbreakerSigil : ArcanumSigil
 		CreateRuneSlot((-7.8, -9.1), Size, 1.0, 1.75); CreateRuneSlot((7.8, -9.1), Size,1.07, 1.75);
 	}
 
-	private bool PlayedSound;
+	private bool HasPlayedSound;
 
 	Default
 	{

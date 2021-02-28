@@ -17,15 +17,16 @@ class FarReachSigil : ArcanumSigil
 	override void ActivateTargeted()
 	{
 		FLineTraceData Data;
-		LineTrace(angle, 42 * 40, pitch, TRF_ALLACTORS | TRF_THRUSPECIES, 0, 0, 0, Data);
+		LineTrace(angle, 42 * 40, pitch, TRF_SOLIDACTORS | TRF_THRUSPECIES, 0, 0, 0, Data);
 
 		if (Data.HitLine && Data.HitLine.Activate(master, 0, SPAC_Use))
 		{
 			PlayCastSound(self, "Arcanum/Alteration/FarReach");
 		}
 
-		if (Data.HitActor && Data.HitActor.Species != 'ArcanumSigil')
+		if (Data.HitActor)
 		{
+			Console.Printf(Data.HitActor.GetClassName());
 			PlayCastSound(self, "Arcanum/Alteration/FarReach");
 
 			if (Data.HitActor != master)

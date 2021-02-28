@@ -1,6 +1,7 @@
 #include "Spells/Destruction/Fireball.zsc"
 #include "Spells/Destruction/Claymore.zsc"
 #include "Spells/Destruction/Thunderclap.zsc"
+#include "Spells/Destruction/Hammerfist.zsc"
 #include "Spells/Destruction/Immolation.zsc"
 #include "Spells/Destruction/Voidstorm.zsc"
 

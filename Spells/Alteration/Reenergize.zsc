@@ -35,7 +35,7 @@ class ReenergizeSigil : ArcanumSigil
 
 	private void RechargeBatteries(HDPlayerPawn plr)
 	{
-		bool PlayedSound;
+		bool HasPlayedSound;
 		int RemainingCharges = 20 * SigilLevel;
 		let Stack = HDBattery(plr.FindInventory("HDBattery"));
 		if (Stack)
@@ -45,10 +45,10 @@ class ReenergizeSigil : ArcanumSigil
 				int Index = AceCore.GetHighestBattery(Stack, Stack.MaxPerUnit);
 				if (Index > -1)
 				{
-					if (!PlayedSound)
+					if (!HasPlayedSound)
 					{
 						PlayCastSound(self, "Arcanum/Alteration/Reenergize");
-						PlayedSound = true;
+						HasPlayedSound = true;
 					}
 					int AmountToMax = Stack.MaxPerUnit - Stack.Mags[Index];
 					Stack.Mags[Index] += min(RemainingCharges, AmountToMax);

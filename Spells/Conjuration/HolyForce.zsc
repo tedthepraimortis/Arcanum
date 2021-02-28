@@ -17,6 +17,8 @@ class HolyForceSigil : ArcanumSigil
 {
 	override void ActivateSelfOrMass()
 	{
+		bool HasPlayedSound = false;
+		bool HasForcedArchvile = false;
 		ThinkerIterator it = ThinkerIterator.Create('HDActor', STAT_DEFAULT);
 		HDActor a;
 		while ((a = HDActor(it.Next())))
@@ -57,9 +59,6 @@ class HolyForceSigil : ArcanumSigil
 		CreateRuneSlot((32.1, 18.75), Size, 1.5, 2.5);
 		CreateRuneSlot((0, -37.1), Size, 1.5, 2.5);
 	}
-
-	bool HasPlayedSound;
-	bool HasForcedArchvile;
 
 	Default
 	{

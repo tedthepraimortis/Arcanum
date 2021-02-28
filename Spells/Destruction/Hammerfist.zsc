@@ -1,0 +1,108 @@
+class HammerfistSpell : ArcanumSpell
+{
+	override int GetIndex() { return 30; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
+	override string GetName() { return "Hammerfist"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 500; }
+	override string GetDescription() { return String.Format("A giant fist drops down from the sky and crushes a single target."); }
+	override string GetTechnicalInfo() { return "Targeted, Physical"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 80; }
+	override int GetAggroGain() { return 10; }
+	override class<ArcanumSigil> GetSigil() { return 'HammerfistSigil'; }
+}
+
+class HammerfistSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		FLineTraceData Data;
+		LineTrace(angle, 42 * 300, pitch, TRF_SOLIDACTORS | TRF_THRUSPECIES, 0, 0, 0, Data);
+		if (Data.HitActor && Data.HitActor != master && Data.HitActor.bISMONSTER && Data.HitActor.Health > 0)
+		{
+			PlayCastSound(self, "Arcanum/Destruction/Hammerfist");
+			let Fist = HammerfistFist(Data.HitActor.Spawn('HammerfistFist', Data.HitActor.pos + (0, 0, Data.HitActor.height * 5)));
+			Fist.target = master;
+			Fist.vel.z = -20;
+			Fist.tracer = Data.HitActor;
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		CreateRuneSlot((0, 0), (6, 10), 1.75);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 4.0;
+		StencilColor "716e80";
+	}
+
+	States
+	{
+		Spawn:
+			CRDE D 0;
+			Goto Super::Spawn;
+	}
+}
+
+class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
+{
+	override void Tick()
+	{
+		if (InStateSequence(CurState, FindState('Spawn')))
+		{
+			if (tracer)
+			{
+				Warp(tracer, 0, 0, pos.z, flags: WARPF_INTERPOLATE | WARPF_NOCHECKPOSITION);
+			}
+			OldVel = vel;
+		}
+
+		Super.Tick();
+	}
+
+	private bool HasHit;
+	private vector3 OldVel;
+
+	Default
+	{
+		Radius 20;
+		Height 40;
+		Projectile;
+		Damage 5000;
+		DamageType 'Bashing';
+		-NOGRAVITY
+		Gravity 2.0;
+		Scale 2.0;
+	}
+
+	States
+	{
+		Spawn:
+			HMFS T -1;
+			Stop;
+		Death:
+			HMFS T 0 { vel = OldVel; }
+		DeathLoop:
+			HMFS T 1
+			{
+				if (pos.z - floorz < 1)
+				{
+					DistantQuaker.Quake(self, 5, 50, 2048, 8, 128, 256, 256);
+					A_SpawnChunks("BigWallChunk", 50, 4, 12);
+					Spawn("HDExplosion", pos);
+					HDActor.HDBlast(self, fragradius: 128);
+					HDActor.HDBlast(self, fragradius: 128);
+					A_Stop();
+					SetStateLabel("DeathStop");
+				}
+			}
+			Loop;
+		DeathStop:
+			HMFS T 1 A_FadeOut(0.1);
+			Loop;
+	}
+}
