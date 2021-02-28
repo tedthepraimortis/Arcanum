@@ -5,7 +5,7 @@ class HolyForceSpell : ArcanumSpell
 	override string GetName() { return "Holy Force"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 400; }
-	override string GetDescription() { return String.Format("Forces an archvile to come out of hiding and prevents it from disappearing until it dies."); }
+	override string GetDescription() { return String.Format("Forces an archvile to come out of hiding and prevents it from disappearing until it dies. Also reveals possessed barrels."); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 60; }
@@ -17,14 +17,34 @@ class HolyForceSigil : ArcanumSigil
 {
 	override void ActivateSelfOrMass()
 	{
-		BlockThingsIterator it = BlockThingsIterator.Create(self, 840);
-		while (it.Next())
+		ThinkerIterator it = ThinkerIterator.Create('HDActor', STAT_DEFAULT);
+		HDActor a;
+		while ((a = HDActor(it.Next())))
 		{
-			if (it.thing.GetClassName() == 'Necromancer' && !it.thing.CheckInventory("HolyCompeller", 1))
+			if (Distance2D(a) > 42 * 20)
 			{
-				PlayCastSound(self, "Arcanum/Conjuration/HolyForce");
-				it.thing.A_GiveInventory("HolyCompeller");
-				break;
+				continue;
+			}
+			
+			if (!HasForcedArchvile && a is 'Necromancer' && !a.bFRIENDLY && !a.CheckInventory("HolyCompeller", 1))
+			{
+				if (!HasPlayedSound)
+				{
+					PlayCastSound(self, "Arcanum/Conjuration/HolyForce");
+					HasPlayedSound = true;
+				}
+				a.A_GiveInventory("HolyCompeller");
+				HasForcedArchvile = true;
+			}
+			else if (a is 'BarrelGremlin' && !(a.tracer is 'HolyForceBarrelGlow'))
+			{
+				if (!HasPlayedSound)
+				{
+					PlayCastSound(self, "Arcanum/Conjuration/HolyForce");
+					HasPlayedSound = true;
+				}
+				Actor light = Spawn('HolyForceBarrelGlow', a.pos);
+				light.master = a;
 			}
 		}
 	}
@@ -37,6 +57,9 @@ class HolyForceSigil : ArcanumSigil
 		CreateRuneSlot((32.1, 18.75), Size, 1.5, 2.5);
 		CreateRuneSlot((0, -37.1), Size, 1.5, 2.5);
 	}
+
+	bool HasPlayedSound;
+	bool HasForcedArchvile;
 
 	Default
 	{
@@ -69,5 +92,25 @@ class HolyCompeller : Inventory
 			Necro.A_Pain();
 			Necro.tics = 20;
 		}
+	}
+}
+
+class HolyForceBarrelGlow : PointLightPulse
+{
+	override void Tick()
+	{
+		if (!master)
+		{
+			Destroy();
+			return;
+		}
+
+		Super.Tick();
+	}
+
+	Default
+	{
+		+DYNAMICLIGHT.ATTENUATE
+		Args 255, 64, 64, 32, 48;
 	}
 }
