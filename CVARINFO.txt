@@ -1,1 +1,2 @@
 server bool arcanum_debug = false;
+user bool arcanum_invert = false;

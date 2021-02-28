@@ -13,6 +13,8 @@
 - Configuration codes are:
 	- `blues`: Starting blues.
 - Catalyst is the amount of blues you need to have to begin casting a spell. Cost is what will be deducted upon casting.
+- CVars are:
+	- `arcanum_invert [true/false]`: Inverts the scroll direction of Fire/Alt-fire. Client-side CVar.
 
 ### Incompatibilities
 ---
