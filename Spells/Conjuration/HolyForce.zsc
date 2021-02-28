@@ -5,7 +5,7 @@ class HolyForceSpell : ArcanumSpell
 	override string GetName() { return "Holy Force"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 400; }
-	override string GetDescription() { return String.Format("Forces an archvile to come out of hiding and prevents it from disappearing until it dies. Also reveals possessed barrels."); }
+	override string GetDescription() { return String.Format("Prevents an archvile from disappearing until it dies. Forces it out of hiding if it's invisible. Also reveals possessed barrels."); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 60; }
