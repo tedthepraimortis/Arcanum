@@ -48,7 +48,7 @@ class FireballSigil : ArcanumSigil
 		{
 			a.target = master;
 			a.bFRIENDLY = true;
-			a.A_ScaleVelocity(3.0);
+			a.A_ScaleVelocity(6.0);
 		}
 		ReactionTime--;
 	}
