@@ -221,7 +221,7 @@ class HDArcanumTome : HDWeapon
 
 	ArcanumSpellBrain SpellStorage;
 	private int BluesToGive;
-	private CVar InvertSelection;
+	private transient CVar InvertSelection;
 
 	Default
 	{
