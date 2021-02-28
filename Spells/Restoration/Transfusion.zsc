@@ -4,7 +4,7 @@ class TransfusionSpell : ArcanumSpell
 	override int GetIndex() { return 20; }
 	override string GetName() { return "Transfusion"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int GetCatalystAmount() { return 400; }
+	override int GetCatalystAmount() { return 200; }
 	override string GetDescription() { return String.Format("Transfers \c[Gold]5%%\c- of your blues to the target."); }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
 	override int GetMaxLevel() { return 1; }
