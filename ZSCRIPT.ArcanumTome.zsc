@@ -116,6 +116,18 @@ class HDArcanumTome : HDWeapon
 		}
 	}
 
+	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot)
+	{
+		int cx, cy, cw, ch;
+		[cx, cy, cw, ch] = Screen.GetClipRect();
+		sb.SetClipRect(-16 + bob.x, -16 + bob.y, 32, 32, sb.DI_SCREEN_CENTER);
+		vector2 bob2 = bob * 2;
+		bob2.y = clamp(bob2.y, -8, 8);
+		sb.DrawImage("ARCNFRNT", bob2, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP, alpha: 0.9);
+		sb.SetClipRect(cx, cy, cw, ch);
+		//sb.DrawImage("JDWBACK", (0, -7) + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP);
+	}
+
 	override void DetachFromOwner()
 	{
 		WeaponStatus[ATProp_Flags] &= ~ATF_InSpellMenu;
