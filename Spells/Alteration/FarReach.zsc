@@ -26,7 +26,6 @@ class FarReachSigil : ArcanumSigil
 
 		if (Data.HitActor)
 		{
-			Console.Printf(Data.HitActor.GetClassName());
 			PlayCastSound(self, "Arcanum/Alteration/FarReach");
 
 			if (Data.HitActor != master)
