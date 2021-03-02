@@ -96,7 +96,7 @@ class ArcanumSigil : Actor abstract
 	protected virtual void ActivateSelfOrMass() { }
 	protected virtual void InitRuneSlots() { } // [Ace] Technically not initializing any runes allows you to make insta-cast spells.
 
-	const SelfCastMaxPitch = 86;
+	const SelfCastMaxPitch = 84;
 
 	private Array<ArcanumRuneSlot> RuneSlots;
 

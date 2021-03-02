@@ -367,14 +367,15 @@ class HDArcanumTome : HDWeapon
 				ArcanumSpell SelSpell = invoker.GetSelectedSpell();
 				int ST = SelSpell.GetSpellType();
 
-				if (ST & ArcanumSpell.SType_SelfOrMass && !(ST & ArcanumSpell.SType_Targeted) && pitch < min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - 4))
+				int MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
+				if (ST & ArcanumSpell.SType_SelfOrMass && !(ST & ArcanumSpell.SType_Targeted) && pitch < MPitch)
 				{
 					A_SetPitch(pitch + 10, SPF_INTERPOLATE);
 					A_Refire('AltFire');
 					return;
 				}
 
-				if (ST & ArcanumSpell.SType_SelfOrMass && pitch >= min(player.MaxPitch - 4, ArcanumSigil.SelfCastMaxPitch) || ST & ArcanumSpell.SType_Targeted)
+				if (ST & ArcanumSpell.SType_SelfOrMass && pitch >= MPitch || ST & ArcanumSpell.SType_Targeted)
 				{
 					SetWeaponState('ActuallyAltFire');
 					return;
@@ -415,8 +416,9 @@ class HDArcanumTome : HDWeapon
 						c.master = self;
 						c.SigilLevel = SelSpell.Level;
 
+						int MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
 						int SpellType = SelSpell.GetSpellType();
-						if (SpellType & ArcanumSpell.SType_SelfOrMass && pitch >= min(player.MaxPitch - 4, ArcanumSigil.SelfCastMaxPitch))
+						if (SpellType & ArcanumSpell.SType_SelfOrMass && pitch >= MPitch)
 						{
 							c.SigilType = ArcanumSpell.SType_SelfOrMass;
 						}
