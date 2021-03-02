@@ -18,15 +18,23 @@ class ThunderclapSigil : ArcanumSigil
 	{
 		Super.PostBeginPlay();
 
-		ReactionTime = 8 * SigilLevel;
+		ShotsLeft = SigilLevel;
 	}
 
 	override void ActivateTargeted()
 	{
+		if (ShotsLeft == 0)
+		{
+			ReactionTime = 0;
+			return;
+		}
+
 		if (GetAge() % 8 == 0)
 		{
 			FLineTraceData Data;
-			LineTrace(angle + frandom(-1.5, 1.5), 12600, pitch + frandom(-1.3, 1.3), 0, 0, 0, 0, Data);
+			double ExtraAngle = (ShotsLeft == SigilLevel ? 0 : frandom(-1.5, 1.5));
+			double ExtraPitch = (ShotsLeft == SigilLevel ? 0 : frandom(-1.3, 1.3));
+			LineTrace(angle + ExtraAngle, 12600, pitch + ExtraPitch, 0, 0, 0, 0, Data);
 
 			if (Data.HitType != Data.TRACE_HitNone && Data.HitType != Data.TRACE_HasHitSky)
 			{
@@ -36,8 +44,8 @@ class ThunderclapSigil : ArcanumSigil
 				BSpot.angle = angle;
 				BSpot.pitch = pitch;
 			}
+			ShotsLeft--;
 		}
-		ReactionTime--;
 	}
 
 	override void InitRuneSlots()
@@ -48,8 +56,11 @@ class ThunderclapSigil : ArcanumSigil
 		CreateRuneSlot((-8.75, -6.5), Size, 1.3, 4.0);
 	}
 
+	private int ShotsLeft;
+
 	Default
 	{
+		ReactionTime 0xFFFFFF;
 		StencilColor "77AFFF";
 	}
 
