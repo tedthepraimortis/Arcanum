@@ -20,10 +20,11 @@ class HolyForceSigil : ArcanumSigil
 		bool HasPlayedSound = false;
 		bool HasForcedArchvile = false;
 		HDActor a;
+		ThinkerIterator it;
 
 		// [Ace] The iterators are deliberately split.
-		ThinkerIterator it1 = ThinkerIterator.Create('Necromancer', STAT_DEFAULT);
-		while ((a = HDActor(it1.Next())))
+		it = ThinkerIterator.Create('Necromancer', STAT_DEFAULT);
+		while ((a = HDActor(it.Next())))
 		{
 			if (Distance2D(a) > 42 * 20 || a.bFRIENDLY || a.CheckInventory("HolyCompeller", 1))
 			{
@@ -43,8 +44,8 @@ class HolyForceSigil : ArcanumSigil
 		// [Ace] If no archviles were affected, activate nearby curses, if any.
 		if (!HasForcedArchvile)
 		{
-			ThinkerIterator it3 = ThinkerIterator.Create('NecroGhost', STAT_DEFAULT);
-			while ((a = HDActor(it3.Next())))
+			it = ThinkerIterator.Create('NecroGhost', STAT_DEFAULT);
+			while ((a = HDActor(it.Next())))
 			{
 				if (Distance2D(a) > 42 * 20)
 				{
@@ -60,8 +61,8 @@ class HolyForceSigil : ArcanumSigil
 			}
 		}
 
-		ThinkerIterator it2 = ThinkerIterator.Create('BarrelGremlin', STAT_DEFAULT);
-		while ((a = HDActor(it2.Next())))
+		it = ThinkerIterator.Create('BarrelGremlin', STAT_DEFAULT);
+		while ((a = HDActor(it.Next())))
 		{
 			if (Distance2D(a) > 42 * 20 || a.tracer is 'HolyForceBarrelGlow')
 			{
