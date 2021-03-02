@@ -367,7 +367,7 @@ class HDArcanumTome : HDWeapon
 				ArcanumSpell SelSpell = invoker.GetSelectedSpell();
 				int ST = SelSpell.GetSpellType();
 
-				int MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
+				double MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
 				if (ST & ArcanumSpell.SType_SelfOrMass && !(ST & ArcanumSpell.SType_Targeted) && pitch < MPitch)
 				{
 					A_SetPitch(pitch + 10, SPF_INTERPOLATE);
@@ -404,7 +404,6 @@ class HDArcanumTome : HDWeapon
 						}
 						
 						plr.regenblues -= SpellCost;
-
 						plr.aggravateddamage += SelSpell.GetAggroGain();
 
 						ArcanumSigil c = ArcanumSigil(Spawn(SelSpell.GetSigil(), Data.HitLocation));
@@ -416,7 +415,7 @@ class HDArcanumTome : HDWeapon
 						c.master = self;
 						c.SigilLevel = SelSpell.Level;
 
-						int MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
+						double MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
 						int SpellType = SelSpell.GetSpellType();
 						if (SpellType & ArcanumSpell.SType_SelfOrMass && pitch >= MPitch)
 						{

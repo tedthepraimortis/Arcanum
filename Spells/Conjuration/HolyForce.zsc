@@ -5,11 +5,11 @@ class HolyForceSpell : ArcanumSpell
 	override string GetName() { return "Holy Force"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 400; }
-	override string GetDescription() { return String.Format("Prevents an archvile from disappearing until it dies. Forces it out of hiding if it's invisible. Also reveals possessed barrels."); }
+	override string GetDescription() { return String.Format("Prevents an archvile within 20m from disappearing until it dies. Forces it out of hiding if it's invisible. If no archviles were affected, trigger nearby curses, if any. Reveals possessed barrels."); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetMaxLevel() { return 1; }
-	override int GetCost() { return 60; }
-	override int GetAggroGain() { return 3; }
+	override int GetCost() { return 70; }
+	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'HolyForceSigil'; }
 }
 
@@ -19,35 +19,63 @@ class HolyForceSigil : ArcanumSigil
 	{
 		bool HasPlayedSound = false;
 		bool HasForcedArchvile = false;
-		ThinkerIterator it = ThinkerIterator.Create('HDActor', STAT_DEFAULT);
 		HDActor a;
-		while ((a = HDActor(it.Next())))
+
+		// [Ace] The iterators are deliberately split.
+		ThinkerIterator it1 = ThinkerIterator.Create('Necromancer', STAT_DEFAULT);
+		while ((a = HDActor(it1.Next())))
 		{
-			if (Distance2D(a) > 42 * 20)
+			if (Distance2D(a) > 42 * 20 || a.bFRIENDLY || a.CheckInventory("HolyCompeller", 1))
 			{
 				continue;
 			}
-			
-			if (!HasForcedArchvile && a is 'Necromancer' && !a.bFRIENDLY && !a.CheckInventory("HolyCompeller", 1))
+
+			if (!HasPlayedSound)
 			{
+				PlayCastSound(self, "Arcanum/Conjuration/HolyForce");
+				HasPlayedSound = true;
+			}
+			a.A_GiveInventory("HolyCompeller");
+			HasForcedArchvile = true;
+			break;
+		}
+
+		// [Ace] If no archviles were affected, activate nearby curses, if any.
+		if (!HasForcedArchvile)
+		{
+			ThinkerIterator it3 = ThinkerIterator.Create('NecroGhost', STAT_DEFAULT);
+			while ((a = HDActor(it3.Next())))
+			{
+				if (Distance2D(a) > 42 * 20)
+				{
+					continue;
+				}
+
 				if (!HasPlayedSound)
 				{
 					PlayCastSound(self, "Arcanum/Conjuration/HolyForce");
 					HasPlayedSound = true;
 				}
-				a.A_GiveInventory("HolyCompeller");
-				HasForcedArchvile = true;
+				a.SetStateLabel('Birth');
 			}
-			else if (a is 'BarrelGremlin' && !(a.tracer is 'HolyForceBarrelGlow'))
+		}
+
+		ThinkerIterator it2 = ThinkerIterator.Create('BarrelGremlin', STAT_DEFAULT);
+		while ((a = HDActor(it2.Next())))
+		{
+			if (Distance2D(a) > 42 * 20 || a.tracer is 'HolyForceBarrelGlow')
 			{
-				if (!HasPlayedSound)
-				{
-					PlayCastSound(self, "Arcanum/Conjuration/HolyForce");
-					HasPlayedSound = true;
-				}
-				Actor light = Spawn('HolyForceBarrelGlow', a.pos);
-				light.master = a;
+				continue;
 			}
+
+			if (!HasPlayedSound)
+			{
+				PlayCastSound(self, "Arcanum/Conjuration/HolyForce");
+				HasPlayedSound = true;
+			}
+			Actor light = Spawn('HolyForceBarrelGlow', a.pos);
+			light.master = a;
+			a.tracer = light;
 		}
 	}
 
