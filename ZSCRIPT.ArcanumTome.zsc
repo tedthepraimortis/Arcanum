@@ -123,7 +123,7 @@ class HDArcanumTome : HDWeapon
 		sb.SetClipRect(-16 + bob.x, -16 + bob.y, 32, 32, sb.DI_SCREEN_CENTER);
 		vector2 bob2 = bob * 2;
 		bob2.y = clamp(bob2.y, -8, 8);
-		sb.DrawImage("ARCNFRNT", bob2, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP, alpha: 0.9);
+		sb.DrawImage("ARCNFRNT", (0, -2) + bob2, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP, alpha: 0.9);
 		sb.SetClipRect(cx, cy, cw, ch);
 		//sb.DrawImage("JDWBACK", (0, -7) + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP);
 	}
