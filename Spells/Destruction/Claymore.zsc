@@ -17,29 +17,40 @@ class ClaymoreSigil : ArcanumSigil
 {
 	override void ActivateTargeted()
 	{
-		double OldAngle = angle;
-		double OldPitch = pitch;
-		for (int i = -80; i <= 80; i += 20)
+		if (DetonationTicker == 0)
 		{
-			angle = OldAngle + i;
-			pitch = random(-20, 20);
-			Actor a = AimTarget();
+			double OldAngle = angle;
+			double OldPitch = pitch;
+			for (int i = -80; i <= 80; i += 20)
+			{
+				angle = OldAngle + i;
+				pitch = random(-20, 20);
+				Actor a = AimTarget();
 
-			if (a && a.Health > 0 && Distance2D(a) < 64)
+				if (a && a.Health > 0 && Distance2D(a) < 64)
+				{
+					DetonationTicker = 15;
+					PlayCastSound(self, "Arcanum/Destruction/Claymore");
+					break;
+				}
+			}
+			angle = OldAngle;
+			pitch = OldPitch;
+		}
+		else if (DetonationTicker > 0)
+		{
+			DetonationTicker--;
+			if (DetonationTicker == 0)
 			{
 				Actor xpl = Spawn("WallChunker", pos);
 				xpl.target = tracer;
 				xpl.master = master;
 
 				Spawn("HDExplosion", pos);
-				HDActor.HDBlast(self, fragradius: 128, immolateradius: 128, immolateamount: 60);
-				HDActor.HDBlast(self, fragradius: 128, immolateradius: 128, immolateamount: 60);
+				A_SpawnChunks("HDB_frag", 500, 100, 700, 70, 30);
 				ReactionTime = 0;
-				break;
 			}
 		}
-		angle = OldAngle;
-		pitch = OldPitch;
 		ReactionTime--;
 	}
 
@@ -52,10 +63,11 @@ class ClaymoreSigil : ArcanumSigil
 	{
 		ArcanumSigil.FadeOutSpeedMult 3.0;
 		+ARCANUMSIGIL.DONTPITCH
-		+ARCANUMSIGIL.NOHEIGHTADJUST
 		ReactionTime 0xFFFFFF;
 		StencilColor "77AFFF";
 	}
+
+	int DetonationTicker;
 
 	States
 	{

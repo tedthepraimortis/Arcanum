@@ -1,4 +1,4 @@
-class ArcanumSigil : Actor abstract
+class ArcanumSigil : HDActor abstract
 {
 	override void PostBeginPlay()
 	{

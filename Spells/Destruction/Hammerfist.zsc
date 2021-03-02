@@ -69,7 +69,7 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 
 	Default
 	{
-		Radius 20;
+		Radius 8;
 		Height 2;
 		Projectile;
 		Damage 5000;

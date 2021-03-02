@@ -4,6 +4,7 @@ $limit Arcanum/Sigil/Spawn 0
 Arcanum/Rune/Spawn ARRUNSPW
 
 Arcanum/Destruction/Immolation "Sounds/Destruction/Immolation.wav"
+Arcanum/Destruction/Claymore "Sounds/Destruction/Claymore.wav"
 Arcanum/Destruction/Hammerfist "Sounds/Destruction/Hammerfist.wav"
 Arcanum/Destruction/Voidstorm/Start "Sounds/Destruction/VoidstormStart.wav"
 Arcanum/Destruction/Voidstorm/Loop "Sounds/Destruction/VoidstormLoop.wav"
