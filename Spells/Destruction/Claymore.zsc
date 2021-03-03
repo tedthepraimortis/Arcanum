@@ -47,7 +47,7 @@ class ClaymoreSigil : ArcanumSigil
 				xpl.master = master;
 
 				Spawn("HDExplosion", pos);
-				A_SpawnChunks("HDB_frag", 500, 100, 700, 70, 30);
+				A_SpawnChunks("HDB_frag", 300, 100, 700, 70, 30);
 				ReactionTime = 0;
 			}
 		}
