@@ -51,6 +51,11 @@ class HammerfistSigil : ArcanumSigil
 
 class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 {
+	override int SpecialMissileHit(Actor victim)
+	{
+		return victim == tracer ? Super.SpecialMissileHit(victim) : 1;
+	}
+
 	override void Tick()
 	{
 		if (InStateSequence(CurState, FindState('Spawn')))
@@ -59,14 +64,12 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 			{
 				Warp(tracer, 0, 0, pos.z, flags: WARPF_INTERPOLATE | WARPF_NOCHECKPOSITION);
 			}
-			OldVel = vel;
 		}
 
 		Super.Tick();
 	}
 
 	private bool HasHit;
-	private vector3 OldVel;
 
 	Default
 	{
@@ -86,22 +89,17 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 			HMFS T -1;
 			Stop;
 		Death:
-			HMFS T 0 { vel = OldVel; }
-		DeathLoop:
 			HMFS T 1
 			{
-				if (pos.z - floorz < 1)
-				{
-					DistantQuaker.Quake(self, 5, 50, 2048, 8, 128, 256, 256);
-					A_SpawnChunks("BigWallChunk", 50, 4, 12);
-					Spawn("HDExplosion", pos);
-					HDActor.HDBlast(self, fragradius: 128);
-					HDActor.HDBlast(self, fragradius: 128);
-					A_Stop();
-					SetStateLabel("DeathStop");
-				}
+				DistantQuaker.Quake(self, 5, 50, 2048, 8, 128, 256, 256);
+				A_SpawnChunks("BigWallChunk", 50, 4, 12);
+				Spawn("HDExplosion", pos);
+				HDActor.HDBlast(self, fragradius: 128);
+				HDActor.HDBlast(self, fragradius: 128);
+				A_Stop();
+				SetOrigin((pos.x, pos.y, floorz), false);
+				SetStateLabel("DeathStop");
 			}
-			Loop;
 		DeathStop:
 			HMFS T 1 A_FadeOut(0.1);
 			Loop;
