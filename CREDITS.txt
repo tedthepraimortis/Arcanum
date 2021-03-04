@@ -7,3 +7,8 @@ Sprites:
 
 Sounds:
 - Diablo II (Blizzard Entertainment)
+
+Extensive Testing & Feedback:
+- squiggle
+- Archer
+- Sledge
