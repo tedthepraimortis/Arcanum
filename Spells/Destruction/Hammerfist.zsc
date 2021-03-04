@@ -22,7 +22,8 @@ class HammerfistSigil : ArcanumSigil
 		if (Data.HitActor && Data.HitActor != master && Data.HitActor.bISMONSTER && Data.HitActor.Health > 0)
 		{
 			PlayCastSound(self, "Arcanum/Destruction/Hammerfist");
-			let Fist = HammerfistFist(Data.HitActor.Spawn('HammerfistFist', Data.HitActor.pos + (0, 0, Data.HitActor.height * 5)));
+			double SpawnHeight = abs((Data.HitActor.ceilingz - Data.HitActor.pos.z) / 1.5 - 6);
+			let Fist = HammerfistFist(Data.HitActor.Spawn('HammerfistFist', Data.HitActor.pos + (0, 0, SpawnHeight)));
 			Fist.target = master;
 			Fist.vel.z = -20;
 			Fist.tracer = Data.HitActor;
@@ -69,7 +70,7 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 
 	Default
 	{
-		Radius 8;
+		Radius 6;
 		Height 2;
 		Projectile;
 		Damage 5000;
