@@ -77,6 +77,16 @@ class ConvalescenceEffect : Powerup
 		Super.DoEffect();
 	}
 
+	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
+	{
+		if (damageType == 'staples')
+		{
+			damageType == 'None';
+			newdamage = 0;
+		}
+		Super.ModifyDamage(damage, damageType, newdamage, passive, inflictor, source, flags);
+	}
+
 	int Level;
 
 	Default
