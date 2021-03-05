@@ -38,11 +38,11 @@ class ImmolationSigil : ArcanumSigil
 
 	override void InitRuneSlots()
 	{
-		vector2 Size = (10, 16.666);
-		CreateRuneSlot((0, 32), Size, 3.2, 3.5);
-		CreateRuneSlot((0, -32), Size, 3.2, 3.5);
-		CreateRuneSlot((30.5, 0), Size, 3.2, 3.5);
-		CreateRuneSlot((-30.5, 0), Size, 3.2, 3.5);
+		vector2 Size = (11, 18.333);
+		CreateRuneSlot((-31, 0), Size, 3.3, 3.5);
+		CreateRuneSlot((0, 31), Size, 3.3, 3.5);
+		CreateRuneSlot((31, 0), Size, 3.3, 3.5);
+		CreateRuneSlot((0, -31), Size, 3.3, 3.5);
 	}
 
 	Default

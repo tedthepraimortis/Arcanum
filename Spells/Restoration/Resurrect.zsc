@@ -60,11 +60,11 @@ class ResurrectSigil : ArcanumSigil
 
 	override void InitRuneSlots()
 	{
-		vector2 Size = (3, 5);
+		vector2 Size = (4, 6.666);
 		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 1.20);
-		CreateRuneSlot((0, 17.1), Size, 0.85, 1.20);
-		CreateRuneSlot((-16.6, 5.28), Size, 0.85, 1.20); CreateRuneSlot((16.6, 5.28), Size, 0.85, 1.20);
-		CreateRuneSlot((-10.10, -14.1), Size, 0.85, 1.20); CreateRuneSlot((10.10, -14.1), Size, 0.85, 1.20);
+		CreateRuneSlot((0, 20), Size, 1.0, 1.20);
+		CreateRuneSlot((-19.6, 5.9), Size, 1.0, 1.20); CreateRuneSlot((19.6, 5.9), Size, 1.0, 1.20);
+		CreateRuneSlot((-12, -16.9), Size, 1.0, 1.20); CreateRuneSlot((12, -16.9), Size, 1.0, 1.20);
 	}
 
 	Default

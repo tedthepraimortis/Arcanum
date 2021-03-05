@@ -30,10 +30,10 @@ class TransfusionSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (4, 6.66);
-		CreateRuneSlot((-13.25, 13.25), Size, 1.25, 3.25);
-		CreateRuneSlot((13.25, 13.25), Size, 1.25, 3.25);
-		CreateRuneSlot((-13.25, -13.25), Size, 1.25, 3.25);
-		CreateRuneSlot((13.25, -13.25), Size, 1.25, 3.25);
+		CreateRuneSlot((-13.25, 13.25), Size, 1.25, 3);
+		CreateRuneSlot((13.25, 13.25), Size, 1.25, 3);
+		CreateRuneSlot((-13.25, -13.25), Size, 1.25, 3);
+		CreateRuneSlot((13.25, -13.25), Size, 1.25, 3);
 	}
 
 	Default

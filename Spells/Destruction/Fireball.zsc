@@ -55,9 +55,9 @@ class FireballSigil : ArcanumSigil
 
 	override void InitRuneSlots()
 	{
-		CreateRuneSlot((0, 17.25), (5, 8.33), 1.2, 3.0);
+		CreateRuneSlot((0, 16), (5, 8.33), 1.2, 3.0);
 		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 3.0);
-		CreateRuneSlot((0, -17.25), (5, 8.33), 1.2, 3.0);
+		CreateRuneSlot((0, -16), (5, 8.33), 1.2, 3.0);
 	}
 
 	private Array<Actor> ViableTargets;
