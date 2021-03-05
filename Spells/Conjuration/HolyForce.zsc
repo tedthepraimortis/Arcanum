@@ -47,7 +47,7 @@ class HolyForceSigil : ArcanumSigil
 			it = ThinkerIterator.Create('NecroGhost', STAT_DEFAULT);
 			while ((a = HDActor(it.Next())))
 			{
-				if (Distance2D(a) > 42 * 20)
+				if (Distance2D(a) > 42 * 20 || a.InStateSequence(a.CurState, a.FindState('birth')))
 				{
 					continue;
 				}
