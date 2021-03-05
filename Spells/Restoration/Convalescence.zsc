@@ -91,6 +91,7 @@ class ConvalescenceEffect : Powerup
 
 	Default
 	{
+		+INVENTORY.ALWAYSPICKUP
 		Powerup.Duration -60;
 	}
 }

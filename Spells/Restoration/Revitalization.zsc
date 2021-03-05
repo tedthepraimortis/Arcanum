@@ -5,10 +5,10 @@ class RevitalizationSpell : ArcanumSpell
 	override string GetName() { return "Revitalization"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 1000; }
-	override string GetDescription() { return String.Format("Heals all visible nearby entities by 75%% of their total health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-, but only for others. Restores lost blood. Removes incap.", 40 * Level, 20 * Level); }
+	override string GetDescription() { return String.Format("Heals all visible nearby entities by 75%% of their total health. Players rapidly regenerate 5 health per heartbeat, and are immune to incap and stun for \c[Gold]%i\c- seconds.", 15 + 15 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
-	override int GetExperienceGain() { return 10; }
-	override int GetCost() { return 120; }
+	override int GetExperienceGain() { return 5; }
+	override int GetCost() { return 150; }
 	override int GetAggroGain() { return 25; }
 	override class<ArcanumSigil> GetSigil() { return 'RevitalizationSigil'; }
 }
@@ -33,20 +33,18 @@ class RevitalizationSigil : ArcanumSigil
 
 			if (PActor)
 			{
-				if (PActor != master)
-				{
-					PActor.aggravateddamage -= 20 * SigilLevel;
-				}
-
-				PActor.bloodloss = 0;
-				PActor.burncount -= 40 * SigilLevel;
-				PActor.MaxHealth(); // [Ace] So everything is clamped.
 				PActor.GiveBody(int(PActor.MaxHealth() * 0.75));
-				PActor.incaptimer = 0;
+				for (int i = 0; i < SigilLevel; ++i)
+				{
+					PActor.A_GiveInventory("RevitalizationEffect");
+					let Effect = RevitalizationEffect(PActor.FindInventory("RevitalizationEffect"));
+					Effect.Level = SigilLevel;
+				}
 			}
 			else if (Other)
 			{
 				Other.bodydamage = 0;
+				Other.stunned = 0;
 				Other.GiveBody(int(Other.SpawnHealth() * 0.75));
 			}
 		}
@@ -76,5 +74,34 @@ class RevitalizationSigil : ArcanumSigil
 		Spawn:
 			CRRE F 0;
 			Goto Super::Spawn;
+	}
+}
+
+class RevitalizationEffect : Powerup
+{
+	override void DoEffect()
+	{
+		EffectTics = min(EffectTics, 35 * (15 + 15 * Level));
+		let plr = HDPlayerPawn(owner);
+		if (plr && plr.beatcount == 0 && plr.beatcounter % 1 == 0)
+		{
+			plr.incaptimer = 0;
+			plr.stunned = 0;
+			if (plr.Health < plr.MaxHealth())
+			{
+				plr.GiveBody(5);
+			}
+		}
+
+		Super.DoEffect();
+	}
+
+	int Level;
+
+	Default
+	{
+		+INVENTORY.ALWAYSPICKUP
+		+INVENTORY.ADDITIVETIME
+		Powerup.Duration -30;
 	}
 }
