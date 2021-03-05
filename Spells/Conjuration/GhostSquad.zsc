@@ -4,11 +4,11 @@ class GhostSquadSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
 	override string GetName() { return "Ghost Squad"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int GetCatalystAmount() { return 700; }
+	override int GetCatalystAmount() { return 900; }
 	override string GetDescription() { return String.Format("Summons \c[Gold]%i\c- ghost marine%s at target location.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Targeted"; }
 	override int GetExperienceGain() { return 3; }
-	override int GetCost() { return 150; }
+	override int GetCost() { return 200; }
 	override int GetAggroGain() { return 8; }
 	override class<ArcanumSigil> GetSigil() { return 'GhostSquadSigil'; }
 }
