@@ -53,7 +53,7 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 {
 	override bool CanCollideWith(Actor other, bool passive)
 	{
-		return victim == tracer ? Super.CanCollideWith(other, passive) : false;
+		return other == tracer ? Super.CanCollideWith(other, passive) : false;
 	}
 	
 	override int SpecialMissileHit(Actor victim)
