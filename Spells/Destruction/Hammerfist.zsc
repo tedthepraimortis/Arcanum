@@ -51,6 +51,11 @@ class HammerfistSigil : ArcanumSigil
 
 class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 {
+	override bool CanCollideWith(Actor other, bool passive)
+	{
+		return victim == tracer ? Super.CanCollideWith(other, passive) : false;
+	}
+	
 	override int SpecialMissileHit(Actor victim)
 	{
 		return victim == tracer ? Super.SpecialMissileHit(victim) : 1;
@@ -101,7 +106,7 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 				SetStateLabel("DeathStop");
 			}
 		DeathStop:
-			HMFS T 1 A_FadeOut(0.1);
+			HMFS T 1 A_FadeOut(0.08);
 			Loop;
 	}
 }
