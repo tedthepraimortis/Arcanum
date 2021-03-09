@@ -61,7 +61,7 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 		if (victim == tracer)
 		{
 			let Necro = Necromancer(victim);
-			if (Necro && !Necro.bFRIENDLY)
+			if (Necro && !Necro.bFRIENDLY && Necro.CheckInventory("HolyCompeller", 1))
 			{
 				Necro.HitsLeft = 0;
 			}
