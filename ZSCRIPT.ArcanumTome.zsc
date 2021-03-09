@@ -50,19 +50,19 @@ class HDArcanumTome : HDWeapon
 
 		int SelTreeIndex = hdw.WeaponStatus[ATProp_SelectedTree];
 		ArcanumSpellTree SelTree = SpellStorage.Trees[SelTreeIndex];
-		sb.DrawString(TitleFont, SelTree.GetName(), (-200, BaseOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
-		sb.DrawString(DescFont, SelTree.GetDescription(), (-200, BaseOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 400, 1);
+		sb.DrawString(TitleFont, SelTree.GetName(), (-140, BaseOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(DescFont, SelTree.GetDescription(), (-140, BaseOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 280, 1);
 
 		ArcanumSpell SelSpell = GetSelectedSpell();
-		sb.DrawString(TitleFont, "Spells", (-200, BaseOffset + 90), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(TitleFont, "Spells", (-140, BaseOffset + 90), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		for (int i = 0; i < SelTree.Spells.Size(); ++i)
 		{
 			ArcanumSpell CurSpell = SelTree.Spells[i];
-			sb.DrawString(DescFont, CurSpell.GetName(), (-200, BaseOffset + 110 + 10 * i), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, CurSpell == SelSpell ? Font.CR_GOLD : Font.CR_WHITE);
+			sb.DrawString(DescFont, CurSpell.GetName(), (-140, BaseOffset + 110 + 10 * i), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, CurSpell == SelSpell ? Font.CR_GOLD : Font.CR_WHITE);
 		}
 		
 		int SpellOffset = BaseOffset + 90;
-		sb.DrawString(TitleFont, SelSpell.GetName(), (-100, SpellOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_TEAL);
+		sb.DrawString(TitleFont, SelSpell.GetName(), (-40, SpellOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_TEAL);
 		if (SelSpell.GetMaxLevel() > 1)
 		{
 			string RomanNumeral = "";
@@ -86,14 +86,14 @@ class HDArcanumTome : HDWeapon
 				}
 				FullString = FullString.."]";
 			}
-			sb.DrawString(DescFont, FullString, (-100, SpellOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE);
+			sb.DrawString(DescFont, FullString, (-40, SpellOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE);
 			SpellOffset += 10;
 		}
 		
-		sb.DrawString(DescFont, SelSpell.GetTechnicalInfo(), (-100, SpellOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_OLIVE);
-		sb.DrawString(DescFont, "\c[DarkGray]Catalyst/Cost: \c[Blue]"..SelSpell.GetCatalystAmount().."/"..SelSpell.GetCost().."\c-", (-100, SpellOffset + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
-		sb.DrawString(DescFont, "\c[Black]Aggro: "..SelSpell.GetAggroGain().."\c-", (-100, SpellOffset + 40), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
-		sb.DrawString(DescFont, SelSpell.GetDescription(), (-100, SpellOffset + 60), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 300, 1);
+		sb.DrawString(DescFont, SelSpell.GetTechnicalInfo(), (-40, SpellOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_OLIVE);
+		sb.DrawString(DescFont, "\c[DarkGray]Catalyst/Cost: \c[Blue]"..SelSpell.GetCatalystAmount().."/"..SelSpell.GetCost().."\c-", (-40, SpellOffset + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(DescFont, "\c[Black]Aggro: "..SelSpell.GetAggroGain().."\c-", (-40, SpellOffset + 40), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(DescFont, SelSpell.GetDescription(), (-40, SpellOffset + 60), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
 	}
 
 	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot)
