@@ -55,12 +55,13 @@ Model ArcanumSigilAdd
 	SurfaceSkin 0 0 "WorldBreakerSigil_d.png" FrameIndex CRAL B 0 0
 	Scale 2.0 2.0 2.0
 	SurfaceSkin 0 0 "HasteSigil_d.png" FrameIndex CRAL C 0 0
-	SurfaceSkin 0 0 "StoneFleshSigil_d.png" FrameIndex CRAL D 0 0
 	Scale 1.0 1.0 1.0
-	SurfaceSkin 0 0 "HoradricMalusSigil_d.png" FrameIndex CRAL E 0 0
-	SurfaceSkin 0 0 "FeatherSigil_d.png" FrameIndex CRAL F 0 0
-	SurfaceSkin 0 0 "ReenergizeSigil_d.png" FrameIndex CRAL G 0 0
-	SurfaceSkin 0 0 "DisplacementSigil_d.png" FrameIndex CRAL H 0 0
+	SurfaceSkin 0 0 "HoradricMalusSigil_d.png" FrameIndex CRAL D 0 0
+	SurfaceSkin 0 0 "FeatherSigil_d.png" FrameIndex CRAL E 0 0
+	SurfaceSkin 0 0 "ReenergizeSigil_d.png" FrameIndex CRAL F 0 0
+	SurfaceSkin 0 0 "DisplacementSigil_d.png" FrameIndex CRAL G 0 0
+	Scale 2.0 2.0 2.0
+	SurfaceSkin 0 0 "StoneFleshSigil_d.png" FrameIndex CRAL H 0 0
 	Scale 3.0 3.0 3.0
 	SurfaceSkin 0 0 "MassRecallSigil_d.png" FrameIndex CRAL I 0 0
 

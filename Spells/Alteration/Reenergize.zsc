@@ -80,7 +80,7 @@ class ReenergizeSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL G 0;
+			CRAL F 0;
 			Goto Super::Spawn;
 	}
 }

@@ -46,7 +46,7 @@ class DisplacementSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL H 0;
+			CRAL G 0;
 			Goto Super::Spawn;
 	}
 }

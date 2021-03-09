@@ -63,7 +63,7 @@ class StoneFleshSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL D 0;
+			CRAL H 0;
 			Goto Super::Spawn;
 	}
 }

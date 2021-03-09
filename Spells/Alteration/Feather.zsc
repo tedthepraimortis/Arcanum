@@ -41,7 +41,7 @@ class FeatherSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL F 0;
+			CRAL E 0;
 			Goto Super::Spawn;
 	}
 }
