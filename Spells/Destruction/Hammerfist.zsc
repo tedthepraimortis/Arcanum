@@ -58,7 +58,16 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 	
 	override int SpecialMissileHit(Actor victim)
 	{
-		return victim == tracer ? Super.SpecialMissileHit(victim) : 1;
+		if (victim == tracer)
+		{
+			let Necro = Necromancer(victim);
+			if (Necro && !Necro.bFRIENDLY)
+			{
+				Necro.HitsLeft = 0;
+			}
+			return Super.SpecialMissileHit(victim);
+		}
+		return 1;
 	}
 
 	override void Tick()
