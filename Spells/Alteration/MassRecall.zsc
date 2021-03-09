@@ -1,7 +1,7 @@
 class MassRecallSpell : ArcanumSpell
 {
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 60; }
+	override int GetIndex() { return 80; }
 	override string GetName() { return "Mass Recall"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 700; }
@@ -79,7 +79,7 @@ class MassRecallSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL G 0;
+			CRAL I 0;
 			Goto Super::Spawn;
 	}
 }

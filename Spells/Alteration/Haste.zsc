@@ -1,0 +1,85 @@
+class HasteSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 20; }
+	override string GetName() { return "Haste"; }
+	override int GetSpellType() { return SType_SelfOrMass; }
+	override int GetCatalystAmount() { return 400; }
+	override string GetDescription() { return String.Format("All visible players within 20m get an increase to speed by 75%% for \c[Gold]%i\c- seconds.", 30 + 30 * Level); }
+	override string GetTechnicalInfo() { return "Mass"; }
+	override int GetExperienceGain() { return 2; }
+	override int GetCost() { return 60; }
+	override int GetAggroGain() { return 6; }
+	override class<ArcanumSigil> GetSigil() { return 'HasteSigil'; }
+}
+
+class HasteSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		PlayCastSound(self, "Arcanum/Alteration/Haste");
+		for (int i = 0; i < MAXPLAYERS; ++i)
+		{
+			let plr = players[i].mo;
+			if (plr && Distance3D(plr) <= 42 * 20 && CheckSight(plr))
+			{
+				for (int i = 0; i < SigilLevel; ++i)
+				{
+					plr.A_GiveInventory("HasteEffect");
+					let Effect = HasteEffect(plr.FindInventory("HasteEffect"));
+					Effect.Level = SigilLevel;
+				}
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (4, 6.666);
+		double A = 18.3;
+		double B = 12.94;
+		double RSize = 1.25;
+		double FSpeed = 1.5;
+		CreateRuneSlot((0, A), Size, RSize, FSpeed);
+		CreateRuneSlot((B, B), Size, RSize, FSpeed);
+		CreateRuneSlot((A, 0), Size, RSize, FSpeed);
+		CreateRuneSlot((B, -B), Size, RSize, FSpeed);
+		CreateRuneSlot((0, -A), Size, RSize, FSpeed);
+		CreateRuneSlot((-B, -B), Size, RSize, FSpeed);
+		CreateRuneSlot((-A, 0), Size, RSize, FSpeed);
+		CreateRuneSlot((-B, B), Size, RSize, FSpeed);
+	}
+
+	Default
+	{
+		Height 44;
+		Radius 50;
+		StencilColor "FFFF11";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL C 0;
+			Goto Super::Spawn;
+	}
+}
+
+class HasteEffect : PowerSpeed
+{
+	override void DoEffect()
+	{
+		EffectTics = min(EffectTics, 35 * (30 + 30 * Level));
+		Super.DoEffect();
+	}
+
+	int Level;
+
+	Default
+	{
+		Speed 1.75;
+		+INVENTORY.ALWAYSPICKUP
+		+INVENTORY.ADDITIVETIME
+		Powerup.Duration -60;
+	}
+}

@@ -1,7 +1,7 @@
 class FeatherSpell : ArcanumSpell
 {
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 30; }
+	override int GetIndex() { return 40; }
 	override string GetName() { return "Feather"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 120; }
@@ -41,7 +41,7 @@ class FeatherSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL D 0;
+			CRAL F 0;
 			Goto Super::Spawn;
 	}
 }

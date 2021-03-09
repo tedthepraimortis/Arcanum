@@ -1,12 +1,12 @@
 class HoradricMalusSpell : ArcanumSpell
 {
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 20; }
+	override int GetIndex() { return 30; }
 	override string GetName() { return "Horadric Malus"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 400; }
 	override string GetDescription() { return String.Format("Repairs worn armor by \c[Gold]%i%%\c- of its missing durability.", 20 + 10 * Level); }
-	override string GetTechnicalInfo() { return "Self, Targeted"; }
+	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 70; }
 	override class<ArcanumSigil> GetSigil() { return 'HoradricMalusSigil'; }
@@ -17,7 +17,7 @@ class HoradricMalusSigil : ArcanumSigil
 	override void ActivateTargeted()
 	{
 		let plr = HDPlayerPawn(AimTarget());
-		if (plr && plr.Health > 0)
+		if (plr && plr.Health > 0 && Distance3D(plr) <= 42 * 2)
 		{
 			RepairArmor(plr);
 		}
@@ -66,7 +66,7 @@ class HoradricMalusSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL C 0;
+			CRAL E 0;
 			Goto Super::Spawn;
 	}
 }

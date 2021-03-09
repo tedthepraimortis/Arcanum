@@ -15,6 +15,8 @@
 
 #include "Spells/Alteration/FarReach.zsc"
 #include "Spells/Alteration/Worldbreaker.zsc"
+#include "Spells/Alteration/Haste.zsc"
+#include "Spells/Alteration/StoneFlesh.zsc"
 #include "Spells/Alteration/HoradricMalus.zsc"
 #include "Spells/Alteration/Feather.zsc"
 #include "Spells/Alteration/Reenergize.zsc"

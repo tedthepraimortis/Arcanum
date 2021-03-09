@@ -1,0 +1,86 @@
+class StoneFleshSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 70; }
+	override string GetName() { return "StoneFlesh"; }
+	override int GetSpellType() { return SType_SelfOrMass; }
+	override int GetCatalystAmount() { return 800; }
+	override string GetDescription() { return "All visible players within 20m get 33% increased resistance to damage for 60 seconds."; }
+	override string GetTechnicalInfo() { return "Mass"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 175; }
+	override int GetAggroGain() { return 15; }
+	override class<ArcanumSigil> GetSigil() { return 'StoneFleshSigil'; }
+}
+
+class StoneFleshSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		PlayCastSound(self, "Arcanum/Alteration/StoneFlesh");
+		for (int i = 0; i < MAXPLAYERS; ++i)
+		{
+			let plr = players[i].mo;
+			if (plr && Distance3D(plr) <= 42 * 20 && CheckSight(plr))
+			{
+				plr.A_GiveInventory("StoneFleshEffect");
+			}
+		}
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 BigSize = (4, 6.66);
+
+		vector2 Size = (3, 5);
+		double RSize = 0.75;
+		double X = 3.3, Y = 15.5;
+		CreateRuneSlot((-X, Y), Size, RSize);
+		CreateRuneSlot((X, Y), Size, RSize);
+		CreateRuneSlot((Y, -X), Size, RSize);
+		CreateRuneSlot((Y, X), Size, RSize);
+		CreateRuneSlot((X, -Y), Size, RSize);
+		CreateRuneSlot((-X, -Y), Size, RSize);
+		CreateRuneSlot((-Y, -X), Size, RSize);
+		CreateRuneSlot((-Y, X), Size, RSize);
+
+		Size = (4, 6.666);
+		RSize = 1.0;
+		X = 16.75; Y = 16.75;
+		CreateRuneSlot((X, Y), Size, RSize);
+		CreateRuneSlot((X, -Y), Size, RSize);
+		CreateRuneSlot((-X, -Y), Size, RSize);
+		CreateRuneSlot((-X, Y), Size, RSize);
+	}
+
+	Default
+	{
+		Height 44;
+		Radius 50;
+		StencilColor "B4A888";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL D 0;
+			Goto Super::Spawn;
+	}
+}
+
+class StoneFleshEffect : Powerup
+{
+	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
+	{
+		if (passive && damageType != 'falling' && damageType != 'extreme' && !(flags & DMG_FORCED))
+		{
+			newdamage = int(damage * 0.66);
+		}
+	}
+
+	Default
+	{
+		+INVENTORY.ALWAYSPICKUP
+		Powerup.Duration -60;
+	}
+}
