@@ -8,6 +8,9 @@ Sprites:
 Sounds:
 - Diablo II (Blizzard Entertainment)
 
+Fonts:
+- Gargoyle Wing (Jimmy; https://forum.zdoom.org/viewtopic.php?t=33409)
+
 Extensive Testing & Feedback:
 - squiggle
 - Archer
