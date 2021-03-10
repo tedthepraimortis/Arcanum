@@ -5,7 +5,7 @@ class HoradricMalusSpell : ArcanumSpell
 	override string GetName() { return "Horadric Malus"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 400; }
-	override string GetDescription() { return String.Format("Repairs worn armor by \c[Gold]%i%%\c- of its missing durability.", 35 + 15 * Level); }
+	override string GetDescription() { return String.Format("Repairs worn armor by \c[Gold]%i%%\c- of its missing durability. Repairs Vulcanettes.", 35 + 15 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 70; }
@@ -41,6 +41,12 @@ class HoradricMalusSigil : ArcanumSigil
 			int MaxDurability = Armor.Mega ? 70 : 144;
 			int DurabilityMissing = MaxDurability - Armor.Durability;
 			Armor.Durability += int(DurabilityMissing * (0.35 + 0.15 * SigilLevel));
+		}
+
+		let Vulc = Vulcanette(plr.FindInventory("Vulcanette"));
+		if (Vulc)
+		{
+			Vulc.WeaponStatus[VULCS_PERMADAMAGE] = 0;
 		}
 	}
 
