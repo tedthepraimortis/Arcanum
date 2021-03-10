@@ -1,0 +1,208 @@
+class BarrierSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 50; }
+	override string GetName() { return "Barrier"; }
+	override int GetSpellType() { return SType_Targeted; }
+	override int GetCatalystAmount() { return 400; }
+	override string GetDescription() { return "Creates a 10m wide impenetrable energy wall that lasts 90 seconds."; }
+	override string GetTechnicalInfo() { return "Targeted, Touch"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 70; }
+	override int GetAggroGain() { return 15; }
+	override class<ArcanumSigil> GetSigil() { return 'BarrierSigil'; }
+}
+
+class BarrierSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		FLineTraceData Data;
+		LineTrace(angle, 42 * 2, pitch, TRF_THRUACTORS, 0, 0, 0, Data);
+		if (Data.HitType == Data.TRACE_HitNone)
+		{
+			Spawn("ArcanumBarrierManager", Data.HitLocation);
+			PlayCastSound(self, "Arcanum/Alteration/Barrier");
+		}
+
+	}
+
+	override void InitRuneSlots()
+	{
+		// vector2 Size = (4, 6.666);
+		// double A = 18.3;
+		// double B = 12.94;
+		// double RSize = 1.25;
+		// double FSpeed = 1.5;
+		// CreateRuneSlot((0, A), Size, RSize, FSpeed);
+		// CreateRuneSlot((B, B), Size, RSize, FSpeed);
+		// CreateRuneSlot((A, 0), Size, RSize, FSpeed);
+		// CreateRuneSlot((B, -B), Size, RSize, FSpeed);
+		// CreateRuneSlot((0, -A), Size, RSize, FSpeed);
+		// CreateRuneSlot((-B, -B), Size, RSize, FSpeed);
+		// CreateRuneSlot((-A, 0), Size, RSize, FSpeed);
+		// CreateRuneSlot((-B, B), Size, RSize, FSpeed);
+	}
+
+	Default
+	{
+		+ARCANUMSIGIL.DONTPITCH
+		StencilColor "FFFF11";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL F 0;
+			Goto Super::Spawn;
+	}
+}
+
+class ArcanumBarrierManager : Actor
+{
+	override void BeginPlay()
+	{
+		SpawnLength = 20;
+	}
+
+	private Array<Actor> Blockers;
+	private Array<Actor> Visuals;
+
+	Default
+	{
+		Height 100;
+		+NOINTERACTION
+		+NOSECTOR
+		ReactionTime 35 * 90;
+	}
+
+	int SpawnLength;
+
+	States
+	{
+		Spawn:
+			TNT1 A 10 NoDelay
+			{
+				Actor a; bool success;
+				double SpawnHeight = Height / 2;
+				[success, a] = A_SpawnItemEx("ArcanumBarrierVisual", 0, 0, SpawnHeight + 34, flags: SXF_NOCHECKPOSITION); Visuals.Push(a);
+				[success, a] = A_SpawnItemEx("ArcanumBarrierVisual", 0, 0, SpawnHeight, flags: SXF_NOCHECKPOSITION); Visuals.Push(a);
+				[success, a] = A_SpawnItemEx("ArcanumBarrierVisual", 0, 0, SpawnHeight - 34, flags: SXF_NOCHECKPOSITION); Visuals.Push(a);
+			}
+		SpawnNext:
+			TNT1 A 10
+			{
+				if (SpawnLength >= 420)
+				{
+					SetStateLabel('Idle');
+					return;
+				}
+
+				Actor a; bool success;
+				for (int i = -1; i <= 1; ++i) // [Ace] Does it look stupid? Yes. Does it work? Yes. Therefore, it's not stupid.
+				{
+					if (i == 0)
+					{
+						continue;
+					}
+
+					double SpawnHeight = Height / 2;
+					if (SpawnLength % 10 == )
+					[success, a] = A_SpawnItemEx("ArcanumBarrierVisual", 0, (SpawnLength - 20) * i, SpawnHeight + 34, flags: SXF_NOCHECKPOSITION); Visuals.Push(a);
+					[success, a] = A_SpawnItemEx("ArcanumBarrierVisual", 0, SpawnLength * i, SpawnHeight, flags: SXF_NOCHECKPOSITION); Visuals.Push(a);
+					[success, a] = A_SpawnItemEx("ArcanumBarrierVisual", 0, (SpawnLength - 20) * i, SpawnHeight - 34, flags: SXF_NOCHECKPOSITION); Visuals.Push(a);
+				}
+
+				SpawnLength += 20;
+			}
+			Loop;
+		Idle:
+			TNT1 A 1
+			{
+				if (--ReactionTime <= 0)
+				{
+					// A_SetTics(10);
+					// int VSize = Visuals.Size();
+					// for (int i = VSize; i > VSize - 3; --i)
+					// {
+					// 	Visuals[i - 1].SetStateLabel('Death');
+					// 	Visuals.Pop();
+					// }
+				}
+			}
+			Loop;
+	}
+}
+
+class ArcanumBarrier : Actor
+{
+	Default
+	{
+		Radius 10;
+		Height 120;
+		+NOGRAVITY
+		+SOLID
+	}
+
+	States
+	{
+		Spawn:
+			TNT1 A -1;
+			Stop;
+	}
+}
+
+class ArcanumBarrierVisual : Actor
+{
+	override void Tick()
+	{
+		AceCore.DrawXYZ(self);
+
+		Super.Tick();
+	}
+
+	Default
+	{
+		Radius 20;
+		Height 16;
+		+NOINTERACTION
+		+WALLSPRITE
+		Renderstyle "Add";
+		Scale 0;
+	}
+
+	States
+	{
+		Spawn:
+			ARSL D 1
+			{
+				if (Scale.x < 0.3)
+				{
+					Scale += (0.025, 0.025 / 1.2);
+				}
+				else
+				{
+					SetStateLabel('SpawnLoop');
+				}
+			}
+			Loop;
+		SpawnLoop:
+			ARSL D 1
+			{
+				A_SetTics(random(1, 4));
+				Alpha = frandom(0.90, 1.00);
+			}
+			Loop;
+		Death:
+			ARSL D 1
+			{
+				Scale *= 0.5;
+				if (Scale.x < 0.02)
+				{
+					Destroy();
+					return;
+				}
+			}
+			Loop;
+	}
+}

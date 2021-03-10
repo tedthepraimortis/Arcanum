@@ -1,15 +1,14 @@
 class DisplacementSpell : ArcanumSpell
 {
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 60; }
+	override int GetIndex() { return 80; }
 	override string GetName() { return "Displacement"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 400; }
 	override string GetDescription() { return "Gives you the ability to fly for 4 seconds, then teleports you to where you cast the spell. Enemies cannot see or target you while being displaced."; }
 	override string GetTechnicalInfo() { return "Self"; }
-	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 70; }
-	override int GetAggroGain() { return 10; }
+	override int GetAggroGain() { return 15; }
 	override class<ArcanumSigil> GetSigil() { return 'DisplacementSigil'; }
 }
 
@@ -17,12 +16,8 @@ class DisplacementSigil : ArcanumSigil
 {
 	override void ActivateSelfOrMass()
 	{
-		if (!HasActivatedOnce)
-		{
-			PlayCastSound(self, "Arcanum/Alteration/Displacement/Start");
-			master.A_GiveInventory("DisplacementSpellPower");
-			HasActivatedOnce = true;
-		}
+		PlayCastSound(self, "Arcanum/Alteration/Displacement/Start");
+		master.A_GiveInventory("DisplacementSpellPower");
 	}
 
 	override void InitRuneSlots()
@@ -34,9 +29,6 @@ class DisplacementSigil : ArcanumSigil
 		CreateRuneSlot((0, -16.4), Size, 1.0, 2.5);
 	}
 
-	
-	bool HasActivatedOnce;
-
 	Default
 	{
 		ArcanumSigil.FadeOutSpeedMult 2.0;
@@ -46,7 +38,7 @@ class DisplacementSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL G 0;
+			CRAL I 0;
 			Goto Super::Spawn;
 	}
 }
@@ -108,5 +100,6 @@ class DisplacementSpellPower : Powerup
 		Powerup.Duration -4;
 		Powerup.Color "8EFACA", 0.3;
 		+INVENTORY.NOSCREENBLINK
+		+INVENTORY.ALWAYSPICKUP
 	}
 }

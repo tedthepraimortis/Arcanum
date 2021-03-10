@@ -1,7 +1,7 @@
 class HoradricMalusSpell : ArcanumSpell
 {
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 30; }
+	override int GetIndex() { return 40; }
 	override string GetName() { return "Horadric Malus"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 400; }
@@ -83,7 +83,7 @@ class HoradricMalusSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL D 0;
+			CRAL E 0;
 			Goto Super::Spawn;
 	}
 }

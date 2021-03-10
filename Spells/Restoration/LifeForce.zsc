@@ -53,13 +53,19 @@ class LifeForceSigil : ArcanumSigil
 			PlayCastSound(self, "Arcanum/Restoration/LifeForce");
 			int MissingHealth = mon.SpawnHealth() - mon.Health;
 			mon.GiveBody(int(MissingHealth * 0.35));
+			mon.stunned = 0;
+			mon.bodydamage = 0; // [Ace] Eh, why not?
+			mon.bloodloss = 0;
 
-			let humon = HDMobMan(mon);
-			if (humon)
+			// [Ace] Stop bleeding.
+			ThinkerIterator it = ThinkerIterator.Create("HDBleedingWound", STAT_DEFAULT);
+			HDBleedingWound BleedThinker;
+			while ((BleedThinker = HDBleedingWound(it.Next())))
 			{
-				humon.stunned = 0;
-				humon.bodydamage = 0; // [Ace] Eh, why not?
-				humon.bloodloss = 0;
+				if (BleedThinker.bleeder == mon)
+				{
+					BleedThinker.Destroy();
+				}
 			}
 		}
 	}

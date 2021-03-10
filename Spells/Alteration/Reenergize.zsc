@@ -1,7 +1,7 @@
 class ReenergizeSpell : ArcanumSpell
 {
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 50; }
+	override int GetIndex() { return 70; }
 	override string GetName() { return "Reenergize"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 500; }
@@ -80,7 +80,7 @@ class ReenergizeSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL F 0;
+			CRAL H 0;
 			Goto Super::Spawn;
 	}
 }

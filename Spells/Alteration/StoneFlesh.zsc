@@ -1,11 +1,11 @@
 class StoneFleshSpell : ArcanumSpell
 {
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 70; }
+	override int GetIndex() { return 90; }
 	override string GetName() { return "StoneFlesh"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 800; }
-	override string GetDescription() { return "All visible players within 20m get 33% increased resistance to damage for 60 seconds."; }
+	override string GetDescription() { return "All visible players within 20m get 33% increased resistance to most damage for 60 seconds."; }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 175; }
@@ -63,7 +63,7 @@ class StoneFleshSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL H 0;
+			CRAL J 0;
 			Goto Super::Spawn;
 	}
 }
@@ -72,7 +72,7 @@ class StoneFleshEffect : Powerup
 {
 	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
 	{
-		if (passive && damageType != 'falling' && damageType != 'extreme' && !(flags & DMG_FORCED))
+		if (passive && !(flags & (DMG_NO_FACTOR | DMG_FORCED)) && damageType != 'bleedout' && damageType != 'thermal' && damageType != 'maxhpdrain' && damageType != 'internal' && damageType != 'falling' && damageType != 'holy')
 		{
 			newdamage = int(damage * 0.66);
 		}

@@ -1,0 +1,82 @@
+class ShieldSpell : ArcanumSpell
+{
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
+	override int GetIndex() { return 20; }
+	override string GetName() { return "Shield"; }
+	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int GetCatalystAmount() { return 400; }
+	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage. Gradually depletes over time.", 2000 * Level); }
+	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
+	override int GetExperienceGain() { return 3; }
+	override int GetCost() { return 60; }
+	override int GetAggroGain() { return 15; }
+	override class<ArcanumSigil> GetSigil() { return 'ShieldSigil'; }
+}
+
+class ShieldSigil : ArcanumSigil
+{
+	override void ActivateTargeted()
+	{
+		let trgt = AimTarget();
+		if (trgt && trgt.Health > 0 && (trgt.bISMONSTER || trgt.player) && Distance3D(trgt) <= 42 * 2)
+		{
+			CastShield(trgt);
+		}
+	}
+
+	override void ActivateSelfOrMass()
+	{
+		if (master)
+		{
+			CastShield(master);
+		}
+	}
+
+	private void CastShield(Actor trgt)
+	{
+		trgt.A_StartSound("misc/mobshieldf", CHAN_BODY, CHANF_OVERLAP, 0.75);
+		for (int i = 0; i < 20; ++i)
+		{
+			vector3 RandPos = trgt.pos + (frandom(-trgt.radius, trgt.radius), frandom(-trgt.radius, trgt.radius), frandom(0, trgt.height));
+			actor Spark = Spawn("ShieldSpark", RandPos, ALLOW_REPLACE);
+			vector3 sv = Spark.Vec3To(trgt);
+			sv.z += trgt.height / 2;
+			Spark.vel = (sv / 50.0);
+		}
+		trgt.A_GiveInventory("HDMagicShield");
+		let Shield = HDMagicShield(trgt.FindInventory("HDMagicShield"));
+		Shield.MaxAmount = 0;
+		Shield.Amount = 2000 * SigilLevel;
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (2.2, 3.666);
+		double X = 6.3, Y = 6.3;
+
+		CreateRuneSlot((X, Y), Size, 0.5, 1.5);
+		CreateRuneSlot((X, -Y), Size, 0.5, 1.5);
+		CreateRuneSlot((-X, -Y), Size, 0.5, 1.5);
+		CreateRuneSlot((-X, Y), Size, 0.5, 1.5);
+
+		Size = (3.5, 5.833);
+		X = 17; Y = 17;
+		CreateRuneSlot((0, Y), Size, 0.9, 1.5);
+		CreateRuneSlot((X, 0), Size, 0.9, 1.5);
+		CreateRuneSlot((0, -Y), Size, 0.9, 1.5);
+		CreateRuneSlot((-X, 0), Size, 0.9, 1.5);
+	}
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 3.0;
+		StencilColor "5CFA6E";
+	}
+
+	States
+	{
+		Spawn:
+			CRAL C 0;
+			Goto Super::Spawn;
+	}
+}

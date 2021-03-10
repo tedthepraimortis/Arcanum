@@ -1,7 +1,7 @@
 class HasteSpell : ArcanumSpell
 {
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 20; }
+	override int GetIndex() { return 30; }
 	override string GetName() { return "Haste"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 400; }
@@ -60,7 +60,7 @@ class HasteSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL C 0;
+			CRAL D 0;
 			Goto Super::Spawn;
 	}
 }
