@@ -34,7 +34,7 @@ class MassRecallSigil : ArcanumSigil
 					PlayCastSound(self, "Arcanum/Alteration/MassRecall");
 					HasPlayedSound = true;
 				}
-				plr.Warp(master, 64, 0, 0, AngOff);
+				plr.Warp(master, 32, 0, 0, AngOff, flags: WARPF_NOCHECKPOSITION);
 				plr.A_StartSound("misc/teleport", 20);
 				AngOff += 45;
 			}
@@ -51,7 +51,7 @@ class MassRecallSigil : ArcanumSigil
 					PlayCastSound(self, "Arcanum/Alteration/MassRecall");
 					HasPlayedSound = true;
 				}
-				PCorpse.Warp(master, 64, 0, 0, AngOff);
+				PCorpse.Warp(master, 32, 0, 0, AngOff, flags: WARPF_NOCHECKPOSITION);
 				PCorpse.A_StartSound("misc/teleport", 20);
 				AngOff += 45;
 			}
