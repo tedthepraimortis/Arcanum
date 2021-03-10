@@ -34,10 +34,15 @@ class HoradricMalusSigil : ArcanumSigil
 
 	private void RepairArmor(HDPlayerPawn plr)
 	{
+		bool HasPlayedSound = false;
 		let Armor = HDArmourWorn(plr.FindInventory("HDArmourWorn"));
 		if (Armor)
 		{
-			PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
+			if (!HasPlayedSound)
+			{
+				PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
+				HasPlayedSound = true;
+			}
 			int MaxDurability = Armor.Mega ? 70 : 144;
 			int DurabilityMissing = MaxDurability - Armor.Durability;
 			Armor.Durability += int(DurabilityMissing * (0.35 + 0.15 * SigilLevel));
@@ -46,7 +51,13 @@ class HoradricMalusSigil : ArcanumSigil
 		let Vulc = Vulcanette(plr.FindInventory("Vulcanette"));
 		if (Vulc)
 		{
+			if (!HasPlayedSound)
+			{
+				PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
+				HasPlayedSound = true;
+			}
 			Vulc.WeaponStatus[VULCS_PERMADAMAGE] = 0;
+			Vulc.WeaponStatus[VULCS_BREAKCHANCE] = 0;
 		}
 	}
 
