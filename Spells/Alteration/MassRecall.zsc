@@ -60,19 +60,21 @@ class MassRecallSigil : ArcanumSigil
 
 	override void InitRuneSlots()
 	{
-		vector2 Size = (5, 8.3);
-		CreateRuneSlot((-41.9, 0), Size, 1.75, 1.75); CreateRuneSlot((41.9, 0), Size, 1.75, 1.75);
+		vector2 Size = (3, 5);
+		double X = 27.9, Y = 0;
+		CreateRuneSlot((-X, Y), Size, 0.85, 1.75); CreateRuneSlot((X, Y), Size, 0.85, 1.75);
 
-		vector2 BigSize = (6, 10);
-		CreateRuneSlot((-13.25, 25.75), BigSize, 2.0, 1.75); CreateRuneSlot((13.25, 25.75), BigSize, 2.0, 1.75);
-		CreateRuneSlot((-13.25, -25.75), BigSize, 2.0, 1.75); CreateRuneSlot((13.25, -25.75), BigSize, 2.0, 1.75);
+		Size = (4.2, 7);
+		X = 8.85; Y = 17.14;
+		CreateRuneSlot((-X, Y), Size, 1.4, 1.75); CreateRuneSlot((X, Y), Size, 1.4, 1.75);
+		CreateRuneSlot((-X, -Y), Size, 1.4, 1.75); CreateRuneSlot((X, -Y), Size, 1.4, 1.75);
 	}
 
 	Default
 	{
 		ArcanumSigil.AddAlpha 0.7;
-		Height 63;
-		Radius 75;
+		Height 44;
+		Radius 50;
 		StencilColor "22DDFF";
 	}
 

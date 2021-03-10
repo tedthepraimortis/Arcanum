@@ -62,7 +62,7 @@ Model ArcanumSigilAdd
 	SurfaceSkin 0 0 "DisplacementSigil_d.png" FrameIndex CRAL G 0 0
 	Scale 2.0 2.0 2.0
 	SurfaceSkin 0 0 "StoneFleshSigil_d.png" FrameIndex CRAL H 0 0
-	Scale 3.0 3.0 3.0
+	Scale 2.0 2.0 2.0
 	SurfaceSkin 0 0 "MassRecallSigil_d.png" FrameIndex CRAL I 0 0
 
 	Scale 1.0 1.0 1.0
