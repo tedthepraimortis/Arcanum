@@ -125,7 +125,7 @@ class ArcanumSpell abstract play
 			return false;
 		}
 
-		Experience += GetExperienceGain();
+		Experience += int(ceil(GetExperienceGain() * (multiplayer ? 1.5 : 1.0)));
 		if (Experience >= ExperienceReqs[Level - 1])
 		{
 			Experience -= ExperienceReqs[Level - 1];
