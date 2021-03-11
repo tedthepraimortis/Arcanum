@@ -5,7 +5,7 @@ class HoradricMalusSpell : ArcanumSpell
 	override string GetName() { return "Horadric Malus"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 400; }
-	override string GetDescription() { return String.Format("Repairs worn armor by \c[Gold]%i%%\c- of its missing durability. Repairs Vulcanettes.", 35 + 15 * Level); }
+	override string GetDescription() { return String.Format("Repairs worn armor by \c[Gold]%i%%\c- of its missing durability. Repairs Vulcanettes and *.E.R.P.s", 35 + 15 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 70; }
@@ -48,16 +48,40 @@ class HoradricMalusSigil : ArcanumSigil
 			Armor.Durability += int(DurabilityMissing * (0.35 + 0.15 * SigilLevel));
 		}
 
-		let Vulc = Vulcanette(plr.FindInventory("Vulcanette"));
-		if (Vulc)
+		HDWeapon wpn;
+
+		wpn = HDWeapon(plr.FindInventory("Vulcanette"));
+		if (wpn)
 		{
 			if (!HasPlayedSound)
 			{
 				PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
 				HasPlayedSound = true;
 			}
-			Vulc.WeaponStatus[VULCS_PERMADAMAGE] = 0;
-			Vulc.WeaponStatus[VULCS_BREAKCHANCE] = 0;
+			wpn.WeaponStatus[VULCS_PERMADAMAGE] = 0;
+			wpn.WeaponStatus[VULCS_BREAKCHANCE] = 0;
+		}
+
+		wpn = HDWeapon(plr.FindInventory("HERPUsable"));
+		if (wpn)
+		{
+			if (!HasPlayedSound)
+			{
+				PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
+				HasPlayedSound = true;
+			}
+			wpn.WeaponStatus[0] &= ~HERPF_BROKEN;
+		}
+
+		wpn = HDWeapon(plr.FindInventory("DERPUsable"));
+		if (wpn)
+		{
+			if (!HasPlayedSound)
+			{
+				PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
+				HasPlayedSound = true;
+			}
+			wpn.WeaponStatus[0] &= ~DERPF_BROKEN;
 		}
 	}
 
