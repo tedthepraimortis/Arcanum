@@ -5,7 +5,7 @@ class BarrierSpell : ArcanumSpell
 	override string GetName() { return "Barrier"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 400; }
-	override string GetDescription() { return "Creates a 10m wide impenetrable energy wall that lasts 90 seconds."; }
+	override string GetDescription() { return "Creates a 10m wide impenetrable energy wall that lasts 90 seconds. Blocks movement and projectiles."; }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 70; }
