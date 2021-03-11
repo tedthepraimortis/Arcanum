@@ -53,7 +53,7 @@ class BarrierSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL C 0;
+			CRCN C 0;
 			Goto Super::Spawn;
 	}
 }
