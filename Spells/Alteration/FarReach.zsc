@@ -1,7 +1,7 @@
 class FarReachSpell : ArcanumSpell
 {
-	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override int GetIndex() { return 0; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Far Reach"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 40; }

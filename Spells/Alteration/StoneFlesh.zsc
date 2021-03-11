@@ -1,7 +1,7 @@
 class StoneFleshSpell : ArcanumSpell
 {
+	override int GetIndex() { return 80; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 90; }
 	override string GetName() { return "StoneFlesh"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 800; }
@@ -63,7 +63,7 @@ class StoneFleshSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL J 0;
+			CRAL I 0;
 			Goto Super::Spawn;
 	}
 }

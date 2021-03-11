@@ -1,7 +1,7 @@
 class WorldbreakerSpell : ArcanumSpell
 {
-	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override int GetIndex() { return 10; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Worldbreaker"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 200; }

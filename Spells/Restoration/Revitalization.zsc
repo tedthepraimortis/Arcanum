@@ -1,7 +1,7 @@
 class RevitalizationSpell : ArcanumSpell
 {
-	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override int GetIndex() { return 50; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Revitalization"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 1000; }

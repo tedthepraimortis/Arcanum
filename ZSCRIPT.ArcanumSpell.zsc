@@ -18,7 +18,6 @@
 #include "Spells/Alteration/Shield.zsc"
 #include "Spells/Alteration/Haste.zsc"
 #include "Spells/Alteration/HoradricMalus.zsc"
-#include "Spells/Alteration/Barrier.zsc"
 #include "Spells/Alteration/Feather.zsc"
 #include "Spells/Alteration/Reenergize.zsc"
 #include "Spells/Alteration/Displacement.zsc"
@@ -27,6 +26,7 @@
 
 #include "Spells/Conjuration/GhostSquad.zsc"
 #include "Spells/Conjuration/HolyForce.zsc"
+#include "Spells/Conjuration/Barrier.zsc"
 
 class ArcanumSpellTree abstract play
 {

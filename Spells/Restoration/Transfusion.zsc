@@ -1,7 +1,7 @@
 class TransfusionSpell : ArcanumSpell
 {
-	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override int GetIndex() { return 20; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Transfusion"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 200; }

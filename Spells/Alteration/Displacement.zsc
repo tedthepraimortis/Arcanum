@@ -1,7 +1,7 @@
 class DisplacementSpell : ArcanumSpell
 {
+	override int GetIndex() { return 70; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 80; }
 	override string GetName() { return "Displacement"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 400; }
@@ -38,7 +38,7 @@ class DisplacementSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL I 0;
+			CRAL H 0;
 			Goto Super::Spawn;
 	}
 }

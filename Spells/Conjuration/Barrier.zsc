@@ -1,7 +1,7 @@
 class BarrierSpell : ArcanumSpell
 {
-	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override int GetIndex() { return 50; }
+	override int GetIndex() { return 20; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
 	override string GetName() { return "Barrier"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 400; }
@@ -23,7 +23,7 @@ class BarrierSigil : ArcanumSigil
 		{
 			Actor a = Spawn("ArcanumBarrierManager", Data.HitLocation);
 			a.Angle = Angle;
-			PlayCastSound(self, "Arcanum/Alteration/Barrier");
+			PlayCastSound(self, "Arcanum/Conjuration/Barrier");
 		}
 	}
 
@@ -53,7 +53,7 @@ class BarrierSigil : ArcanumSigil
 	States
 	{
 		Spawn:
-			CRAL F 0;
+			CRAL C 0;
 			Goto Super::Spawn;
 	}
 }
