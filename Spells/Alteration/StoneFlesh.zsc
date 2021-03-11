@@ -78,6 +78,16 @@ class StoneFleshEffect : Powerup
 		}
 	}
 
+	override void DoEffect()
+	{
+		if (owner)
+		{
+			owner.A_GiveInventory("HDFireDouse", 20);
+		}
+
+		Super.DoEffect();
+	}
+
 	Default
 	{
 		+INVENTORY.ALWAYSPICKUP
