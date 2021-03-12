@@ -229,7 +229,7 @@ class HDArcanumTome : HDWeapon
 		Inventory.PickupSound "weapons/pocket";
 		HDWeapon.Refid "arc";
 		Inventory.MaxAmount 1;
-		Inventory.PickupMessage "You picked up the Arcanum tome of knowledge. Infinite power awaits those with the energy within.";
+		Inventory.PickupMessage "You picked up the Arcanum tome of knowledge. Unlimited power awaits those with the energy within.";
 	}
 
 	States
