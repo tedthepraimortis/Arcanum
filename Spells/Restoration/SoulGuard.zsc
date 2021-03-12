@@ -9,7 +9,7 @@ class SoulGuardSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Self, Targeted"; }
 	override int GetExperienceGain() { return 8; }
 	override int GetCost() { return 200; }
-	override int GetAggroGain() { return 10; }
+	override int GetAggroGain() { return 20; }
 	override class<ArcanumSigil> GetSigil() { return 'SoulGuardSigil'; }
 }
 

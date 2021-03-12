@@ -9,6 +9,7 @@ class ReenergizeSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 50; }
+	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'ReenergizeSigil'; }
 }
 

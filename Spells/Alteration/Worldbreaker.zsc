@@ -9,7 +9,7 @@ class WorldbreakerSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 50; }
-	override int GetAggroGain() { return 5; }
+	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'WorldbreakerSigil'; }
 }
 

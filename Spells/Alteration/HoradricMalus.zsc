@@ -9,6 +9,7 @@ class HoradricMalusSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 70; }
+	override int GetAggroGain() { return 15; }
 	override class<ArcanumSigil> GetSigil() { return 'HoradricMalusSigil'; }
 }
 

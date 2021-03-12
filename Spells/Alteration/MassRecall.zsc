@@ -9,7 +9,7 @@ class MassRecallSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 175; }
-	override int GetAggroGain() { return 20; }
+	override int GetAggroGain() { return 25; }
 	override class<ArcanumSigil> GetSigil() { return 'MassRecallSigil'; }
 }
 

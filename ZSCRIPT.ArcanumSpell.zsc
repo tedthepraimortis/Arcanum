@@ -30,8 +30,8 @@
 
 class ArcanumSpellTree abstract play
 {
-	virtual string GetName() const { return "None"; }
-	virtual string GetDescription() const { return "Spells in this tree do stuff."; }
+	abstract string GetName() const;
+	abstract string GetDescription() const;
 	Array<ArcanumSpell> Spells;
 
 	void InsertSpell(ArcanumSpell spl)
@@ -104,18 +104,18 @@ class ArcanumSpell abstract play
 
 	static const int ExperienceReqs[] = { 100, 200 }; // [Ace] Pulled these out my ass. Probably gonna need rebalancing.
 
-	virtual class<ArcanumSpellTree> GetTree() const { return null; }
-	virtual int GetIndex() const { return -1; }
-	virtual string GetName() const { return "Newspapers Ignizzle"; }
-	virtual int GetSpellType() const { return -1; }
-	virtual int GetCatalystAmount() const { return 0; }
-	virtual clearscope string GetDescription() { return "Bet you can't figure out what this does."; }
-	virtual string GetTechnicalInfo() const { return "Anything goes."; }
+	abstract class<ArcanumSpellTree> GetTree() const;
+	abstract int GetIndex() const;
+	abstract string GetName() const;
+	abstract int GetSpellType() const;
+	abstract int GetCatalystAmount() const;
+	abstract clearscope string GetDescription();
+	abstract string GetTechnicalInfo() const;
 	virtual int GetExperienceGain() const { return 1; }
 	virtual int GetMaxLevel() const { return ExperienceReqs.Size() + 1; }
-	virtual int GetCost() const { return 0; }
-	virtual int GetAggroGain() const { return 1; }
-	virtual class<ArcanumSigil> GetSigil() const { return null; }
+	abstract int GetCost() const;
+	abstract int GetAggroGain() const;
+	abstract class<ArcanumSigil> GetSigil() const;
 
 	// [Ace] Returns whether or not the spell leveled up.
 	bool GainExperience()

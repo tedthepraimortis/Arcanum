@@ -9,7 +9,7 @@ class LifeForceSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 2; }
 	override int GetCost() { return 60; }
-	override int GetAggroGain() { return 8; }
+	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'LifeForceSigil'; }
 }
 

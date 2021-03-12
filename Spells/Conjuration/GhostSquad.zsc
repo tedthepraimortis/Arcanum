@@ -9,7 +9,7 @@ class GhostSquadSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Targeted"; }
 	override int GetExperienceGain() { return 3; }
 	override int GetCost() { return 200; }
-	override int GetAggroGain() { return 8; }
+	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'GhostSquadSigil'; }
 }
 
@@ -21,7 +21,7 @@ class GhostSquadSigil : ArcanumSigil
 		LineTrace(angle, 42 * 100, pitch, 0, 0, 0, 0, Data);
 
 		vector3 OldPos = master.pos;
-		if (Data.HitType != Data.TRACE_HitNone && Data.HitType != Data.TRACE_HasHitSky)
+		if (Data.HitType != Data.TRACE_HasHitSky)
 		{
 			master.SetXYZ(Data.HitLocation - Data.HitDir);
 			PlayCastSound(self, "Arcanum/Conjuration/GhostSquad");

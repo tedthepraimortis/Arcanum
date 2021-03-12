@@ -9,7 +9,7 @@ class FeatherSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Targeted"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 30; }
-	override int GetAggroGain() { return 2; }
+	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'FeatherSigil'; }
 }
 

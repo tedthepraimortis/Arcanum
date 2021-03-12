@@ -9,7 +9,7 @@ class HasteSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 2; }
 	override int GetCost() { return 60; }
-	override int GetAggroGain() { return 6; }
+	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'HasteSigil'; }
 }
 
