@@ -3,33 +3,28 @@ class ResurrectSpell : ArcanumSpell
 	override int GetIndex() { return 30; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Resurrect"; }
-	override int GetSpellType() { return SType_Targeted; }
+	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 600; }
-	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within \c[Gold]%i\c-m of where the rune's touch effect hits.", 10 * Level, 2 * Level); }
-	override string GetTechnicalInfo() { return "Targeted, Touch"; }
+	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within \c[Gold]%i\c-m of where the sigil was cast.", 10 * Level, 3 * Level); }
+	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 80; }
-	override int GetAggroGain() { return 10; }
+	override int GetAggroGain() { return 15; }
 	override class<ArcanumSigil> GetSigil() { return 'ResurrectSigil'; }
 }
 
 class ResurrectSigil : ArcanumSigil
 {
-	override void ActivateTargeted()
+	override void ActivateSelfOrMass()
 	{
-		FLineTraceData Data;
-		LineTrace(angle, 42 * 2, pitch, 0, 0, 0, 0, Data);
-
-		HDMobBase Enemy;
-		HDPlayerCorpse PCorpse;
-
 		bool HasPlayedSound;
 		int RevivesLeft = 10 * SigilLevel;
-		vector3 AdjustedLocation = Data.HitLocation - Data.HitDir;
-		BlockThingsIterator it = BlockThingsIterator.CreateFromPos(AdjustedLocation.x, AdjustedLocation.y, AdjustedLocation.z, 0, 84 * SigilLevel, false);
+		int MaxRange = 126 * SigilLevel;
+
+		BlockThingsIterator it = BlockThingsIterator.Create(self, MaxRange);
 		while (RevivesLeft > 0 && it.Next())
 		{
-			if (!it.thing.bCORPSE)
+			if (!it.thing.bCORPSE || Distance3D(it.thing) > MaxRange)
 			{
 				continue;
 			}
@@ -40,19 +35,21 @@ class ResurrectSigil : ArcanumSigil
 				HasPlayedSound = true;
 			}
 
-			Enemy = HDMobBase(it.thing);
-			PCorpse = HDPlayerCorpse(it.thing);
+			HDPlayerCorpse PCorpse = HDPlayerCorpse(it.thing);
 
 			if (PCorpse && HDPlayerPawn(PCorpse.master))
 			{
 				HDPlayerPawn(PCorpse.master).respawndelay = 0;
 				RevivesLeft--;
 			}
-			else if (Enemy)
+			else if (it.thing.bISMONSTER)
 			{
-				Enemy.bodydamage = 0;
-				master.RaiseActor(Enemy, RF_NOCHECKPOSITION);
-				Enemy.bFRIENDLY = true;
+				if (it.thing is 'HDMobBase')
+				{
+					HDMobBase(it.thing).bodydamage = 0;
+				}
+				master.RaiseActor(it.thing, RF_NOCHECKPOSITION);
+				it.thing.bFRIENDLY = true;
 				RevivesLeft--;
 			}
 		}
@@ -60,11 +57,11 @@ class ResurrectSigil : ArcanumSigil
 
 	override void InitRuneSlots()
 	{
-		vector2 Size = (4, 6.666);
-		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 1.20);
-		CreateRuneSlot((0, 20), Size, 1.0, 1.20);
-		CreateRuneSlot((-19.6, 5.9), Size, 1.0, 1.20); CreateRuneSlot((19.6, 5.9), Size, 1.0, 1.20);
-		CreateRuneSlot((-12, -16.9), Size, 1.0, 1.20); CreateRuneSlot((12, -16.9), Size, 1.0, 1.20);
+		vector2 Size = (8, 13.333);
+		CreateRuneSlot((0, 0), Size, 2, 1.20);
+		CreateRuneSlot((0, 40), Size, 2, 1.20);
+		CreateRuneSlot((-39.2, 11.8), Size, 2, 1.20); CreateRuneSlot((39.2, 11.8), Size, 2, 1.20);
+		CreateRuneSlot((-24, -33.8), Size, 2, 1.20); CreateRuneSlot((24, -33.8), Size, 2, 1.20);
 	}
 
 	Default
