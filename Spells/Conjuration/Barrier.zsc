@@ -5,7 +5,7 @@ class BarrierSpell : ArcanumSpell
 	override string GetName() { return "Barrier"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetCatalystAmount() { return 300; }
-	override string GetDescription() { return "Creates a 10m wide impenetrable energy wall that lasts 60 seconds. Blocks movement and projectiles."; }
+	override string GetDescription() { return "Creates a 10m-wide impenetrable energy wall 1m in front of you. Lasts 60 seconds. Blocks movement and projectiles."; }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 50; }
@@ -18,7 +18,7 @@ class BarrierSigil : ArcanumSigil
 	override void ActivateTargeted()
 	{
 		FLineTraceData Data;
-		LineTrace(angle, 42 * 2, pitch, TRF_THRUACTORS, 0, 0, 0, Data);
+		LineTrace(angle, 42 * 1, pitch, TRF_THRUACTORS, 0, 0, 0, Data);
 		if (Data.HitType == Data.TRACE_HitNone)
 		{
 			Actor a = Spawn("ArcanumBarrierManager", Data.HitLocation);
