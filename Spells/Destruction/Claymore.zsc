@@ -9,7 +9,7 @@ class ClaymoreSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Targeted, Physical, Dangerous"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 20; }
-	override int GetAggroGain() { return 2; }
+	override int GetAggroGain() { return 5; }
 	override class<ArcanumSigil> GetSigil() { return 'ClaymoreSigil'; }
 }
 
