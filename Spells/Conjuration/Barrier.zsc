@@ -19,12 +19,9 @@ class BarrierSigil : ArcanumSigil
 	{
 		FLineTraceData Data;
 		LineTrace(angle, 42 * 1, pitch, TRF_THRUACTORS, 0, 0, 0, Data);
-		if (Data.HitType == Data.TRACE_HitNone)
-		{
-			Actor a = Spawn("ArcanumBarrierManager", Data.HitLocation);
-			a.Angle = Angle;
-			PlayCastSound(self, "Arcanum/Conjuration/Barrier");
-		}
+		Actor a = Spawn("ArcanumBarrierManager", Data.HitLocation);
+		a.Angle = Angle;
+		PlayCastSound(self, "Arcanum/Conjuration/Barrier");
 	}
 
 	override void InitRuneSlots()
@@ -71,7 +68,7 @@ class ArcanumBarrierManager : Actor
 		Super.PostBeginPlay();
 	}
 
-	private Array<Actor> Blockers;
+	protected Array<Actor> Blockers;
 
 	Default
 	{
@@ -82,7 +79,7 @@ class ArcanumBarrierManager : Actor
 		ReactionTime 35 * 60;
 	}
 
-	int SpawnIndex;
+	protected int SpawnIndex;
 
 	States
 	{
@@ -207,12 +204,12 @@ class ArcanumBarrier : Actor
 		Scale 0;
 	}
 
-	double InitialAngle;
+	protected double InitialAngle;
 
 	States
 	{
 		Spawn:
-			ARSL D 1
+			ARBR A 1
 			{
 				if (Scale.x < 0.2)
 				{
@@ -225,14 +222,14 @@ class ArcanumBarrier : Actor
 			}
 			Loop;
 		SpawnLoop:
-			ARSL D 1
+			ARBR A 1
 			{
 				A_SetTics(random(1, 4));
 				Alpha = frandom(0.85, 1.00);
 			}
 			Loop;
 		Death:
-			ARSL D 1
+			ARBR A 1
 			{
 				Scale *= 0.7;
 				if (Scale.x < 0.02)
