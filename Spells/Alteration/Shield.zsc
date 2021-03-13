@@ -11,6 +11,19 @@ class ShieldSpell : ArcanumSpell
 	override int GetCost() { return 90; }
 	override int GetAggroGain() { return 15; }
 	override class<ArcanumSigil> GetSigil() { return 'ShieldSigil'; }
+	override void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl)
+	{
+		let Shield = hpl.FindInventory("HDMagicShield");
+		if (Shield && Shield.Amount > 0)
+		{
+			sb.DrawRect(-33, -22, 2, 8);
+			sb.DrawRect(-31, -20, 2, 8);
+			sb.DrawRect(-29, -22, 2, 12);
+			sb.DrawRect(-27, -20, 2, 8);
+			sb.DrawRect(-25, -22, 2, 8);
+			sb.DrawWepNum(Shield.Amount, 1000 * Level);
+		}
+	}
 }
 
 class ShieldSigil : ArcanumSigil

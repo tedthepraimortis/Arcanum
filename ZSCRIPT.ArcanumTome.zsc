@@ -35,6 +35,9 @@ class HDArcanumTome : HDWeapon
 
 	override void DrawHUDStuff(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl)
 	{
+		ArcanumSpell SelSpell = GetSelectedSpell();
+		SelSpell.DrawHUDStuff(sb, hpl);
+
 		if (!(hdw.WeaponStatus[ATProp_Flags] & ATF_InSpellMenu))
 		{
 			return;
@@ -53,7 +56,6 @@ class HDArcanumTome : HDWeapon
 		sb.DrawString(TitleFont, SelTree.GetName(), (-140, BaseOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		sb.DrawString(DescFont, SelTree.GetDescription(), (-140, BaseOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 280, 1);
 
-		ArcanumSpell SelSpell = GetSelectedSpell();
 		sb.DrawString(TitleFont, "Spells", (-140, BaseOffset + 90), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		for (int i = 0; i < SelTree.Spells.Size(); ++i)
 		{

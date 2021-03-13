@@ -116,6 +116,7 @@ class ArcanumSpell abstract play
 	abstract int GetCost() const;
 	abstract int GetAggroGain() const;
 	abstract class<ArcanumSigil> GetSigil() const;
+	virtual ui void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl) { }
 
 	// [Ace] Returns whether or not the spell leveled up.
 	bool GainExperience()
