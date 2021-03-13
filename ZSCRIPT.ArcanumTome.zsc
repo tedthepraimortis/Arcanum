@@ -150,6 +150,26 @@ class HDArcanumTome : HDWeapon
 		return GetSelectedTree().Spells[WeaponStatus[ATProp_SelectedSpell]];
 	}
 
+	private action void A_NextTree()
+	{
+		int TreeCount = invoker.SpellStorage.Trees.Size();
+		invoker.WeaponStatus[ATProp_SelectedSpell] = 0;
+		if (++invoker.WeaponStatus[ATProp_SelectedTree] >= TreeCount)
+		{
+			invoker.WeaponStatus[ATProp_SelectedTree] = 0;
+		}
+	}
+
+	private action void A_PrevTree()
+	{
+		int TreeCount = invoker.SpellStorage.Trees.Size();
+		invoker.WeaponStatus[ATProp_SelectedSpell] = 0;
+		if (--invoker.WeaponStatus[ATProp_SelectedTree] < 0)
+		{
+			invoker.WeaponStatus[ATProp_SelectedTree] = TreeCount - 1;
+		}
+	}
+
 	private action void A_NextSpell()
 	{
 		int SpellCount = invoker.SpellStorage.SpellCountInTree(invoker.SpellStorage.Trees[invoker.WeaponStatus[ATProp_SelectedTree]].GetClass());
@@ -262,23 +282,26 @@ class HDArcanumTome : HDWeapon
 				}
 				if (invoker.WeaponStatus[ATProp_Flags] & ATF_InSpellMenu)
 				{
-					int TreeCount = invoker.SpellStorage.Trees.Size();
-
 					if (!invoker.InvertSelection)
 					{
 						invoker.InvertSelection = CVar.GetCVar('arcanum_invert', player);
 					}
+
+					int InvertFlags = invoker.InvertSelection.GetInt();
 					if (JustPressed(BT_ATTACK))
 					{
 						if (PressingFiremode())
 						{
-							invoker.WeaponStatus[ATProp_SelectedSpell] = 0;
-							if (--invoker.WeaponStatus[ATProp_SelectedTree] < 0)
+							if (InvertFlags & 1)
 							{
-								invoker.WeaponStatus[ATProp_SelectedTree] = TreeCount - 1;
+								A_PrevTree();
+							}
+							else
+							{
+								A_NextTree();
 							}
 						}
-						else if (invoker.InvertSelection.GetBool())
+						else if (InvertFlags & 2)
 						{
 							A_PrevSpell();
 						}
@@ -291,13 +314,16 @@ class HDArcanumTome : HDWeapon
 					{
 						if (PressingFiremode())
 						{
-							invoker.WeaponStatus[ATProp_SelectedSpell] = 0;
-							if (++invoker.WeaponStatus[ATProp_SelectedTree] >= TreeCount)
+							if (InvertFlags & 1)
 							{
-								invoker.WeaponStatus[ATProp_SelectedTree] = 0;
+								A_NextTree();
+							}
+							else
+							{
+								A_PrevTree();
 							}
 						}
-						else if (invoker.InvertSelection.GetBool())
+						else if (InvertFlags & 2)
 						{
 							A_NextSpell();
 						}
