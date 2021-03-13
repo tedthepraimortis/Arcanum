@@ -1,0 +1,12 @@
+OptionMenu "ArcanumMenu"
+{
+	Title "Arcanum Options"
+
+	FlagOption "Invert Tree Selection", "arcanum_invert", "YesNo", 0
+	FlagOption "Invert Spell Selection", "arcanum_invert", "YesNo", 1
+}
+
+AddOptionMenu "OptionsMenu"
+{
+	Submenu "Arcanum", "ArcanumMenu"
+}
