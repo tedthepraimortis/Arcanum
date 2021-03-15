@@ -197,6 +197,9 @@ class ArcanumBarrier : Actor
 		Height 22;
 		+NOGRAVITY
 		+SOLID
+		+SHOOTABLE
+		+NODAMAGE
+		+NOBLOOD
 		+FORCEYBILLBOARD
 		+DONTTHRUST
 		+WALLSPRITE
