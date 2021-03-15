@@ -22,8 +22,7 @@ class HammerfistSigil : ArcanumSigil
 		if (Data.HitActor && Data.HitActor != master && Data.HitActor.bISMONSTER && Data.HitActor.Health > 0)
 		{
 			PlayCastSound(self, "Arcanum/Destruction/Hammerfist");
-			double SpawnHeight = abs((Data.HitActor.ceilingz - Data.HitActor.pos.z) / 1.5 - 6);
-			let Fist = HammerfistFist(Data.HitActor.Spawn('HammerfistFist', Data.HitActor.pos + (0, 0, SpawnHeight)));
+			let Fist = HammerfistFist(Spawn('HammerfistFist', (Data.HitActor.pos.x, Data.HitActor.pos.y, Data.HitActor.ceilingz - 4)));
 			Fist.target = master;
 			Fist.vel.z = -20;
 			Fist.tracer = Data.HitActor;
@@ -76,7 +75,7 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 		{
 			if (tracer)
 			{
-				Warp(tracer, 0, 0, pos.z, flags: WARPF_INTERPOLATE | WARPF_NOCHECKPOSITION);
+				SetOrigin((tracer.pos.x, tracer.pos.y, pos.z), true);
 			}
 		}
 
@@ -87,7 +86,7 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 
 	Default
 	{
-		Radius 6;
+		Radius 2;
 		Height 2;
 		Projectile;
 		Damage 5000;
@@ -115,7 +114,7 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 				SetStateLabel("DeathStop");
 			}
 		DeathStop:
-			HMFS T 1 A_FadeOut(0.08);
+			HMFS T 1 A_FadeOut(0.06);
 			Loop;
 	}
 }
