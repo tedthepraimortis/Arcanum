@@ -5,7 +5,7 @@ class HolyForceSpell : ArcanumSpell
 	override string GetName() { return "Holy Force"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 400; }
-	override string GetDescription() { return String.Format("Prevents an archvile within 20m from disappearing until it dies. Forces it out of hiding if it's invisible. If no archviles were affected, trigger nearby curses, if any. Reveals possessed barrels."); }
+	override string GetDescription() { return String.Format("Prevents all archviles within 20m from disappearing until they die. Forces it out of hiding if it's invisible. If no archviles were affected, trigger nearby curses, if any. Reveals possessed barrels."); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 60; }
@@ -26,7 +26,7 @@ class HolyForceSigil : ArcanumSigil
 		it = ThinkerIterator.Create('Necromancer', STAT_DEFAULT);
 		while ((a = HDActor(it.Next())))
 		{
-			if (Distance2D(a) > 42 * 20 || a.bFRIENDLY || a.CheckInventory("HolyCompeller", 1))
+			if (Distance2D(a) > 42 * 20 || a.Health <= 0 || a.bFRIENDLY || a.CheckInventory("HolyCompeller", 1))
 			{
 				continue;
 			}
@@ -38,7 +38,6 @@ class HolyForceSigil : ArcanumSigil
 			}
 			a.A_GiveInventory("HolyCompeller");
 			HasForcedArchvile = true;
-			break;
 		}
 
 		// [Ace] If no archviles were affected, activate nearby curses, if any.
