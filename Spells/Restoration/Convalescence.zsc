@@ -76,7 +76,7 @@ class ConvalescenceEffect : Powerup
 		{
 			plr.GiveBody(1);
 		}
-		else if (owner && GetAge() % (35 * (4 - Level)) == 0 && owner.Health < owner.SpawnHealth())
+		else if (!plr && owner && GetAge() % (35 * (4 - Level)) == 0 && owner.Health < owner.SpawnHealth())
 		{
 			owner.GiveBody(1);
 		}
