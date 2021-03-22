@@ -9,7 +9,7 @@ class ImmolationSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 200; }
-	override int GetAggroGain() { return 12; }
+	override int GetAggroGain() { return 15; }
 	override class<ArcanumSigil> GetSigil() { return 'ImmolationSigil'; }
 }
 
