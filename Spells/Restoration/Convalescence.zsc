@@ -5,7 +5,11 @@ class ConvalescenceSpell : ArcanumSpell
 	override string GetName() { return "Convalescence"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 100; }
-	override string GetDescription() { return String.Format("Recover 1 health every \c[Gold]%i\c- heartbeat%s for 60 seconds. Prevents pain jolts from second flesh for the duration of the effect.", 4 - Level, Level < GetMaxLevel() ? "s" : ""); }
+	override string GetDescription()
+	{
+		string Plural = Level < GetMaxLevel() ? "s" : "";
+		return String.Format("Recover 1 health every \c[Gold]%i\c- heartbeat%s/second%s for 60 seconds. Prevents pain jolts from second flesh for the duration of the effect.", 4 - Level, Plural, Plural);
+	}
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 2; }
 	override int GetCost() { return 25; }
@@ -17,27 +21,26 @@ class ConvalescenceSigil : ArcanumSigil
 {
 	override void ActivateTargeted()
 	{
-		let plr = HDPlayerPawn(AimTarget());
-		if (plr && plr.Health > 0 && Distance3D(plr) <= 42 * 2)
+		Actor a = AimTarget();
+		if (a && a.Health > 0 && Distance3D(a) <= 42 * 2)
 		{
-			DoHealing(plr);
+			DoHealing(a);
 		}
 	}
 
 	override void ActivateSelfOrMass()
 	{
-		let plr = HDPlayerPawn(master);
-		if (plr)
+		if (master)
 		{
-			DoHealing(plr);
+			DoHealing(master);
 		}
 	}
 
-	private void DoHealing(HDPlayerPawn plr)
+	private void DoHealing(Actor a)
 	{
 		PlayCastSound(self, "Arcanum/Restoration/Convalescence");
-		plr.A_GiveInventory("ConvalescenceEffect");
-		let Effect = ConvalescenceEffect(plr.FindInventory("ConvalescenceEffect"));
+		a.A_GiveInventory("ConvalescenceEffect");
+		let Effect = ConvalescenceEffect(a.FindInventory("ConvalescenceEffect"));
 		Effect.Level = SigilLevel;
 	}
 
@@ -73,6 +76,10 @@ class ConvalescenceEffect : Powerup
 		{
 			plr.GiveBody(1);
 		}
+		else if (owner && GetAge() % (35 * (4 - Level)) == 0 && owner.Health < owner.SpawnHealth())
+		{
+			owner.GiveBody(1);
+		}
 
 		Super.DoEffect();
 	}
@@ -81,7 +88,7 @@ class ConvalescenceEffect : Powerup
 	{
 		if (damageType == 'staples')
 		{
-			damageType == 'None';
+			damageType = 'None';
 			newdamage = 0;
 		}
 		Super.ModifyDamage(damage, damageType, newdamage, passive, inflictor, source, flags);
