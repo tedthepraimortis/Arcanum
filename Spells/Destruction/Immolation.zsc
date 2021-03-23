@@ -18,18 +18,19 @@ class ImmolationSigil : ArcanumSigil
 	override void ActivateSelfOrMass()
 	{
 		bool HasPlayedSound;
-		BlockThingsIterator it = BlockThingsIterator.Create(self, 42 * 10 * SigilLevel);
+		int ImmolationDistance = 42 * 10 * SigilLevel;
+		BlockThingsIterator it = BlockThingsIterator.Create(self, ImmolationDistance);
 		while (it.Next())
 		{
+			if (it.thing.Health <= 0 || !it.thing.bISMONSTER || it.thing.bFRIENDLY || Distance3D(it.thing) > ImmolationDistance)
+			{
+				continue;
+			}
+
 			if (!HasPlayedSound)
 			{
 				PlayCastSound(self, "Arcanum/Destruction/Immolation");
 				HasPlayedSound = true;
-			}
-
-			if (it.thing.Health <= 0 || !it.thing.bISMONSTER || it.thing.bFRIENDLY)
-			{
-				continue;
 			}
 
 			it.thing.A_GiveInventory("Heat", 1000);
