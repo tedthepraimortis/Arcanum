@@ -7,6 +7,7 @@ class DisplacementSpell : ArcanumSpell
 	override int GetCatalystAmount() { return 400; }
 	override string GetDescription() { return "Gives you the ability to fly for 4 seconds, then teleports you to where you cast the spell. Enemies cannot see or target you while being displaced."; }
 	override string GetTechnicalInfo() { return "Self"; }
+	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 70; }
 	override int GetAggroGain() { return 15; }
 	override class<ArcanumSigil> GetSigil() { return 'DisplacementSigil'; }
