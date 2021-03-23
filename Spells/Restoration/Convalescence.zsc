@@ -8,7 +8,7 @@ class ConvalescenceSpell : ArcanumSpell
 	override string GetDescription()
 	{
 		string Plural = Level < GetMaxLevel() ? "s" : "";
-		return String.Format("Recover 1 health every \c[Gold]%i\c- heartbeat%s/second%s for 60 seconds. Prevents pain jolts from second flesh for the duration of the effect.", 4 - Level, Plural, Plural);
+		return String.Format("Recover 1 health every \c[Gold]%i\c- heartbeat%s for 60 seconds. Prevents pain jolts from second flesh for the duration of the effect.", 4 - Level, Plural);
 	}
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 2; }
@@ -76,9 +76,9 @@ class ConvalescenceEffect : Powerup
 		{
 			plr.GiveBody(1);
 		}
-		else if (!plr && owner && GetAge() % (35 * (4 - Level)) == 0 && owner.Health < owner.SpawnHealth())
+		else if (!plr && owner && GetAge() % 35 == 0 && owner.Health < owner.SpawnHealth())
 		{
-			owner.GiveBody(1);
+			owner.GiveBody(Level);
 		}
 
 		Super.DoEffect();
