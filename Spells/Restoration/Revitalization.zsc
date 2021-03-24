@@ -5,7 +5,7 @@ class RevitalizationSpell : ArcanumSpell
 	override string GetName() { return "Revitalization"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 1000; }
-	override string GetDescription() { return String.Format("Heals all visible nearby entities by 75%% of their total health. Players rapidly regenerate 5 health per heartbeat, and are immune to incap and stun for \c[Gold]%i\c- seconds.", 15 + 15 * Level); }
+	override string GetDescription() { return String.Format("Heals all visible nearby entities by 75%% of their total health. Players rapidly regenerate 5 health per heartbeat, and are immune to incap and stun for \c[Gold]%i\c- seconds.", 30 + 30 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 150; }
