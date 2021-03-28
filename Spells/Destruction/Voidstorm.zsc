@@ -96,12 +96,15 @@ class VoidstormOrb : Actor
 						it.thing.DamageMobj(self, target, 10, 'None', DMG_FORCED);
 					}
 
-					it.thing.bSLIDESONWALLS = true;
-					it.thing.A_Face(self, 0, 0);
-					it.thing.A_ChangeVelocity(1 * cos(it.thing.pitch), 0, 2 * -sin(it.thing.pitch), CVF_RELATIVE);
-					it.thing.vel.x = clamp(it.thing.vel.x, -8, 8);
-					it.thing.vel.y = clamp(it.thing.vel.y, -8, 8);
-					it.thing.vel.z = clamp(it.thing.vel.z, -8, 8);
+					if (it.thing)
+					{
+						it.thing.bSLIDESONWALLS = true;
+						it.thing.A_Face(self, 0, 0);
+						it.thing.A_ChangeVelocity(1 * cos(it.thing.pitch), 0, 2 * -sin(it.thing.pitch), CVF_RELATIVE);
+						it.thing.vel.x = clamp(it.thing.vel.x, -8, 8);
+						it.thing.vel.y = clamp(it.thing.vel.y, -8, 8);
+						it.thing.vel.z = clamp(it.thing.vel.z, -8, 8);
+					}
 				}
 
 				double OldAngle = angle;
