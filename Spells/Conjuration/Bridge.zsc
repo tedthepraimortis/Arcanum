@@ -17,7 +17,7 @@ class BridgeSigil : ArcanumSigil
 {
 	override void ActivateSelfOrMass()
 	{
-		Actor a = Spawn("ArcanumBridgeManager", (pos.x, pos.y, floorz));
+		Actor a = Spawn("ArcanumBridgeManager", (pos.x, pos.y, master.pos.z));
 		a.Angle = Angle;
 		PlayCastSound(self, "Arcanum/Conjuration/Bridge");
 	}

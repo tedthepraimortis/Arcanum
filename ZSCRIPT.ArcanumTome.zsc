@@ -358,15 +358,19 @@ class HDArcanumTome : HDWeapon
 			{
 				player.GetPSPrite(PSP_WEAPON).frame = random(1, 3);
 				FLineTraceData Data;
-				LineTrace(angle, 192, pitch, TRF_NOSKY | TRF_ALLACTORS, height - 6, 0, 0, Data);
-				if (Data.HitType == Data.TRACE_HitActor && Data.HitActor is 'ArcanumRuneSlot')
+				for (int i = 16; i <= 192; i += 16)
 				{
-					let RuneSlot = ArcanumRuneSlot(Data.HitActor);
-					let Sigil = ArcanumSigil(RuneSlot.master);
-
-					if (Sigil && Sigil.master == self)
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, height - 6, 0, 0, Data);
+					if (Data.HitType == Data.TRACE_HitActor && Data.HitActor is 'ArcanumRuneSlot')
 					{
-						RuneSlot.ActivateRune(self);
+						let RuneSlot = ArcanumRuneSlot(Data.HitActor);
+						let Sigil = ArcanumSigil(RuneSlot.master);
+
+						if (Sigil && Sigil.master == self)
+						{
+							RuneSlot.ActivateRune(self);
+						}
+						break;
 					}
 				}
 			}
@@ -409,7 +413,7 @@ class HDArcanumTome : HDWeapon
 				if (plr.regenblues >= max(Catalyst, Cost))
 				{
 					FLineTraceData Data;
-					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 12, 0, 0, Data);
+					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 6, 0, 0, Data);
 					if (Data.HitType == Data.TRACE_HitNone || Data.HitType == Data.TRACE_HitFloor)
 					{
 						if (SelSpell.GainExperience())
