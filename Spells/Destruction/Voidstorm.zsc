@@ -80,7 +80,9 @@ class VoidstormOrb : Actor
 				BlockThingsIterator it = BlockThingsIterator.Create(self, EffectRange);
 				while (it.Next())
 				{
-					if (!it.thing.bISMONSTER || !CheckSight(it.thing, SF_IGNOREVISIBILITY))
+					string Follower = "HDFollower";
+					class<Actor> FollowerCls = Follower;
+					if (!it.thing.bISMONSTER || !CheckSight(it.thing, SF_IGNOREVISIBILITY) || it.thing is FollowerCls)
 					{
 						continue;
 					}
