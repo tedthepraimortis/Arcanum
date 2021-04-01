@@ -5,9 +5,9 @@ class HasteSpell : ArcanumSpell
 	override string GetName() { return "Haste"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 400; }
-	override string GetDescription() { return String.Format("All visible players within 20m get an increase to speed by 75%% for \c[Gold]%i\c- seconds.", 30 + 30 * Level); }
+	override string GetDescription() { return String.Format("All visible players within 20m get an increase to speed by \c[Gold]%i\c-%% for \c[Gold]%i\c- minutes.", 50 + 25 * Level, 2 + 2 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
-	override int GetExperienceGain() { return 2; }
+	override int GetExperienceGain() { return 3; }
 	override int GetCost() { return 60; }
 	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'HasteSigil'; }
@@ -69,7 +69,8 @@ class HasteEffect : PowerSpeed
 {
 	override void DoEffect()
 	{
-		EffectTics = min(EffectTics, 35 * (30 + 30 * Level));
+		EffectTics = min(EffectTics, 35 * 60 * (2 + 2 * Level));
+		Speed = 1.50 + 0.25 * Level;
 		Super.DoEffect();
 	}
 
@@ -80,6 +81,6 @@ class HasteEffect : PowerSpeed
 		Speed 1.75;
 		+INVENTORY.ALWAYSPICKUP
 		+INVENTORY.ADDITIVETIME
-		Powerup.Duration -60;
+		Powerup.Duration 0xFFFF;
 	}
 }

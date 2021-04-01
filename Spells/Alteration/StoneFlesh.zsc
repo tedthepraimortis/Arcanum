@@ -5,9 +5,9 @@ class StoneFleshSpell : ArcanumSpell
 	override string GetName() { return "StoneFlesh"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 800; }
-	override string GetDescription() { return "All visible players within 20m get 33% increased resistance to most damage for 60 seconds."; }
+	override string GetDescription() { return String.Format("All visible players within 20m get 50%% increased resistance to most damage for \c[Gold]%i\c- minutes. Effect helps put out fire faster.", 2 + 1 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
-	override int GetMaxLevel() { return 1; }
+	override int GetExperienceGain() { return 4; }
 	override int GetCost() { return 175; }
 	override int GetAggroGain() { return 15; }
 	override class<ArcanumSigil> GetSigil() { return 'StoneFleshSigil'; }
@@ -23,7 +23,12 @@ class StoneFleshSigil : ArcanumSigil
 			let plr = players[i].mo;
 			if (plr && Distance3D(plr) <= 42 * 20 && CheckSight(plr))
 			{
-				plr.A_GiveInventory("StoneFleshEffect");
+				for (int i = 0; i < SigilLevel; ++i)
+				{
+					plr.A_GiveInventory("StoneFleshEffect");
+					let Effect = StoneFleshEffect(plr.FindInventory("StoneFleshEffect"));
+					Effect.Level = SigilLevel;
+				}
 			}
 		}
 	}
@@ -74,12 +79,13 @@ class StoneFleshEffect : Powerup
 	{
 		if (passive && !(flags & (DMG_NO_FACTOR | DMG_FORCED)) && damageType != 'bleedout' && damageType != 'thermal' && damageType != 'maxhpdrain' && damageType != 'internal' && damageType != 'falling' && damageType != 'holy')
 		{
-			newdamage = int(damage * 0.66);
+			newdamage = int(damage * 0.50);
 		}
 	}
 
 	override void DoEffect()
 	{
+		EffectTics = min(EffectTics, 35 * 60 * (2 + 1 * Level));
 		if (owner)
 		{
 			owner.A_GiveInventory("HDFireDouse", 20);
@@ -88,9 +94,12 @@ class StoneFleshEffect : Powerup
 		Super.DoEffect();
 	}
 
+	int Level;
+
 	Default
 	{
 		+INVENTORY.ALWAYSPICKUP
-		Powerup.Duration -60;
+		+INVENTORY.ADDITIVETIME
+		Powerup.Duration 0xFFFF;
 	}
 }
