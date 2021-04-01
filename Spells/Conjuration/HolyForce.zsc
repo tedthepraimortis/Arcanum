@@ -82,10 +82,10 @@ class HolyForceSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (4, 6.66);
-		CreateRuneSlot((-32.1, 18.75), Size, 1.5, 2.5);
-		CreateRuneSlot((0, 18.75), Size, 1.5, 2.5);
-		CreateRuneSlot((32.1, 18.75), Size, 1.5, 2.5);
-		CreateRuneSlot((0, -37.1), Size, 1.5, 2.5);
+		CreateRuneSlot((-32.1, 18.75), Size, 1.4, 2.0);
+		CreateRuneSlot((0, 18.75), Size, 1.4, 2.0);
+		CreateRuneSlot((32.1, 18.75), Size, 1.4, 2.0);
+		CreateRuneSlot((0, -37.1), Size, 1.4, 2.0);
 	}
 
 	Default
