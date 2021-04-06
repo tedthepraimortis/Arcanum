@@ -5,7 +5,7 @@ class ShieldSpell : ArcanumSpell
 	override string GetName() { return "Shield"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 500; }
-	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage.", 1000 * Level); }
+	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage.", 500 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 3; }
 	override int GetCost() { return 90; }
@@ -21,7 +21,7 @@ class ShieldSpell : ArcanumSpell
 			sb.DrawRect(-29, -22, 2, 12);
 			sb.DrawRect(-27, -20, 2, 8);
 			sb.DrawRect(-25, -22, 2, 8);
-			sb.DrawWepNum(Shield.Amount, 1000 * Level);
+			sb.DrawWepNum(Shield.Amount, 500 * Level);
 		}
 	}
 }
@@ -59,7 +59,7 @@ class ShieldSigil : ArcanumSigil
 		trgt.A_GiveInventory("HDMagicShield");
 		let Shield = HDMagicShield(trgt.FindInventory("HDMagicShield"));
 		Shield.MaxAmount = 0;
-		Shield.Amount = 1000 * SigilLevel;
+		Shield.Amount = 500 * SigilLevel;
 		Shield.bQUICKTORETALIATE = false;
 		Shield.bSTANDSTILL = true;
 	}
