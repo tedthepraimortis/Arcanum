@@ -21,4 +21,4 @@
 
 ### Incompatibilities
 ---
-- Josh's Action Bubbles seems to make the rune activation not work unless you are crouching.
+- Josh's Action Bubbles seems to make the rune activation not work unless you are crouching. This is an issue with the Player Heading feature. Turn it off and Arcanum will work.
