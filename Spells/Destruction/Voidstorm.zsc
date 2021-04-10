@@ -61,6 +61,7 @@ class VoidstormOrb : Actor
 		+THRUACTORS
 		+ROLLSPRITE
 		+ROLLCENTER
+		+NOTRIGGER
 		+FORCEXYBILLBOARD
 		Renderstyle "Subtract";
 		Alpha 0.3;
