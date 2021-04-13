@@ -36,26 +36,27 @@ class LifeForceSigil : ArcanumSigil
 	{
 		let plr = HDPlayerPawn(a);
 		let mon = HDMobBase(a);
+		bool Boosted = a.CheckInventory('ConvalescenceEffect', 1);
 		if (plr)
 		{
 			PlayCastSound(self, "Arcanum/Restoration/LifeForce");
+			plr.incaptimer = 0;
 			plr.unstablewoundcount = 0;
 			plr.woundcount = 0;
-			plr.burncount -= 20 * SigilLevel;
-			plr.aggravateddamage -= 10 * SigilLevel;
+			plr.burncount -= (Boosted ? 30 : 20) * SigilLevel;
+			plr.aggravateddamage -= (Boosted ? 15 : 10) * SigilLevel;
 			plr.bloodloss = 0;
 			int MissingHealth = plr.MaxHealth() - plr.Health;
-			plr.GiveBody(int(MissingHealth * 0.35));
-			plr.incaptimer = 0;
+			plr.GiveBody(int(MissingHealth * (Boosted ? 0.70 : 0.35)));
 		}
 		else if (mon)
 		{
 			PlayCastSound(self, "Arcanum/Restoration/LifeForce");
-			int MissingHealth = mon.SpawnHealth() - mon.Health;
-			mon.GiveBody(int(MissingHealth * 0.35));
 			mon.stunned = 0;
 			mon.bodydamage = 0; // [Ace] Eh, why not?
 			mon.bloodloss = 0;
+			int MissingHealth = mon.SpawnHealth() - mon.Health;
+			mon.GiveBody(int(MissingHealth * (Boosted ? 0.70 : 0.35)));
 
 			// [Ace] Stop bleeding.
 			ThinkerIterator it = ThinkerIterator.Create("HDBleedingWound", STAT_DEFAULT);
