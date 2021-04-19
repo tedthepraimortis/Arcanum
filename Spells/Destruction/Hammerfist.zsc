@@ -48,7 +48,7 @@ class HammerfistSigil : ArcanumSigil
 	}
 }
 
-class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
+class HammerfistFist : HDActor // [Ace] A fistful of redundancy.
 {
 	override bool CanCollideWith(Actor other, bool passive)
 	{
@@ -78,6 +78,8 @@ class HammerfistFist : HDactor // [Ace] A fistful of redundancy.
 				SetOrigin((tracer.pos.x, tracer.pos.y, pos.z), true);
 			}
 		}
+
+		vel.z = clamp(vel.z, -50, 50);
 
 		Super.Tick();
 	}
