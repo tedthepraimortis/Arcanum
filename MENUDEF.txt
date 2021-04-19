@@ -4,6 +4,7 @@ OptionMenu "ArcanumMenu"
 
 	FlagOption "Invert Tree Selection", "arcanum_invert", "YesNo", 0
 	FlagOption "Invert Spell Selection", "arcanum_invert", "YesNo", 1
+	Option "Hold Zoom To Browse Spells", "arcanum_zoomhold", "YesNo"
 }
 
 AddOptionMenu "OptionsMenu"

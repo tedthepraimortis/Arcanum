@@ -240,6 +240,7 @@ class HDArcanumTome : HDWeapon
 	ArcanumSpellBrain SpellStorage;
 	private int BluesToGive;
 	private transient CVar InvertSelection;
+	private transient CVar ZoomHold;
 
 	Default
 	{
@@ -265,7 +266,24 @@ class HDArcanumTome : HDWeapon
 		Ready:
 			ARCT A 1
 			{
-				if (JustPressed(BT_ZOOM))
+				if (!invoker.ZoomHold)
+				{
+					invoker.ZoomHold = CVar.GetCVar('arcanum_zoomhold', player);
+				}
+				if (invoker.ZoomHold.GetBool())
+				{
+					if (PressingZoom() && !(invoker.WeaponStatus[ATProp_Flags] & ATF_InSpellMenu))
+					{
+						invoker.WeaponStatus[ATProp_Flags] |= ATF_InSpellMenu;
+						A_SetHelpText();
+					}
+					if (!PressingZoom() && invoker.WeaponStatus[ATProp_Flags] & ATF_InSpellMenu)
+					{
+						invoker.WeaponStatus[ATProp_Flags] &= ~ATF_InSpellMenu;
+						A_SetHelpText();
+					}
+				}
+				else if (JustPressed(BT_ZOOM))
 				{
 					if (invoker.WeaponStatus[ATProp_Flags] & ATF_InSpellMenu)
 					{
@@ -280,6 +298,7 @@ class HDArcanumTome : HDWeapon
 					SetWeaponState("Nope");
 					return;
 				}
+
 				if (invoker.WeaponStatus[ATProp_Flags] & ATF_InSpellMenu)
 				{
 					if (!invoker.InvertSelection)
