@@ -169,7 +169,7 @@ class ArcanumRuneSlot : Actor
 		}
 
 		SetStateLabel("Trigger");
-		A_StartSound("Arcanum/Rune/Spawn", CHAN_BODY);
+		A_StartSound("Arcanum/Rune/Spawn", CHAN_BODY, pitch: frandom(1.0, 1.25));
 		Active = true;
 		Alpha = default.Alpha;
 
