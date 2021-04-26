@@ -377,7 +377,7 @@ class HDArcanumTome : HDWeapon
 			{
 				player.GetPSPrite(PSP_WEAPON).frame = random(1, 3);
 				FLineTraceData Data;
-				for (int i = 16; i <= 192; i += 16)
+				for (int i = 8; i <= 192; i += 8)
 				{
 					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, height - 6, 0, 0, Data);
 					if (Data.HitType == Data.TRACE_HitActor && Data.HitActor is 'ArcanumRuneSlot')
