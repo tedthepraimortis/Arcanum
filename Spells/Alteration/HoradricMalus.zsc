@@ -17,26 +17,25 @@ class HoradricMalusSigil : ArcanumSigil
 {
 	override void ActivateTargeted()
 	{
-		let plr = HDPlayerPawn(AimTarget());
-		if (plr && plr.Health > 0 && Distance3D(plr) <= 42 * 2)
+		Actor a = AimTarget();
+		if (a && a.Health > 0 && Distance3D(a) <= 42 * 2)
 		{
-			RepairArmor(plr);
+			RepairArmor(a);
 		}
 	}
 
 	override void ActivateSelfOrMass()
 	{
-		let plr = HDPlayerPawn(master);
-		if (plr)
+		if (master)
 		{
-			RepairArmor(plr);
+			RepairArmor(master);
 		}
 	}
 
-	private void RepairArmor(HDPlayerPawn plr)
+	private void RepairArmor(Actor a)
 	{
 		bool HasPlayedSound = false;
-		let Armor = HDArmourWorn(plr.FindInventory("HDArmourWorn"));
+		let Armor = HDArmourWorn(a.FindInventory("HDArmourWorn"));
 		if (Armor)
 		{
 			if (!HasPlayedSound)
@@ -51,7 +50,7 @@ class HoradricMalusSigil : ArcanumSigil
 
 		HDWeapon wpn;
 
-		wpn = HDWeapon(plr.FindInventory("Vulcanette"));
+		wpn = HDWeapon(a.FindInventory("Vulcanette"));
 		if (wpn)
 		{
 			if (!HasPlayedSound)
@@ -63,7 +62,7 @@ class HoradricMalusSigil : ArcanumSigil
 			wpn.WeaponStatus[VULCS_BREAKCHANCE] = 0;
 		}
 
-		wpn = HDWeapon(plr.FindInventory("HERPUsable"));
+		wpn = HDWeapon(a.FindInventory("HERPUsable"));
 		if (wpn)
 		{
 			if (!HasPlayedSound)
@@ -74,7 +73,7 @@ class HoradricMalusSigil : ArcanumSigil
 			wpn.WeaponStatus[0] &= ~HERPF_BROKEN;
 		}
 
-		wpn = HDWeapon(plr.FindInventory("DERPUsable"));
+		wpn = HDWeapon(a.FindInventory("DERPUsable"));
 		if (wpn)
 		{
 			if (!HasPlayedSound)
