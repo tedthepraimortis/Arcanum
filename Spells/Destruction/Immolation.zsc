@@ -33,7 +33,7 @@ class ImmolationSigil : ArcanumSigil
 				HasPlayedSound = true;
 			}
 
-			it.thing.A_GiveInventory("Heat", 1000);
+			it.thing.A_GiveInventory("Heat", 2000);
 		}
 	}
 
