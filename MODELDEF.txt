@@ -51,6 +51,8 @@ Model ArcanumSigilAdd
 	Scale 2.0 2.0 2.0
 	SurfaceSkin 0 0 "RevitalizationSigil_d.png" FrameIndex CRRE F 0 0
 	SurfaceSkin 0 0 "InvulnerabilitySigil_d.png" FrameIndex CRRE G 0 0
+	Scale 1.0 1.0 1.0
+	SurfaceSkin 0 0 "RageSigil_d.png" FrameIndex CRRE H 0 0
 
 	Scale 1.0 1.0 1.0
 	SurfaceSkin 0 0 "FarReachSigil_d.png" FrameIndex CRAL A 0 0

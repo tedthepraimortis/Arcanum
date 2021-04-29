@@ -12,6 +12,9 @@ $limit Arcanum/Destruction/Voidstorm/Loop 0
 
 Arcanum/Restoration/Convalescence "Sounds/Restoration/Convalescence.wav"
 Arcanum/Restoration/LifeForce "Sounds/Restoration/LifeForce.wav"
+Arcanum/Restoration/Rage "Sounds/Restoration/Rage.wav"
+$pitchset Arcanum/Restoration/Rage 0.7
+
 Arcanum/Restoration/Transfusion "Sounds/Restoration/Transfusion.wav"
 Arcanum/Restoration/Resurrect "Sounds/Restoration/Resurrect.wav"
 Arcanum/Restoration/SoulGuard "Sounds/Restoration/SoulGuard.wav"
