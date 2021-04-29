@@ -8,7 +8,7 @@ class ShieldSpell : ArcanumSpell
 	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage.", 500 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 3; }
-	override int GetCost() { return 90; }
+	override int GetCost() { return 70; }
 	override int GetAggroGain() { return 15; }
 	override class<ArcanumSigil> GetSigil() { return 'ShieldSigil'; }
 	override void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl)
