@@ -31,8 +31,8 @@ class VoidstormSigil : ArcanumSigil
 		CreateRuneSlot((0, 0), BigSize, 4, 4.0);
 
 		vector2 SmallSize = (5.5, 9.16);
-		CreateRuneSlot((-33.1, 0), SmallSize, 2, 4.0);
-		CreateRuneSlot((33.1, 0), SmallSize, 2, 4.0);
+		CreateRuneSlot((-33.1, 0), SmallSize, 1.5, 4.0);
+		CreateRuneSlot((33.1, 0), SmallSize, 1.5, 4.0);
 	}
 
 	Default
