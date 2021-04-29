@@ -29,6 +29,7 @@
 #include "Spells/Conjuration/HolyForce.zsc"
 #include "Spells/Conjuration/Barrier.zsc"
 #include "Spells/Conjuration/Bridge.zsc"
+#include "Spells/Conjuration/Candlelight.zsc"
 
 class ArcanumSpellTree abstract play
 {

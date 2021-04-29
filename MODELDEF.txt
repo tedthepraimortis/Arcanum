@@ -77,4 +77,5 @@ Model ArcanumSigilAdd
 	Scale 1.0 1.0 1.0
 	SurfaceSkin 0 0 "BarrierSigil_d.png" FrameIndex CRCN C 0 0
 	SurfaceSkin 0 0 "BridgeSigil_d.png" FrameIndex CRCN D 0 0
+	SurfaceSkin 0 0 "CandlelightSigil_d.png" FrameIndex CRCN E 0 0
 }

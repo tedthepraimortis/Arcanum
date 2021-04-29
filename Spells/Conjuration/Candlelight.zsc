@@ -1,0 +1,73 @@
+class CandlelightSpell : ArcanumSpell
+{
+	override int GetIndex() { return 40; }
+	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
+	override string GetName() { return "Candlelight"; }
+	override int GetSpellType() { return SType_SelfOrMass; }
+	override int GetCatalystAmount() { return 100; }
+	override string GetDescription() { return "Emit a bright light for 2 minutes."; }
+	override string GetTechnicalInfo() { return "Self"; }
+	override int GetMaxLevel() { return 1; }
+	override int GetCost() { return 20; }
+	override int GetAggroGain() { return 5; }
+	override class<ArcanumSigil> GetSigil() { return 'CandlelightSigil'; }
+}
+
+class CandlelightSigil : ArcanumSigil
+{
+	override void ActivateSelfOrMass()
+	{
+		PlayCastSound(master, "Arcanum/Conjuration/Candlelight");
+		Actor l = Spawn('CandlelightLight', master.pos + (0, 0, master.height / 2));
+		l.master = master;
+	}
+
+	override void InitRuneSlots()
+	{
+		vector2 Size = (2, 3.333);
+		double RSize = 0.5;
+		double FSpeed = 1.75;
+		CreateRuneSlot((0, 10), Size, RSize, FSpeed);
+		CreateRuneSlot((0, -10), Size, RSize, FSpeed);
+		CreateRuneSlot((-7, -7), Size, RSize, FSpeed);
+		CreateRuneSlot((7, -7), Size, RSize, FSpeed);
+	}
+
+
+	Default
+	{
+		ArcanumSigil.FadeOutSpeedMult 3.0;
+		StencilColor "EEEE55";
+	}
+
+	States
+	{
+		Spawn:
+			CRCN E 0;
+			Goto Super::Spawn;
+	}
+}
+
+class CandlelightLight : PointLightFlickerRandom
+{
+	override void Tick()
+	{
+		ReactionTime--;
+
+		if (!master || ReactionTime <= 0)
+		{
+			Destroy();
+			return;
+		}
+
+		Warp(master, 0, 0, master.height / 2, flags: WARPF_NOCHECKPOSITION);
+
+		Super.Tick();
+	}
+
+	Default
+	{
+		ReactionTime 35 * 120;
+		Args 255, 255, 255, 168, 189;
+	}
+}

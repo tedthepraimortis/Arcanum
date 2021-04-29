@@ -35,3 +35,4 @@ $alias Arcanum/Conjuration/GhostSquad misc/p_pkup
 Arcanum/Conjuration/HolyForce "Sounds/Conjuration/HolyForce.wav"
 Arcanum/Conjuration/Barrier "Sounds/Conjuration/Barrier.wav"
 $alias Arcanum/Conjuration/Bridge Arcanum/Conjuration/Barrier
+Arcanum/Conjuration/Candlelight "Sounds/Conjuration/Candlelight.wav"
