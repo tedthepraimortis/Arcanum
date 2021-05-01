@@ -48,7 +48,7 @@ class FeatherSigil : ArcanumSigil
 
 class FeatherEffect : Actor
 {
-	override void AttachToOwner(Actor other)
+	override void BeginPlay()
 	{
 		for (int i = 0; i < MAXPLAYERS; ++i)
 		{
@@ -61,7 +61,7 @@ class FeatherEffect : Actor
 			DefGrav[i] = plr.gravity;
 		}
 
-		Super.AttachToOwner(other);
+		Super.BeginPlay();
 	}
 
 	double DefGrav[MAXPLAYERS];
