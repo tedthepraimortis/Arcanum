@@ -56,6 +56,21 @@ class MassRecallSigil : ArcanumSigil
 				AngOff += 45;
 			}
 		}
+
+		Name FollowerCls = 'HDFollower';
+		ThinkerIterator it = ThinkerIterator.Create(FollowerCls, STAT_DEFAULT);
+		Actor flw;
+		while ((flw = Actor(it.Next())))
+		{
+			if (!HasPlayedSound)
+			{
+				PlayCastSound(self, "Arcanum/Alteration/MassRecall");
+				HasPlayedSound = true;
+			}
+			flw.Warp(master, 32, 0, 0, AngOff, flags: WARPF_NOCHECKPOSITION);
+			flw.A_StartSound("misc/teleport", 20);
+			AngOff += 45;
+		}
 	}
 
 	override void InitRuneSlots()
