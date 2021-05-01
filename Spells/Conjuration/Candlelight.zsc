@@ -5,7 +5,7 @@ class CandlelightSpell : ArcanumSpell
 	override string GetName() { return "Candlelight"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 100; }
-	override string GetDescription() { return "Emit a bright light for 2 minutes."; }
+	override string GetDescription() { return "Emit a bright light for 5 minutes."; }
 	override string GetTechnicalInfo() { return "Self"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 20; }
@@ -67,7 +67,7 @@ class CandlelightLight : PointLightFlickerRandom
 
 	Default
 	{
-		ReactionTime 35 * 120;
+		ReactionTime 35 * 60 * 5;
 		Args 255, 255, 255, 168, 189;
 	}
 }
