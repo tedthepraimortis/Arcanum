@@ -4,7 +4,7 @@ class ShieldSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Shield"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int GetCatalystAmount() { return 500; }
+	override int GetCatalystAmount() { return 750; }
 	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage.", 500 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 3; }
