@@ -64,6 +64,21 @@ class FeatherEffect : Actor
 		Super.BeginPlay();
 	}
 
+	override void OnDestroy()
+	{
+		for (int i = 0; i < MAXPLAYERS; ++i)
+		{
+			let plr = players[i].mo;
+			if (!plr)
+			{
+				continue;
+			}
+			plr.gravity = DefGrav[i];
+		}
+
+		Super.OnDestroy();
+	}
+
 	double DefGrav[MAXPLAYERS];
 
 	Default
