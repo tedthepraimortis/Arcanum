@@ -35,22 +35,30 @@ class HoradricMalusSigil : ArcanumSigil
 	private void RepairArmor(Actor a)
 	{
 		bool HasPlayedSound = false;
-		let Armor = HDArmourWorn(a.FindInventory("HDArmourWorn"));
-		if (Armor)
+
+		for (Inventory Next = a.Inv; Next; Next = Next.Inv)
 		{
-			if (!HasPlayedSound)
+			let Armor = HDArmourWorn(Next);
+			if (Armor)
 			{
-				PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
-				HasPlayedSound = true;
+				if (!HasPlayedSound)
+				{
+					PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
+					HasPlayedSound = true;
+				}
+
+				int MaxDurability = Armor.Mega ? 70 : 144;
+				if (Armor.GetClassName() == 'HHelmetWorn')
+				{
+					MaxDurability = 50;
+				}
+				int DurabilityMissing = MaxDurability - Armor.Durability;
+				Armor.Durability += int(DurabilityMissing * (0.35 + 0.15 * SigilLevel));
 			}
-			int MaxDurability = Armor.Mega ? 70 : 144;
-			int DurabilityMissing = MaxDurability - Armor.Durability;
-			Armor.Durability += int(DurabilityMissing * (0.35 + 0.15 * SigilLevel));
 		}
 
 		HDWeapon wpn;
-
-		wpn = HDWeapon(a.FindInventory("Vulcanette"));
+		wpn = HDWeapon(a.FindInventory('Vulcanette'));
 		if (wpn)
 		{
 			if (!HasPlayedSound)
@@ -61,8 +69,7 @@ class HoradricMalusSigil : ArcanumSigil
 			wpn.WeaponStatus[VULCS_PERMADAMAGE] = 0;
 			wpn.WeaponStatus[VULCS_BREAKCHANCE] = 0;
 		}
-
-		wpn = HDWeapon(a.FindInventory("HERPUsable"));
+		wpn = HDWeapon(a.FindInventory('HERPUsable'));
 		if (wpn)
 		{
 			if (!HasPlayedSound)
@@ -72,8 +79,7 @@ class HoradricMalusSigil : ArcanumSigil
 			}
 			wpn.WeaponStatus[0] &= ~HERPF_BROKEN;
 		}
-
-		wpn = HDWeapon(a.FindInventory("DERPUsable"));
+		wpn = HDWeapon(a.FindInventory('DERPUsable'));
 		if (wpn)
 		{
 			if (!HasPlayedSound)
