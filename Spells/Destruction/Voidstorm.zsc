@@ -28,11 +28,11 @@ class VoidstormSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 BigSize = (13, 21.66);
-		CreateRuneSlot((0, 0), BigSize, 4, 4.0);
+		CreateRuneSlot((0, 0), BigSize, 4, 3.0);
 
 		vector2 SmallSize = (5.5, 9.16);
-		CreateRuneSlot((-33.1, 0), SmallSize, 1.5, 4.0);
-		CreateRuneSlot((33.1, 0), SmallSize, 1.5, 4.0);
+		CreateRuneSlot((-33.1, 0), SmallSize, 1.5, 3.0);
+		CreateRuneSlot((33.1, 0), SmallSize, 1.5, 3.0);
 	}
 
 	Default

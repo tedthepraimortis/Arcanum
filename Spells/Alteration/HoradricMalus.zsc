@@ -106,6 +106,7 @@ class HoradricMalusSigil : ArcanumSigil
 
 	Default
 	{
+		ArcanumSigil.AddAlpha 1.25;
 		ArcanumSigil.FadeOutSpeedMult 2.0;
 		StencilColor "998456";
 	}
