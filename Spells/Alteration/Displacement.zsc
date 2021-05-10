@@ -5,7 +5,7 @@ class DisplacementSpell : ArcanumSpell
 	override string GetName() { return "Displacement"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 400; }
-	override string GetDescription() { return "Gives you the ability to fly for 4 seconds, then teleports you to where you cast the spell. Enemies cannot see or target you while being displaced."; }
+	override string GetDescription() { return "Partly severs your link to this world and gives you the ability to fly for 4 seconds, then teleports you to where you cast the spell. Enemies cannot see you while being displaced."; }
 	override string GetTechnicalInfo() { return "Self"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 70; }
@@ -50,7 +50,13 @@ class DisplacementSpellPower : Powerup
 	{
 		Super.InitEffect();
 
-		CastPos = owner.pos;
+		let plr = HDPlayerPawn(owner);
+		CastPos = plr.pos;
+		WoundCount = plr.woundcount;
+		OldWoundCount = plr.oldwoundcount;
+		UnstableWoundCount = plr.unstablewoundcount;
+		BurnCount = plr.burncount;
+		AggravatedDamage = plr.aggravateddamage;
 
 		ToggleFlags(true);
 
@@ -68,10 +74,18 @@ class DisplacementSpellPower : Powerup
 			return;
 		}
 
-		owner.SetOrigin(CastPos, true);
-		HDPlayerPawn(owner).lastvel = (0, 0, 0);
-		owner.vel = (0, 0, 0);
-		owner.pitch = 0;
+		let plr = HDPlayerPawn(owner);
+		plr.SetOrigin(CastPos, true);
+		plr.lastvel = (0, 0, 0);
+		plr.vel = (0, 0, 0);
+		plr.pitch = 0;
+
+		plr.woundcount = WoundCount;
+		plr.oldwoundcount = OldWoundCount;
+		plr.unstablewoundcount = UnstableWoundCount;
+		plr.burncount = BurnCount;
+		plr.aggravateddamage = AggravatedDamage;
+
 		ArcanumSigil.PlayCastSound(owner, "Arcanum/Alteration/Displacement/End");
 
 		ToggleFlags(false);
@@ -94,7 +108,13 @@ class DisplacementSpellPower : Powerup
 		return Color(int(BlendColor.a * StartAlpha), BlendColor.r, BlendColor.g, BlendColor.b);
 	}
 
-	Vector3 CastPos;
+	// [Ace] Save these because otherwise they're reset due to the removal of the SHOOTABLE flag.
+	private int WoundCount;
+	private int OldWoundCount;
+	private int UnstableWoundCount;
+	private int BurnCount;
+	private int AggravatedDamage;
+	private Vector3 CastPos;
 
 	Default
 	{
