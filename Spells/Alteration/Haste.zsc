@@ -7,7 +7,7 @@ class HasteSpell : ArcanumSpell
 	override int GetCatalystAmount() { return 400; }
 	override string GetDescription() { return String.Format("All visible players within 20m get an increase to speed by \c[Gold]%i\c-%% for \c[Gold]%i\c- minutes.", 50 + 25 * Level, 2 + 2 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
-	override int GetExperienceGain() { return 3; }
+	override int GetExperienceGain() { return 4; }
 	override int GetCost() { return 60; }
 	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'HasteSigil'; }
