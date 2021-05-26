@@ -5,7 +5,7 @@ class RevitalizationSpell : ArcanumSpell
 	override string GetName() { return "Revitalization"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 1000; }
-	override string GetDescription() { return String.Format("Heals all visible nearby entities by 75%% of their total health. Players rapidly regenerate 5 health per heartbeat, and are immune to incap and stun for \c[Gold]%i\c- seconds.", 60 * Level); }
+	override string GetDescription() { return String.Format("Heals all visible entities within 20m by 75%% of their total health. Players rapidly regenerate 5 health per heartbeat, and are immune to incap and stun for \c[Gold]%i\c- seconds.", 60 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 150; }
@@ -20,10 +20,10 @@ class RevitalizationSigil : ArcanumSigil
 		HDMobBase Other;
 		HDPlayerPawn PActor;
 
-		BlockThingsIterator it = BlockThingsIterator.Create(self, 1024);
+		BlockThingsIterator it = BlockThingsIterator.Create(self, 42 * 20);
 		while (it.Next())
 		{
-			if (!CheckSight(it.thing) || it.thing.Health <= 0)
+			if (it.thing.Health <= 0 || Distance3D(it.thing) > 42 * 20 || !CheckSight(it.thing))
 			{
 				continue;
 			}
