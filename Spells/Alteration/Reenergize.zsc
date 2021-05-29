@@ -75,6 +75,7 @@ class ReenergizeSigil : ArcanumSigil
 
 	Default
 	{
+		ArcanumSigil.FadeOutSpeedMult 2.0;
 		StencilColor "33FF00";
 	}
 
