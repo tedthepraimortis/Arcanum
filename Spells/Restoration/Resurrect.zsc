@@ -5,7 +5,7 @@ class ResurrectSpell : ArcanumSpell
 	override string GetName() { return "Resurrect"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 600; }
-	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within \c[Gold]%i\c-m of where the sigil was cast.", 10 * Level, 3 * Level); }
+	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within \c[Gold]%i\c-m of where the sigil was cast.", 10 * Level, 5 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 80; }
@@ -19,7 +19,7 @@ class ResurrectSigil : ArcanumSigil
 	{
 		bool HasPlayedSound;
 		int RevivesLeft = 10 * SigilLevel;
-		int MaxRange = 126 * SigilLevel;
+		int MaxRange = 42 * 5 * SigilLevel;
 
 		BlockThingsIterator it = BlockThingsIterator.Create(self, MaxRange);
 		while (RevivesLeft > 0 && it.Next())
