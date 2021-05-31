@@ -22,7 +22,7 @@ class ImmolationSigil : ArcanumSigil
 		BlockThingsIterator it = BlockThingsIterator.Create(self, ImmolationDistance);
 		while (it.Next())
 		{
-			if (it.thing.Health <= 0 || !it.thing.bISMONSTER || it.thing.bFRIENDLY || Distance3D(it.thing) > ImmolationDistance)
+			if (it.thing.Health <= 0 || !it.thing.bISMONSTER || it.thing.bFRIENDLY || Distance3D(it.thing) > ImmolationDistance || it.thing is 'HDBossBrain')
 			{
 				continue;
 			}
