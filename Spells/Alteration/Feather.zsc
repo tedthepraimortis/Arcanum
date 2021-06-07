@@ -48,22 +48,6 @@ class FeatherSigil : ArcanumSigil
 
 class FeatherEffect : Actor
 {
-	override void BeginPlay()
-	{
-		for (int i = 0; i < MAXPLAYERS; ++i)
-		{
-			let plr = players[i].mo;
-			if (!plr)
-			{
-				continue;
-			}
-
-			DefGrav[i] = plr.gravity;
-		}
-
-		Super.BeginPlay();
-	}
-
 	override void OnDestroy()
 	{
 		for (int i = 0; i < MAXPLAYERS; ++i)
@@ -73,13 +57,11 @@ class FeatherEffect : Actor
 			{
 				continue;
 			}
-			plr.gravity = DefGrav[i];
+			plr.gravity = plr.default.gravity
 		}
 
 		Super.OnDestroy();
 	}
-
-	double DefGrav[MAXPLAYERS];
 
 	Default
 	{
@@ -111,7 +93,7 @@ class FeatherEffect : Actor
 					}
 					else
 					{
-						plr.gravity = DefGrav[i];
+						plr.gravity = plr.default.gravity;
 					}
 				}
 
