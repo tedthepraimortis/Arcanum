@@ -57,7 +57,7 @@ class FeatherEffect : Actor
 			{
 				continue;
 			}
-			plr.gravity = plr.default.gravity
+			plr.gravity = plr.default.gravity;
 		}
 
 		Super.OnDestroy();
