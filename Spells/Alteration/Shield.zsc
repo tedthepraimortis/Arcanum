@@ -59,7 +59,8 @@ class ShieldSigil : ArcanumSigil
 		}
 		trgt.A_GiveInventory("HDMagicShield");
 		let Shield = HDMagicShield(trgt.FindInventory("HDMagicShield"));
-		Shield.MaxAmount = 0;
+		Shield.MaxAmount = 0; // [Ace] This is so that the shield gets destroyed when it depletes.
+		Shield.Stamina = ShieldSpell * SigilLevel * 2.0;
 		Shield.Amount = ShieldSpell.ShieldPerLevel * SigilLevel;
 		Shield.bQUICKTORETALIATE = false;
 		Shield.bSTANDSTILL = true;
