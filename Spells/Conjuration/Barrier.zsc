@@ -9,7 +9,7 @@ class BarrierSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 50; }
-	override int GetAggroGain() { return 15; }
+	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'BarrierSigil'; }
 }
 

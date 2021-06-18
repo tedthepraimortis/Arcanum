@@ -9,7 +9,7 @@ class VoidstormSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Mass, Dangerous"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 700; }
-	override int GetAggroGain() { return 30; }
+	override int GetAggroGain() { return 25; }
 	override class<ArcanumSigil> GetSigil() { return 'VoidstormSigil'; }
 }
 

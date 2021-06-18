@@ -9,7 +9,7 @@ class CandlelightSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Self"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 20; }
-	override int GetAggroGain() { return 5; }
+	override int GetAggroGain() { return 3; }
 	override class<ArcanumSigil> GetSigil() { return 'CandlelightSigil'; }
 }
 

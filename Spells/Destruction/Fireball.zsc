@@ -8,7 +8,7 @@ class FireballSpell : ArcanumSpell
 	override string GetDescription() { return String.Format("Barrage target area with \c[Gold]%i\c- fireballs.", 10 + 5 * Level); }
 	override string GetTechnicalInfo() { return "Targeted, Thermal, Dangerous"; }
 	override int GetCost() { return 10; }
-	override int GetAggroGain() { return 2; }
+	override int GetAggroGain() { return 1; }
 	override class<ArcanumSigil> GetSigil() { return 'FireballSigil'; }
 }
 

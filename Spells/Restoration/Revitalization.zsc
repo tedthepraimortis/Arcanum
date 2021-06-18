@@ -9,7 +9,7 @@ class RevitalizationSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 150; }
-	override int GetAggroGain() { return 25; }
+	override int GetAggroGain() { return 20; }
 	override class<ArcanumSigil> GetSigil() { return 'RevitalizationSigil'; }
 }
 

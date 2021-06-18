@@ -9,7 +9,7 @@ class DisplacementSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Self"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 70; }
-	override int GetAggroGain() { return 15; }
+	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'DisplacementSigil'; }
 }
 
