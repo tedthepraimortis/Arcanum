@@ -25,7 +25,7 @@ class FarReachSigil : ArcanumSigil
 			PlayCastSound(self, "Arcanum/Alteration/FarReach");
 		}
 
-		if (Data.HitActor)
+		if (Data.HitActor && Data.HitActor.Mass < 20000)
 		{
 			PlayCastSound(self, "Arcanum/Alteration/FarReach");
 
