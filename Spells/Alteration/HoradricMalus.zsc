@@ -5,7 +5,7 @@ class HoradricMalusSpell : ArcanumSpell
 	override string GetName() { return "Horadric Malus"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetCatalystAmount() { return 400; }
-	override string GetDescription() { return String.Format("Repairs worn armor by \c[Gold]%i%%\c- of its missing durability. Repairs Vulcanettes and *.E.R.P.s", 35 + 15 * Level); }
+	override string GetDescription() { return String.Format("Repairs repairable items by \c[Gold]%i%%\c- of their missing durability. Repairs Vulcanettes and *.E.R.P.s", 35 + 15 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 5; }
 	override int GetCost() { return 70; }
@@ -32,21 +32,23 @@ class HoradricMalusSigil : ArcanumSigil
 		}
 	}
 
+	private void TryPlaySound()
+	{
+		if (!HasPlayedSound)
+		{
+			PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
+			HasPlayedSound = true;
+		}
+	}
+
 	private void RepairArmor(Actor a)
 	{
-		bool HasPlayedSound = false;
-
 		for (Inventory Next = a.Inv; Next; Next = Next.Inv)
 		{
 			let Armor = HDArmourWorn(Next);
 			if (Armor)
 			{
-				if (!HasPlayedSound)
-				{
-					PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
-					HasPlayedSound = true;
-				}
-
+				TryPlaySound();
 				int MaxDurability = Armor.Mega ? 70 : 144;
 				if (Armor.GetClassName() == 'HHelmetWorn')
 				{
@@ -55,39 +57,35 @@ class HoradricMalusSigil : ArcanumSigil
 				int DurabilityMissing = MaxDurability - Armor.Durability;
 				Armor.Durability += int(DurabilityMissing * (0.35 + 0.15 * SigilLevel));
 			}
-		}
 
-		HDWeapon wpn;
-		wpn = HDWeapon(a.FindInventory('Vulcanette'));
-		if (wpn)
-		{
-			if (!HasPlayedSound)
+			let vulc = Vulcanette(Next);
+			if (vulc)
 			{
-				PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
-				HasPlayedSound = true;
+				TryPlaySound();
+				vulc.WeaponStatus[VULCS_PERMADAMAGE] = 0;
+				vulc.WeaponStatus[VULCS_BREAKCHANCE] = 0;
 			}
-			wpn.WeaponStatus[VULCS_PERMADAMAGE] = 0;
-			wpn.WeaponStatus[VULCS_BREAKCHANCE] = 0;
-		}
-		wpn = HDWeapon(a.FindInventory('HERPUsable'));
-		if (wpn)
-		{
-			if (!HasPlayedSound)
+
+			let derp = DERPUsable(Next);
+			if (derp)
 			{
-				PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
-				HasPlayedSound = true;
+				TryPlaySound();
+				derp.WeaponStatus[0] &= ~DERPF_BROKEN;
 			}
-			wpn.WeaponStatus[0] &= ~HERPF_BROKEN;
-		}
-		wpn = HDWeapon(a.FindInventory('DERPUsable'));
-		if (wpn)
-		{
-			if (!HasPlayedSound)
+
+			let herp = HERPUsable(Next);
+			if (herp)
 			{
-				PlayCastSound(self, "Arcanum/Alteration/HoradricMalus");
-				HasPlayedSound = true;
+				TryPlaySound();
+				herp.WeaponStatus[0] &= ~HERPF_BROKEN;
 			}
-			wpn.WeaponStatus[0] &= ~DERPF_BROKEN;
+
+			if (Next.GetClassName() == 'HDDeployableBarricade')
+			{
+				TryPlaySound();
+				int HealthMissing = Next.default.Health - Next.Health;
+				Next.Health += int(HealthMissing * (0.35 + 0.15 * SigilLevel));
+			}
 		}
 	}
 
@@ -103,6 +101,8 @@ class HoradricMalusSigil : ArcanumSigil
 		vector2 SmallSize = (2, 3.33);
 		CreateRuneSlot((0, 11), SmallSize, 0.5, 1.35); CreateRuneSlot((0, -11), SmallSize, 0.5, 1.35);
 	}
+
+	private bool HasPlayedSound;
 
 	Default
 	{
