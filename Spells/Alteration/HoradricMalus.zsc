@@ -58,33 +58,52 @@ class HoradricMalusSigil : ArcanumSigil
 				Armor.Durability += int(DurabilityMissing * (0.35 + 0.15 * SigilLevel));
 			}
 
-			let vulc = Vulcanette(Next);
-			if (vulc)
+			let wpn = HDWeapon(Next);
+			if (wpn)
 			{
-				TryPlaySound();
-				vulc.WeaponStatus[VULCS_PERMADAMAGE] = 0;
-				vulc.WeaponStatus[VULCS_BREAKCHANCE] = 0;
+				switch (wpn.GetClassName())
+				{
+					case 'Vulcanette':
+					{
+						TryPlaySound();
+						wpn.WeaponStatus[VULCS_PERMADAMAGE] = int(wpn.WeaponStatus[VULCS_PERMADAMAGE] * (0.65 - 0.15 * SigilLevel));
+						wpn.WeaponStatus[VULCS_BREAKCHANCE] = int(wpn.WeaponStatus[VULCS_BREAKCHANCE] * (0.65 - 0.15 * SigilLevel));
+						break;
+					}
+					case 'HDVera':
+					{
+						TryPlaySound();
+						wpn.WeaponStatus[10] = int(wpn.WeaponStatus[10] * (0.65 - 0.15 * SigilLevel));
+						break;
+					}
+					case 'DERPUsable':
+					{
+						TryPlaySound();
+						wpn.WeaponStatus[0] &= ~DERPF_BROKEN;
+						break;
+					}
+					case 'HERPUsable':
+					{
+						TryPlaySound();
+						wpn.WeaponStatus[0] &= ~HERPF_BROKEN;
+						break;
+					}
+				}
 			}
 
-			let derp = DERPUsable(Next);
-			if (derp)
+			let pkp = HDPickup(Next);
+			if (pkp)
 			{
-				TryPlaySound();
-				derp.WeaponStatus[0] &= ~DERPF_BROKEN;
-			}
-
-			let herp = HERPUsable(Next);
-			if (herp)
-			{
-				TryPlaySound();
-				herp.WeaponStatus[0] &= ~HERPF_BROKEN;
-			}
-
-			if (Next.GetClassName() == 'HDDeployableBarricade')
-			{
-				TryPlaySound();
-				int HealthMissing = Next.default.Health - Next.Health;
-				Next.Health += int(HealthMissing * (0.35 + 0.15 * SigilLevel));
+				switch (pkp.GetClassName())
+				{
+					case 'HDDeployableBarricade':
+					{
+						TryPlaySound();
+						int HealthMissing = pkp.default.Health - pkp.Health;
+						pkp.Health += int(HealthMissing * (0.35 + 0.15 * SigilLevel));
+						break;
+					}
+				}
 			}
 		}
 	}
