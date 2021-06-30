@@ -76,14 +76,14 @@ class ConvalescenceEffect : Powerup
 		{
 			plr.GiveBody(1);
 		}
-		else if (!plr && owner && GetAge() % 35 == 0)
+		else if (!plr && owner && GetAge() % 20 == 0)
 		{
 			let mob = HDMobBase(owner);
 			if (mob)
 			{
-				mob.BodyDamage = max(0, mob.BodyDamage - Level);
+				mob.BodyDamage = max(0, mob.BodyDamage - Level * 2);
 			}
-			owner.GiveBody(Level);
+			owner.GiveBody(Level * 2);
 		}
 
 		Super.DoEffect();
