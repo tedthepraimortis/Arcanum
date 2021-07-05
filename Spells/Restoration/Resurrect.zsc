@@ -24,26 +24,31 @@ class ResurrectSigil : ArcanumSigil
 		BlockThingsIterator it = BlockThingsIterator.Create(self, MaxRange);
 		while (RevivesLeft > 0 && it.Next())
 		{
-			if (!it.thing.bCORPSE || Distance3D(it.thing) > MaxRange)
+			if (Distance3D(it.thing) > MaxRange)
 			{
 				continue;
 			}
-
-			if (!HasPlayedSound)
-			{
-				PlayCastSound(self, "Arcanum/Restoration/Resurrect");
-				HasPlayedSound = true;
-			}
-
+			
 			HDPlayerCorpse PCorpse = HDPlayerCorpse(it.thing);
-
 			if (PCorpse && HDPlayerPawn(PCorpse.master))
 			{
+				if (!HasPlayedSound)
+				{
+					PlayCastSound(self, "Arcanum/Restoration/Resurrect");
+					HasPlayedSound = true;
+				}
+
 				HDPlayerPawn(PCorpse.master).respawndelay = 0;
 				RevivesLeft--;
 			}
-			else if (it.thing.bISMONSTER)
+			else if (it.thing.bISMONSTER && it.thing.Health <= 0)
 			{
+				if (!HasPlayedSound)
+				{
+					PlayCastSound(self, "Arcanum/Restoration/Resurrect");
+					HasPlayedSound = true;
+				}
+
 				if (it.thing is 'HDMobBase')
 				{
 					HDMobBase(it.thing).bodydamage = 0;
