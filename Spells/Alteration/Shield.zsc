@@ -1,6 +1,6 @@
 class ShieldSpell : ArcanumSpell
 {
-	const ShieldPerLevel = 750;
+	const ShieldPerLevel = 1000;
 	override int GetIndex() { return 20; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Shield"; }
