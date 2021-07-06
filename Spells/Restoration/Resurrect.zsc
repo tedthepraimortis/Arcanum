@@ -30,7 +30,7 @@ class ResurrectSigil : ArcanumSigil
 			}
 			
 			HDPlayerCorpse PCorpse = HDPlayerCorpse(it.thing);
-			if (PCorpse && HDPlayerPawn(PCorpse.master))
+			if (PCorpse && PCorpse.corpsegiver)
 			{
 				if (!HasPlayedSound)
 				{
@@ -38,7 +38,7 @@ class ResurrectSigil : ArcanumSigil
 					HasPlayedSound = true;
 				}
 
-				HDPlayerPawn(PCorpse.master).respawndelay = 0;
+				PCorpse.corpsegiver.respawndelay = 0;
 				RevivesLeft--;
 			}
 			else if (it.thing.bISMONSTER && it.thing.Health <= 0)
