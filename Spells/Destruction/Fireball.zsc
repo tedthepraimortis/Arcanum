@@ -55,9 +55,7 @@ class FireballSigil : ArcanumSigil
 
 	override void InitRuneSlots()
 	{
-		CreateRuneSlot((0, 16), (5, 8.33), 1.2, 3.0);
-		CreateRuneSlot((0, 0), (4, 6.66), 1.15, 3.0);
-		CreateRuneSlot((0, -16), (5, 8.33), 1.2, 3.0);
+		CreateRuneSlot((0, 0), (6, 10), 1.75);
 	}
 
 	private Array<Actor> ViableTargets;
@@ -66,6 +64,7 @@ class FireballSigil : ArcanumSigil
 
 	Default
 	{
+		ArcanumSigil.FadeOutSpeedMult 2.0;
 		+FRIENDLY
 		+ARCANUMSIGIL.NOHEIGHTADJUST
 		StencilColor "FF2200";
