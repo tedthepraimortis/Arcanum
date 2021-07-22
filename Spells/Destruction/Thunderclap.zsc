@@ -50,7 +50,7 @@ class ThunderclapSigil : ArcanumSigil
 
 	override void InitRuneSlots()
 	{
-		CreateRuneSlot((0, 0), (6, 10), 1.75);
+		CreateRuneSlot((0, 0), (6, 10), 1.65);
 	}
 
 	private int ShotsLeft;
