@@ -83,7 +83,7 @@ class VoidstormOrb : Actor
 				{
 					string Follower = "HDFollower";
 					class<Actor> FollowerCls = Follower;
-					if (!it.thing.bISMONSTER || !CheckSight(it.thing, SF_IGNOREVISIBILITY) || it.thing is 'HDPlayerCorpse' || it.thing is FollowerCls)
+					if (!it.thing.bISMONSTER || it.thing.bNODAMAGE || !CheckSight(it.thing, SF_IGNOREVISIBILITY) || it.thing is 'HDPlayerCorpse' || it.thing is FollowerCls)
 					{
 						continue;
 					}
