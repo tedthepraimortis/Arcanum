@@ -52,7 +52,7 @@ class HoradricMalusSigil : ArcanumSigil
 				int MaxDurability = Armor.Mega ? 70 : 144;
 				if (Armor.GetClassName() == 'HHelmetWorn')
 				{
-					MaxDurability = 50;
+					MaxDurability = 72;
 				}
 				int DurabilityMissing = MaxDurability - Armor.Durability;
 				Armor.Durability += int(DurabilityMissing * (0.35 + 0.15 * SigilLevel));
