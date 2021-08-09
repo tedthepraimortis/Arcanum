@@ -29,7 +29,7 @@ class ClaymoreSigil : ArcanumSigil
 
 				if (a && a.Health > 0 && Distance2D(a) < 64)
 				{
-					DetonationTicker = 15;
+					DetonationTicker = 7;
 					PlayCastSound(self, "Arcanum/Destruction/Claymore");
 					break;
 				}
