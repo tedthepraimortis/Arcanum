@@ -26,18 +26,18 @@ class GhostSquadSigil : ArcanumSigil
 			master.SetXYZ(Data.HitLocation - Data.HitDir);
 			PlayCastSound(self, "Arcanum/Conjuration/GhostSquad");
 			master.A_AlertMonsters();
-			master.A_SpawnItemEx("GhostMarine", 0, 0, 0, -8, 0, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
+			master.A_SpawnItemEx("TalismanGhost", 0, 0, 0, -8, 0, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
 			master.A_SpawnItemEx("HDSmoke", 0, 0, 0, 8, 0, 0, 0, SXF_NOCHECKPOSITION);
 
 			if (SigilLevel > 1)
 			{
-				master.A_SpawnItemEx("GhostMarine", 0, 0, 0, 0, 5, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
+				master.A_SpawnItemEx("TalismanGhost", 0, 0, 0, 0, 5, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
 				master.A_SpawnItemEx("HDSmoke", 0, 0, 0, 0, 5, 0, 0, SXF_NOCHECKPOSITION);
 				
 			}
 			if (SigilLevel > 2)
 			{
-				master.A_SpawnItemEx("GhostMarine", 0, 0, 0, 0, -5, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
+				master.A_SpawnItemEx("TalismanGhost", 0, 0, 0, 0, -5, 0, 0, SXF_NOCHECKPOSITION | SXF_SETMASTER);
 				master.A_SpawnItemEx("HDSmoke", 0, 0, 0, 0, -5, 0, 0, SXF_NOCHECKPOSITION);
 			}
 
