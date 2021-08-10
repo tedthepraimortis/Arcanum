@@ -39,7 +39,6 @@ class TransfusionSigil : ArcanumSigil
 
 	Default
 	{
-		+ARCANUMSIGIL.DONTPITCH
 		ArcanumSigil.FadeOutSpeedMult 3.0;
 		StencilColor "3333FF";
 	}
