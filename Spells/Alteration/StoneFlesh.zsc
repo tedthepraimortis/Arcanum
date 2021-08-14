@@ -2,10 +2,10 @@ class StoneFleshSpell : ArcanumSpell
 {
 	override int GetIndex() { return 80; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override string GetName() { return "StoneFlesh"; }
+	override string GetName() { return "Stoneflesh"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetCatalystAmount() { return 800; }
-	override string GetDescription() { return String.Format("All visible players within 20m get 50%% increased resistance to most damage for \c[Gold]%i\c- minutes. Effect helps put out fire faster.", 2 + 1 * Level); }
+	override string GetDescription() { return String.Format("All visible entities within 20m get 50%% increased resistance to most damage for \c[Gold]%i\c- minutes. Effect helps put out fire faster.", 2 + 1 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 4; }
 	override int GetCost() { return 175; }
@@ -18,17 +18,19 @@ class StoneFleshSigil : ArcanumSigil
 	override void ActivateSelfOrMass()
 	{
 		PlayCastSound(self, "Arcanum/Alteration/StoneFlesh");
-		for (int i = 0; i < MAXPLAYERS; ++i)
+		BlockThingsIterator it = BlockThingsIterator.Create(self, 42 * 20);
+		while (it.Next())
 		{
-			let plr = players[i].mo;
-			if (plr && Distance3D(plr) <= 42 * 20 && CheckSight(plr))
+			if (it.thing.Health <= 0 || Distance3D(it.thing) > 42 * 20 || !CheckSight(it.thing) || !it.thing.bISMONSTER && !it.thing.player)
 			{
-				for (int i = 0; i < SigilLevel; ++i)
-				{
-					plr.A_GiveInventory("StoneFleshEffect");
-					let Effect = StoneFleshEffect(plr.FindInventory("StoneFleshEffect"));
-					Effect.Level = SigilLevel;
-				}
+				continue;
+			}
+
+			for (int i = 0; i < SigilLevel; ++i)
+			{
+				it.thing.A_GiveInventory("StoneFleshEffect");
+				let Effect = StoneFleshEffect(it.thing.FindInventory("StoneFleshEffect"));
+				Effect.Level = SigilLevel;
 			}
 		}
 	}
