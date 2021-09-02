@@ -4,8 +4,7 @@ class TransfusionSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Transfusion"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int GetCatalystAmount() { return 200; }
-	override string GetDescription() { return String.Format("Transfers \c[Gold]5%%\c- of your blues to the target."); }
+	override string GetDescription() { return String.Format("Transfers 10%% of your blues to the target."); }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
 	override int GetMaxLevel() { return 1; }
 	override int GetCost() { return 20; }
@@ -22,7 +21,7 @@ class TransfusionSigil : ArcanumSigil
 		if (plr && you) // [Ace] <3
 		{
 			PlayCastSound(self, "Arcanum/Restoration/Transfusion");
-			int AmountTransferred = int(you.regenblues * 0.05);
+			int AmountTransferred = int(you.regenblues * 0.10);
 			you.regenblues -= AmountTransferred;
 			plr.regenblues += AmountTransferred;
 		}

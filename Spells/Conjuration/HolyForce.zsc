@@ -4,11 +4,10 @@ class HolyForceSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
 	override string GetName() { return "Holy Force"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int GetCatalystAmount() { return 400; }
 	override string GetDescription() { return String.Format("Prevents all archviles within 20m from disappearing until they die. Forces it out of hiding if it's invisible. If no archviles were affected, trigger nearby curses, if any. Reveals possessed barrels."); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetMaxLevel() { return 1; }
-	override int GetCost() { return 60; }
+	override int GetCost() { return 20; }
 	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'HolyForceSigil'; }
 }

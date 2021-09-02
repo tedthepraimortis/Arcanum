@@ -4,10 +4,9 @@ class FireballSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
 	override string GetName() { return "Fireball"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int GetCatalystAmount() { return 100; }
 	override string GetDescription() { return String.Format("Barrage target area with \c[Gold]%i\c- fireballs.", 10 + 5 * Level); }
 	override string GetTechnicalInfo() { return "Targeted, Thermal, Dangerous"; }
-	override int GetCost() { return 10; }
+	override int GetCost() { return 2; }
 	override int GetAggroGain() { return 1; }
 	override class<ArcanumSigil> GetSigil() { return 'FireballSigil'; }
 }

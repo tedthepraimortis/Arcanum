@@ -4,11 +4,10 @@ class HoradricMalusSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Horadric Malus"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int GetCatalystAmount() { return 400; }
 	override string GetDescription() { return String.Format("Repairs repairable items by \c[Gold]%i%%\c- of their missing durability. Repairs Vulcanettes and *.E.R.P.s", 35 + 15 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 5; }
-	override int GetCost() { return 70; }
+	override int GetCost() { return 40; }
 	override int GetAggroGain() { return 15; }
 	override class<ArcanumSigil> GetSigil() { return 'HoradricMalusSigil'; }
 }

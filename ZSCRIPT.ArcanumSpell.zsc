@@ -111,7 +111,7 @@ class ArcanumSpell abstract play
 	abstract int GetIndex() const;
 	abstract string GetName() const;
 	abstract int GetSpellType() const;
-	abstract int GetCatalystAmount() const;
+	virtual int GetCatalystAmount() const { return GetCost() * 5; }
 	abstract clearscope string GetDescription();
 	abstract string GetTechnicalInfo() const;
 	virtual int GetExperienceGain() const { return 1; }
