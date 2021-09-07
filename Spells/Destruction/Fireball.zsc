@@ -24,7 +24,7 @@ class FireballSigil : ArcanumSigil
 	{
 		if (!AlreadyActivated)
 		{
-			BlockThingsIterator it = BlockThingsIterator.Create(self, 4200);
+			BlockThingsIterator it = BlockThingsIterator.Create(self, HDCONST_ONEMETRE * 100);
 			while (it.Next())
 			{
 				if (it.thing.bISMONSTER && it.thing.Health > 0 && !it.thing.bFRIENDLY && CheckSight(it.thing) && AbsAngle(angle, AngleTo(it.thing)) < 70)

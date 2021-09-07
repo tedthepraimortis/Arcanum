@@ -17,7 +17,7 @@ class BarrierSigil : ArcanumSigil
 	override void ActivateTargeted()
 	{
 		FLineTraceData Data;
-		LineTrace(angle, 42 * 1, pitch, TRF_THRUACTORS, 0, 0, 0, Data);
+		LineTrace(angle, HDCONST_ONEMETRE * 1, pitch, TRF_THRUACTORS, 0, 0, 0, Data);
 		Actor a = Spawn("ArcanumBarrierManager", Data.HitLocation);
 		a.Angle = Angle;
 		PlayCastSound(self, "Arcanum/Conjuration/Barrier");

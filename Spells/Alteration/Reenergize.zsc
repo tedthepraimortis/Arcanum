@@ -18,7 +18,7 @@ class ReenergizeSigil : ArcanumSigil
 	override void ActivateTargeted()
 	{
 		let plr = HDPlayerPawn(AimTarget());
-		if (plr && plr.Health > 0 && Distance3D(plr) <= 42 * 2)
+		if (plr && plr.Health > 0 && Distance3D(plr) <= HDCONST_ONEMETRE * 2)
 		{
 			RechargeBatteries(plr);
 		}

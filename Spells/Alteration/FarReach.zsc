@@ -17,7 +17,7 @@ class FarReachSigil : ArcanumSigil
 	override void ActivateTargeted()
 	{
 		FLineTraceData Data;
-		LineTrace(angle, 42 * 40, pitch, TRF_SOLIDACTORS | TRF_THRUSPECIES, 0, 0, 0, Data);
+		LineTrace(angle, HDCONST_ONEMETRE * 40, pitch, TRF_SOLIDACTORS | TRF_THRUSPECIES, 0, 0, 0, Data);
 
 		if (Data.HitLine && Data.HitLine.Activate(master, 0, SPAC_Use))
 		{

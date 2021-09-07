@@ -19,10 +19,10 @@ class RevitalizationSigil : ArcanumSigil
 		HDMobBase Other;
 		HDPlayerPawn PActor;
 
-		BlockThingsIterator it = BlockThingsIterator.Create(self, 42 * 20);
+		BlockThingsIterator it = BlockThingsIterator.Create(self, HDCONST_ONEMETRE * 20);
 		while (it.Next())
 		{
-			if (it.thing.Health <= 0 || Distance3D(it.thing) > 42 * 20 || !CheckSight(it.thing))
+			if (it.thing.Health <= 0 || Distance3D(it.thing) > HDCONST_ONEMETRE * 20 || !CheckSight(it.thing))
 			{
 				continue;
 			}

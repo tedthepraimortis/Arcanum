@@ -67,7 +67,7 @@ class VoidstormOrb : Actor
 		Scale 0.4;
 	}
 
-	const EffectRange = 42 * 12;
+	const EffectRange = HDCONST_ONEMETRE * 12;
 
 	States
 	{

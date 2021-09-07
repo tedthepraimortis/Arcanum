@@ -20,7 +20,7 @@ class HasteSigil : ArcanumSigil
 		for (int i = 0; i < MAXPLAYERS; ++i)
 		{
 			let plr = players[i].mo;
-			if (plr && Distance3D(plr) <= 42 * 20 && CheckSight(plr))
+			if (plr && Distance3D(plr) <= HDCONST_ONEMETRE * 20 && CheckSight(plr))
 			{
 				for (int i = 0; i < SigilLevel; ++i)
 				{

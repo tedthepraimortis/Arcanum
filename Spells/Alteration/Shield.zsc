@@ -31,7 +31,7 @@ class ShieldSigil : ArcanumSigil
 	override void ActivateTargeted()
 	{
 		let trgt = AimTarget();
-		if (trgt && trgt.Health > 0 && (trgt.bISMONSTER || trgt.player) && Distance3D(trgt) <= 42 * 2)
+		if (trgt && trgt.Health > 0 && (trgt.bISMONSTER || trgt.player) && Distance3D(trgt) <= HDCONST_ONEMETRE * 2)
 		{
 			CastShield(trgt);
 		}

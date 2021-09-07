@@ -17,7 +17,7 @@ class GhostSquadSigil : ArcanumSigil
 	override void ActivateTargeted()
 	{
 		FLineTraceData Data;
-		LineTrace(angle, 42 * 100, pitch, 0, 0, 0, 0, Data);
+		LineTrace(angle, HDCONST_ONEMETRE * 100, pitch, 0, 0, 0, 0, Data);
 
 		vector3 OldPos = master.pos;
 		if (Data.HitType != Data.TRACE_HasHitSky)

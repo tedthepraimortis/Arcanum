@@ -17,7 +17,7 @@ class FeatherSigil : ArcanumSigil
 	override void ActivateTargeted()
 	{
 		FLineTraceData Data;
-		LineTrace(angle, 42 * 100, pitch, TRF_THRUACTORS, 0, 0, 0, Data);
+		LineTrace(angle, HDCONST_ONEMETRE * 100, pitch, TRF_THRUACTORS, 0, 0, 0, Data);
 
 		PlayCastSound(self, "Arcanum/Alteration/Feather");
 		Actor a = Spawn("FeatherEffect", Data.HitLocation);

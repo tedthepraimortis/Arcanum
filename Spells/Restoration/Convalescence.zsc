@@ -21,7 +21,7 @@ class ConvalescenceSigil : ArcanumSigil
 	override void ActivateTargeted()
 	{
 		Actor a = AimTarget();
-		if (a && a.Health > 0 && Distance3D(a) <= 42 * 2)
+		if (a && a.Health > 0 && Distance3D(a) <= HDCONST_ONEMETRE * 2)
 		{
 			DoHealing(a);
 		}

@@ -25,7 +25,7 @@ class HolyForceSigil : ArcanumSigil
 		it = ThinkerIterator.Create('Necromancer', STAT_DEFAULT);
 		while ((a = HDActor(it.Next())))
 		{
-			if (Distance2D(a) > 42 * 20 || a.Health <= 0 || a.bFRIENDLY || a.CheckInventory("HolyCompeller", 1))
+			if (Distance2D(a) > HDCONST_ONEMETRE * 20 || a.Health <= 0 || a.bFRIENDLY || a.CheckInventory("HolyCompeller", 1))
 			{
 				continue;
 			}
@@ -45,7 +45,7 @@ class HolyForceSigil : ArcanumSigil
 			it = ThinkerIterator.Create('NecroGhost', STAT_DEFAULT);
 			while ((a = HDActor(it.Next())))
 			{
-				if (Distance2D(a) > 42 * 20 || a.InStateSequence(a.CurState, a.FindState('birth')) || a.GetClassName() != 'NecroGhost')
+				if (Distance2D(a) > HDCONST_ONEMETRE * 20 || a.InStateSequence(a.CurState, a.FindState('birth')) || a.GetClassName() != 'NecroGhost')
 				{
 					continue;
 				}
@@ -62,7 +62,7 @@ class HolyForceSigil : ArcanumSigil
 		it = ThinkerIterator.Create('BarrelGremlin', STAT_DEFAULT);
 		while ((a = HDActor(it.Next())))
 		{
-			if (Distance2D(a) > 42 * 20 || a.tracer is 'HolyForceBarrelGlow')
+			if (Distance2D(a) > HDCONST_ONEMETRE * 20 || a.tracer is 'HolyForceBarrelGlow')
 			{
 				continue;
 			}

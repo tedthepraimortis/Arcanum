@@ -17,7 +17,7 @@ class ImmolationSigil : ArcanumSigil
 	override void ActivateSelfOrMass()
 	{
 		bool HasPlayedSound;
-		int ImmolationDistance = 42 * 10 * SigilLevel;
+		int ImmolationDistance = HDCONST_ONEMETRE * 10 * SigilLevel;
 		BlockThingsIterator it = BlockThingsIterator.Create(self, ImmolationDistance);
 		while (it.Next())
 		{
