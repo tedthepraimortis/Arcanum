@@ -18,7 +18,7 @@ class ResurrectSigil : ArcanumSigil
 	{
 		bool HasPlayedSound;
 		int RevivesLeft = 10 * SigilLevel;
-		int MaxRange = HDCONST_ONEMETRE * 5 * SigilLevel;
+		double MaxRange = HDCONST_ONEMETRE * 5 * SigilLevel;
 
 		BlockThingsIterator it = BlockThingsIterator.Create(self, MaxRange);
 		while (RevivesLeft > 0 && it.Next())
