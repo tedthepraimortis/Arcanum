@@ -38,15 +38,15 @@ class LifeForceSigil : ArcanumSigil
 		if (plr)
 		{
 			PlayCastSound(self, "Arcanum/Restoration/LifeForce");
-			plr.incaptimer = 0;
 			plr.unstablewoundcount = 0;
 			plr.woundcount = 0;
 			plr.burncount -= (Boosted ? 30 : 20) * SigilLevel;
 			if (a != master)
 			{
 				plr.aggravateddamage -= (Boosted ? 15 : 10) * SigilLevel;
+				plr.bloodloss = 0;
+				plr.incaptimer = 0;
 			}
-			plr.bloodloss = 0;
 			int MissingHealth = plr.MaxHealth() - plr.Health;
 			plr.GiveBody(int(MissingHealth * (Boosted ? 0.70 : 0.35)));
 		}
