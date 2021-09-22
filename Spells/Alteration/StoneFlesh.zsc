@@ -4,11 +4,10 @@ class StoneFleshSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Stoneflesh"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
+	override int, int, int GetCastRequirements() { return 400, 40, 200; }
 	override string GetDescription() { return String.Format("All visible entities within 20m get 50%% increased resistance to most damage for \c[Gold]%i\c- minutes. Effect helps put out fire faster.", 2 + 1 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 4; }
-	override int GetCost() { return 100; }
-	override int GetAggroGain() { return 10; }
 	override class<ArcanumSigil> GetSigil() { return 'StoneFleshSigil'; }
 }
 

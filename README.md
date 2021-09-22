@@ -9,9 +9,8 @@
 ### Notes
 ---
 - Loadout code is `arc`.
-- Configuration codes are:
-	- `blues`: Starting blues.
-- Catalyst is the amount of blues you need to have to begin casting a spell. Cost is what will be deducted upon casting.
+- Catalyst is the minimum amount of aggravated damage **OR** blues you need to have to begin casting a spell.
+- Cost is how much blood it'll cost to cast it.
 
 ### Known Issues
 ---

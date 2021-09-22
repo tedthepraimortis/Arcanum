@@ -111,13 +111,11 @@ class ArcanumSpell abstract play
 	abstract int GetIndex() const;
 	abstract string GetName() const;
 	abstract int GetSpellType() const;
-	virtual int GetCatalystAmount() const { return GetCost() * 5; }
+	abstract int, int, int GetCastRequirements() const; // [Ace] Returns: blood, aggro, blues.
 	abstract clearscope string GetDescription();
 	abstract string GetTechnicalInfo() const;
 	virtual int GetExperienceGain() const { return 1; }
 	virtual int GetMaxLevel() const { return ExperienceReqs.Size() + 1; }
-	abstract int GetCost() const;
-	abstract int GetAggroGain() const;
 	abstract class<ArcanumSigil> GetSigil() const;
 	virtual ui void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl) { }
 

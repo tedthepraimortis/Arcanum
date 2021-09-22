@@ -4,15 +4,14 @@ class ConvalescenceSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Convalescence"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int, int, int GetCastRequirements() { return 50, 5, 30; }
 	override string GetDescription()
 	{
-		string Plural = Level < GetMaxLevel() ? "s" : "";
-		return String.Format("Recover 1 health every \c[Gold]%i\c- heartbeat%s for 90 seconds. Prevents pain jolts from second flesh for the duration of the effect.", 4 - Level, Plural);
+		string plural = Level < GetMaxLevel() ? "s" : "";
+		return String.Format("Recover 1 health every \c[Gold]%i\c- heartbeat%s for 90 seconds. Prevents pain jolts from second flesh for the duration of the effect.", 4 - Level, plural);
 	}
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 2; }
-	override int GetCost() { return 15; }
-	override int GetAggroGain() { return 5; }
 	override class<ArcanumSigil> GetSigil() { return 'ConvalescenceSigil'; }
 }
 

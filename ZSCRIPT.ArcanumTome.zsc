@@ -35,8 +35,8 @@ class HDArcanumTome : HDWeapon
 
 	override void DrawHUDStuff(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl)
 	{
-		ArcanumSpell SelSpell = GetSelectedSpell();
-		SelSpell.DrawHUDStuff(sb, hpl);
+		ArcanumSpell selSpell = GetSelectedSpell();
+		selSpell.DrawHUDStuff(sb, hpl);
 
 		if (!(hdw.WeaponStatus[ATProp_Flags] & ATF_InSpellMenu))
 		{
@@ -63,12 +63,12 @@ class HDArcanumTome : HDWeapon
 			sb.DrawString(DescFont, CurSpell.GetName(), (-140, BaseOffset + 110 + 10 * i), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, CurSpell == SelSpell ? Font.CR_GOLD : Font.CR_WHITE);
 		}
 		
-		int SpellOffset = BaseOffset + 90;
-		sb.DrawString(TitleFont, SelSpell.GetName(), (-40, SpellOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_TEAL);
-		if (SelSpell.GetMaxLevel() > 1)
+		int yOff = BaseOffset + 90;
+		sb.DrawString(TitleFont, selSpell.GetName(), (-40, yOff), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_TEAL);
+		if (selSpell.GetMaxLevel() > 1)
 		{
 			string RomanNumeral = "";
-			switch (SelSpell.Level)
+			switch (selSpell.Level)
 			{
 				case 1: RomanNumeral = "I"; break;
 				case 2: RomanNumeral = "II"; break;
@@ -78,28 +78,33 @@ class HDArcanumTome : HDWeapon
 			}
 
 			string FullString = "\c[Gold]Level "..RomanNumeral.."\c-";
-			if (SelSpell.Level < SelSpell.GetMaxLevel())
+			if (selSpell.Level < selSpell.GetMaxLevel())
 			{
 				FullString = FullString.." [";
 				for (int i = 0; i <= 10; ++i)
 				{
-					int Percentage = int(floor((SelSpell.Experience / double(SelSpell.ExperienceReqs[SelSpell.Level - 1])) * 10));
+					int Percentage = int(floor((selSpell.Experience / double(selSpell.ExperienceReqs[selSpell.Level - 1])) * 10));
 					FullString = FullString..(i < Percentage ? "=" : " ");
 				}
 				FullString = FullString.."]";
 			}
-			sb.DrawString(DescFont, FullString, (-40, SpellOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE);
-			SpellOffset += 10;
+			sb.DrawString(DescFont, FullString, (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE);
+			yOff += 10;
 		}
 		
-		sb.DrawString(DescFont, SelSpell.GetTechnicalInfo(), (-40, SpellOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_OLIVE);
+		sb.DrawString(DescFont, selSpell.GetTechnicalInfo(), (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_OLIVE);
 
-		double Mult = AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.80 : 1.0;
-		int Catalyst = int(SelSpell.GetCatalystAmount() * Mult);
-		int Cost = int(SelSpell.GetCost() * Mult);
-		sb.DrawString(DescFont, "\c[DarkGray]Catalyst/Cost: \c[Blue]"..Catalyst.."/"..Cost.."\c-", (-40, SpellOffset + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
-		sb.DrawString(DescFont, "\c[Black]Aggro: "..SelSpell.GetAggroGain().."\c-", (-40, SpellOffset + 40), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
-		sb.DrawString(DescFont, SelSpell.GetDescription(), (-40, SpellOffset + 60), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
+		double mult = AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.80 : 1.0;
+		int cost, aggro, blues;
+		[cost, aggro, blues] = selSpell.GetCastRequirements();
+		cost = int(cost * mult);
+		aggro = int(aggro * mult);
+		blues = int(blues * mult);
+
+		string str = String.Format("\c[Black]%i\c[DarkGray]/\c[Blue]%i\c-", aggro, blues);
+		sb.DrawString(DescFont, "\c[DarkGray]Catalyst: "..str, (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(DescFont, "\c[DarkGray]Cost: \c[Red]"..cost.."\c-", (-40, yOff + 40), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(DescFont, selSpell.GetDescription(), (-40, yOff + 60), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
 	}
 
 	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot)
@@ -420,40 +425,41 @@ class HDArcanumTome : HDWeapon
 		ActuallyAltFire:
 			ARCT E 5
 			{
-				ArcanumSpellTree SelTree = invoker.GetSelectedTree();
-				ArcanumSpell SelSpell = invoker.GetSelectedSpell();
+				ArcanumSpell selSpell = invoker.GetSelectedSpell();
 
 				let plr = HDPlayerPawn(self);
 
-				double Mult = AceCore.CheckForItem(self, "HDSoulCube") ? 0.80 : 1.0;
-				int Catalyst = int(SelSpell.GetCatalystAmount() * Mult);
-				int Cost = int(SelSpell.GetCost() * Mult);
+				double mult = AceCore.CheckForItem(plr, "HDSoulCube") ? 0.80 : 1.0;
+				int cost, aggro, blues;
+				[cost, aggro, blues] = selSpell.GetCastRequirements();
+				cost = int(cost * mult);
+				aggro = int(aggro * mult);
+				blues = int(blues * mult);
 
-				if (plr.regenblues >= max(Catalyst, Cost))
+				if (plr.aggravateddamage >= aggro || plr.regenblues >= blues)
 				{
 					FLineTraceData Data;
 					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 6, 0, 0, Data);
 					if (Data.HitType == Data.TRACE_HitNone || Data.HitType == Data.TRACE_HitFloor)
 					{
-						if (SelSpell.GainExperience())
+						if (selSpell.GainExperience())
 						{
-							A_Log(SelSpell.GetName().." has gained a level.", true);
+							A_Log(selSpell.GetName().." has gained a level.", true);
 						}
 						
-						plr.regenblues -= Cost;
-						plr.aggravateddamage += SelSpell.GetAggroGain();
+						plr.bloodloss += cost;
 
-						ArcanumSigil c = ArcanumSigil(Spawn(SelSpell.GetSigil(), Data.HitLocation));
+						ArcanumSigil c = ArcanumSigil(Spawn(selSpell.GetSigil(), Data.HitLocation));
 						c.angle = angle;
 						if (!c.bDONTPITCH)
 						{
 							c.pitch = pitch;
 						}
 						c.master = self;
-						c.SigilLevel = SelSpell.Level;
+						c.SigilLevel = selSpell.Level;
 
 						double MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
-						int SpellType = SelSpell.GetSpellType();
+						int SpellType = selSpell.GetSpellType();
 						if (SpellType & ArcanumSpell.SType_SelfOrMass && pitch >= MPitch)
 						{
 							c.SigilType = ArcanumSpell.SType_SelfOrMass;
@@ -466,7 +472,7 @@ class HDArcanumTome : HDWeapon
 				}
 				else
 				{
-					A_WeaponMessage("You feel too weak to cast "..SelSpell.GetName()..".");
+					A_WeaponMessage("You don't feel powerful enough to cast "..selSpell.GetName()..".");
 				}
 			}
 			ARCT A 2;

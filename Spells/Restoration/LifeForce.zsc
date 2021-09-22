@@ -4,11 +4,10 @@ class LifeForceSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Life Force"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override string GetDescription() { return String.Format("Fixes all wounds and restores 35%% of missing health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-, but only for others. Restores lost blood. Removes incap.", 20 * Level, 10 * Level); }
+	override int, int, int GetCastRequirements() { return 150, 10, 60; }
+	override string GetDescription() { return String.Format("Fixes all wounds and restores 35%% of missing health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-, restores lost blood, and removes incap, but only for others.", 20 * Level, 10 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 2; }
-	override int GetCost() { return 20; }
-	override int GetAggroGain() { return 7; }
 	override class<ArcanumSigil> GetSigil() { return 'LifeForceSigil'; }
 }
 
