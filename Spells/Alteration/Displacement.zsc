@@ -4,7 +4,7 @@ class DisplacementSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Displacement"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int, int, int GetCastRequirements() { return 200, 20, 100; }
+	override int, int, int GetCastRequirements() { return 300, 30, 100; }
 	override string GetDescription() { return "Partly severs your link to this world and gives you the ability to fly for 4 seconds, then teleports you to where you cast the spell. Enemies cannot see you while being displaced."; }
 	override string GetTechnicalInfo() { return "Self"; }
 	override int GetMaxLevel() { return 1; }
