@@ -4,7 +4,7 @@ class TransfusionSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Transfusion"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int, int, int GetCastRequirements() { return 300, 10, 300; } // [Ace] Aggro doesn't really make much sense for this.
+	override int, int, int GetCastRequirements() { return 300, 40, 300; }
 	override string GetDescription() { return String.Format("Transfers 25%% of your blues and aggro to the target."); }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
 	override int GetMaxLevel() { return 1; }
