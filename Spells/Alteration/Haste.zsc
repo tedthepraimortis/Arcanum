@@ -4,7 +4,7 @@ class HasteSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Haste"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int, int, int GetCastRequirements() { return 300, 25, 60; }
+	override int, int, int GetCastRequirements() { return 300, 25, 120; }
 	override string GetDescription() { return String.Format("All visible players within 20m get an increase to speed by \c[Gold]%i\c-%% for \c[Gold]%i\c- minutes.", 50 + 25 * Level, 2 + 2 * Level); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 4; }
