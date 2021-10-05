@@ -101,7 +101,7 @@ class HDArcanumTome : HDWeapon
 		aggro = int(aggro * mult);
 		blues = int(blues * mult);
 
-		string str = String.Format("\c[Black]%i\c[DarkGray]/\c[Blue]%i\c-", aggro, blues);
+		string str = String.Format("\c[Black]%i\c[DarkGray]/\c[ArcanumReqBlue]%i\c-", aggro, blues);
 		sb.DrawString(DescFont, "\c[DarkGray]Catalyst: "..str, (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		sb.DrawString(DescFont, "\c[DarkGray]Cost: \c[Red]"..cost.."\c-", (-40, yOff + 40), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		sb.DrawString(DescFont, selSpell.GetDescription(), (-40, yOff + 60), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
