@@ -39,7 +39,6 @@ class LifeForceSigil : ArcanumSigil
 		{
 			PlayCastSound(self, "Arcanum/Restoration/LifeForce");
 			plr.unstablewoundcount = 0;
-			plr.stablewoundcount = 0;
 			plr.oldwoundcount = 0;
 			plr.woundcount = 0;
 			plr.burncount -= (Boosted ? 30 : 20) * SigilLevel;
