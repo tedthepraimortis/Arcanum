@@ -43,17 +43,21 @@ class HoradricMalusSigil : ArcanumSigil
 	{
 		for (Inventory Next = a.Inv; Next; Next = Next.Inv)
 		{
-			let Armor = HDArmourWorn(Next);
-			if (Armor)
+			let arm = HDArmourWorn(Next);
+			if (arm)
 			{
 				TryPlaySound();
-				int MaxDurability = Armor.Mega ? 70 : 144;
-				if (Armor.GetClassName() == 'HHelmetWorn')
+				int maxDurability = arm.Mega ? 70 : 144;
+				if (arm.GetClassName() == 'HHelmetWorn')
 				{
-					MaxDurability = 72;
+					maxDurability = 72;
 				}
-				int DurabilityMissing = MaxDurability - Armor.Durability;
-				Armor.Durability += int(DurabilityMissing * (0.35 + 0.15 * SigilLevel));
+				else if (arm.GetClassName() == 'HDHEVArmorWorn')
+				{
+					maxDurability = 107;
+				}
+				int missing = maxDurability - arm.Durability;
+				arm.Durability += int(missing * (0.35 + 0.15 * SigilLevel));
 			}
 
 			let wpn = HDWeapon(Next);
