@@ -52,7 +52,7 @@ class HoradricMalusSigil : ArcanumSigil
 				{
 					maxDurability = 72;
 				}
-				else if (arm.GetClassName() == 'HDHEVArmorWorn')
+				else if (arm.GetClassName() == 'HDHEVArmourWorn')
 				{
 					maxDurability = 107;
 				}
