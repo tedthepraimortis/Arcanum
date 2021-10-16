@@ -12,7 +12,7 @@ class ShieldSpell : ArcanumSpell
 	override class<ArcanumSigil> GetSigil() { return 'ShieldSigil'; }
 	override void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl)
 	{
-		let Shield = hpl.FindInventory("HDMagicShield");
+		let Shield = hpl.FindInventory("ArcanumShield");
 		if (Shield && Shield.Amount > 0)
 		{
 			sb.DrawRect(-33, -22, 2, 8);
@@ -55,13 +55,11 @@ class ShieldSigil : ArcanumSigil
 			sv.z += trgt.height / 2;
 			Spark.vel = (sv / 50.0);
 		}
-		trgt.A_GiveInventory("HDMagicShield");
-		let Shield = HDMagicShield(trgt.FindInventory("HDMagicShield"));
+		trgt.A_GiveInventory("ArcanumShield");
+		let Shield = ArcanumShield(trgt.FindInventory("ArcanumShield"));
 		Shield.MaxAmount = 0; // [Ace] This is so that the shield gets destroyed when it depletes.
 		Shield.Stamina = ShieldSpell.ShieldPerLevel * SigilLevel * 2;
 		Shield.Amount = ShieldSpell.ShieldPerLevel * SigilLevel;
-		Shield.bQUICKTORETALIATE = false;
-		Shield.bSTANDSTILL = true;
 	}
 
 	override void InitRuneSlots()
@@ -93,5 +91,18 @@ class ShieldSigil : ArcanumSigil
 		Spawn:
 			CRAL C 0;
 			Goto Super::Spawn;
+	}
+}
+
+class ArcanumShield : HDMagicShield
+{
+	Default
+	{
+		Inventory.MaxAmount 1000;
+		-QUICKTORETALIATE
+		+STANDSTILL
+		+INVENTORY.KEEPDEPLETED
+		-INVENTORY.INVBAR
+		HDDamageHandler.Priority 10001; // [Ace] Handle it before the regular shield.
 	}
 }
