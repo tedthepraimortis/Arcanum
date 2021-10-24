@@ -110,7 +110,7 @@ class ArcanumSpell abstract play
 	abstract int GetIndex() const;
 	abstract string GetName() const;
 	abstract int GetSpellType() const;
-	abstract int GetCastRequirements() const;
+	abstract int, int GetCastRequirements() const; // [Ace] Returns: blood, blues.
 	abstract clearscope string GetDescription();
 	abstract string GetTechnicalInfo() const;
 	virtual int GetExperienceGain() const { return 1; }

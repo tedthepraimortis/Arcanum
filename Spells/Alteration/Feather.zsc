@@ -4,7 +4,7 @@ class FeatherSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Feather"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int GetCastRequirements() { return 80; }
+	override int, int GetCastRequirements() { return 80, 0; }
 	override string GetDescription() { return String.Format("Creates a circle at target location. Players falling into the circle get their vertical velocity reduced to a safe level. Gravity is also reduced."); }
 	override string GetTechnicalInfo() { return "Targeted"; }
 	override int GetMaxLevel() { return 1; }

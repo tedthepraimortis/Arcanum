@@ -94,9 +94,18 @@ class HDArcanumTome : HDWeapon
 		
 		sb.DrawString(DescFont, selSpell.GetTechnicalInfo(), (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_OLIVE);
 
-		int cost = int(selSpell.GetCastRequirements() * (AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.70 : 1.0));
+		double mult = AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.70 : 1.0;
+		int cost, blues;
+		[cost, blues] = selSpell.GetCastRequirements();
+		cost = int(cost * mult);
+		blues = int(blues * mult);
 
-		sb.DrawString(DescFont, "\c[DarkGray]Cost: \c[Red]"..cost.."\c-", (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		string str = String.Format("\c[Red]%i\c-", cost);
+		if (blues > 0)
+		{
+			str = str..String.Format("\c[DarkGray]/\c[ArcanumReqBlue]%i\c-", blues);
+		}
+		sb.DrawString(DescFont, "\c[DarkGray]Cost: "..str, (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		sb.DrawString(DescFont, selSpell.GetDescription(), (-40, yOff + 50), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
 	}
 
@@ -403,36 +412,53 @@ class HDArcanumTome : HDWeapon
 
 				let plr = HDPlayerPawn(self);
 
-				FLineTraceData Data;
-				LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 6, 0, 0, Data);
-				if (Data.HitType == Data.TRACE_HitNone || Data.HitType == Data.TRACE_HitFloor)
+				double mult = AceCore.CheckForItem(plr, "HDSoulCube") ? 0.70 : 1.0;
+				int cost, blues;
+				[cost, blues] = selSpell.GetCastRequirements();
+				cost = int(cost * mult);
+				blues = int(blues * mult);
+
+				if (CountInv('HDBlues') >= blues)
 				{
-					if (selSpell.GainExperience())
+					FLineTraceData Data;
+					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 6, 0, 0, Data);
+					if (Data.HitType == Data.TRACE_HitNone || Data.HitType == Data.TRACE_HitFloor)
 					{
-						A_Log(selSpell.GetName().." has gained a level.", true);
-					}
-					
-					plr.bloodloss += int(selSpell.GetCastRequirements() * (AceCore.CheckForItem(plr, "HDSoulCube") ? 0.70 : 1.0));
+						if (selSpell.GainExperience())
+						{
+							A_Log(selSpell.GetName().." has gained a level.", true);
+						}
+						
+						plr.bloodloss += cost;
+						if (blues > 0)
+						{
+							A_TakeInventory('HDBlues', blues);
+						}
 
-					ArcanumSigil c = ArcanumSigil(Spawn(selSpell.GetSigil(), Data.HitLocation));
-					c.angle = angle;
-					if (!c.bDONTPITCH)
-					{
-						c.pitch = pitch;
-					}
-					c.master = self;
-					c.SigilLevel = selSpell.Level;
+						ArcanumSigil c = ArcanumSigil(Spawn(selSpell.GetSigil(), Data.HitLocation));
+						c.angle = angle;
+						if (!c.bDONTPITCH)
+						{
+							c.pitch = pitch;
+						}
+						c.master = self;
+						c.SigilLevel = selSpell.Level;
 
-					double MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
-					int SpellType = selSpell.GetSpellType();
-					if (SpellType & ArcanumSpell.SType_SelfOrMass && pitch >= MPitch)
-					{
-						c.SigilType = ArcanumSpell.SType_SelfOrMass;
+						double MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
+						int SpellType = selSpell.GetSpellType();
+						if (SpellType & ArcanumSpell.SType_SelfOrMass && pitch >= MPitch)
+						{
+							c.SigilType = ArcanumSpell.SType_SelfOrMass;
+						}
+						else
+						{
+							c.SigilType = ArcanumSpell.SType_Targeted;
+						}
 					}
-					else
-					{
-						c.SigilType = ArcanumSpell.SType_Targeted;
-					}
+				}
+				else
+				{
+					A_WeaponMessage("You don't feel powerful enough to cast "..selSpell.GetName()..".");
 				}
 			}
 			ARCT A 2;
