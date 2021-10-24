@@ -100,7 +100,7 @@ class HDArcanumTome : HDWeapon
 		cost = int(cost * mult);
 		aggro = int(aggro * mult);
 
-		sb.DrawString(DescFont, "\c[DarkGray]Catalyst: c\[Black]"..aggro.."\c-", (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(DescFont, "\c[DarkGray]Catalyst: \c[Black]"..aggro.."\c-", (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		sb.DrawString(DescFont, "\c[DarkGray]Cost: \c[Red]"..cost.."\c-", (-40, yOff + 40), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		sb.DrawString(DescFont, selSpell.GetDescription(), (-40, yOff + 60), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
 	}
