@@ -9,7 +9,7 @@
 ### Notes
 ---
 - Loadout code is `arc`.
-- Catalyst is the minimum amount of aggravated damage **OR** blues you need to have to begin casting a spell.
+- Catalyst is the minimum amount of aggravated damage you need to have to begin casting a spell.
 - Cost is how much blood it'll cost to cast it.
 
 ### Known Issues

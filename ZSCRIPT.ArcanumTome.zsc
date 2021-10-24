@@ -95,14 +95,12 @@ class HDArcanumTome : HDWeapon
 		sb.DrawString(DescFont, selSpell.GetTechnicalInfo(), (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_OLIVE);
 
 		double mult = AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.80 : 1.0;
-		int cost, aggro, blues;
-		[cost, aggro, blues] = selSpell.GetCastRequirements();
+		int cost, aggro;
+		[cost, aggro] = selSpell.GetCastRequirements();
 		cost = int(cost * mult);
 		aggro = int(aggro * mult);
-		blues = int(blues * mult);
 
-		string str = String.Format("\c[Black]%i\c[DarkGray]/\c[ArcanumReqBlue]%i\c-", aggro, blues);
-		sb.DrawString(DescFont, "\c[DarkGray]Catalyst: "..str, (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(DescFont, "\c[DarkGray]Catalyst: c\[Black]"..aggro.."\c-", (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		sb.DrawString(DescFont, "\c[DarkGray]Cost: \c[Red]"..cost.."\c-", (-40, yOff + 40), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		sb.DrawString(DescFont, selSpell.GetDescription(), (-40, yOff + 60), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
 	}
@@ -116,7 +114,6 @@ class HDArcanumTome : HDWeapon
 		bob2.y = clamp(bob2.y, -8, 8);
 		sb.DrawImage("ARCNFRNT", (0, -2) + bob2, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP, alpha: 0.9);
 		sb.SetClipRect(cx, cy, cw, ch);
-		//sb.DrawImage("JDWBACK", (0, -7) + bob, sb.DI_SCREEN_CENTER | sb.DI_ITEM_TOP);
 	}
 
 	override void DetachFromOwner()
@@ -129,14 +126,6 @@ class HDArcanumTome : HDWeapon
 	override void AttachToOwner(Actor other)
 	{
 		Super.AttachToOwner(other);
-
-		let plr = HDPlayerPawn(other);
-		if (plr && BluesToGive > 0)
-		{
-			plr.regenblues = BluesToGive;
-			BluesToGive = 0;
-		}
-
 		InitStorage();
 	}
 
@@ -195,41 +184,32 @@ class HDArcanumTome : HDWeapon
 		}
 	}
 
-	override void LoadoutConfigure(string input)
-	{
-		int StartBlues = GetLoadoutVar(input, "blues", 4);
-		if (StartBlues > 0)
-		{
-			BluesToGive = StartBlues;
-		}
-	}
-
 	override void ActualPickup(Actor other, bool silent)
 	{
 		let Tome = HDArcanumTome(other.FindInventory("HDArcanumTome"));
 		if (Tome && Tome.SpellStorage)
 		{
 			// [Ace] Only give experience to spells that fit the bill, i.e. those that actually support experience.
-			Array<ArcanumSpell> ValidSpells;
+			Array<ArcanumSpell> valid;
 			for (int i = 0; i < Tome.SpellStorage.Trees.Size(); ++i)
 			{
 				for (int j = 0; j < Tome.SpellStorage.Trees[i].Spells.Size(); ++j)
 				{
-					let CurSpell = Tome.SpellStorage.Trees[i].Spells[j];
-					if (CurSpell.Level < CurSpell.GetMaxLevel())
+					let cur = Tome.SpellStorage.Trees[i].Spells[j];
+					if (cur.Level < cur.GetMaxLevel())
 					{
-						ValidSpells.Push(CurSpell);
+						valid.Push(cur);
 					}
 				}
 			}
 
-			int VSize = ValidSpells.Size();
-			for (int i = 0; VSize > 0 && i < 15; ++i)
+			int VSize = valid.Size();
+			for (int i = 0; VSize > 0 && i < 25; ++i)
 			{
-				let CurSpell = ValidSpells[random(0, VSize - 1)];
-				if (CurSpell.GainExperience())
+				let cur = valid[random(0, VSize - 1)];
+				if (cur.GainExperience())
 				{
-					other.A_Log(CurSpell.GetName().." has gained a level.", true);
+					other.A_Log(cur.GetName().." has gained a level.", true);
 				}
 			}
 
@@ -243,7 +223,6 @@ class HDArcanumTome : HDWeapon
 	}
 
 	ArcanumSpellBrain SpellStorage;
-	private int BluesToGive;
 	private transient CVar InvertSelection;
 	private transient CVar ZoomHold;
 
@@ -430,13 +409,12 @@ class HDArcanumTome : HDWeapon
 				let plr = HDPlayerPawn(self);
 
 				double mult = AceCore.CheckForItem(plr, "HDSoulCube") ? 0.80 : 1.0;
-				int cost, aggro, blues;
-				[cost, aggro, blues] = selSpell.GetCastRequirements();
+				int cost, aggro;
+				[cost, aggro] = selSpell.GetCastRequirements();
 				cost = int(cost * mult);
 				aggro = int(aggro * mult);
-				blues = int(blues * mult);
 
-				if (plr.aggravateddamage >= aggro || plr.regenblues >= blues)
+				if (plr.aggravateddamage >= aggro)
 				{
 					FLineTraceData Data;
 					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 6, 0, 0, Data);

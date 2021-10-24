@@ -8,7 +8,6 @@
 #include "Spells/Restoration/Convalescence.zsc"
 #include "Spells/Restoration/LifeForce.zsc"
 #include "Spells/Restoration/Rage.zsc"
-#include "Spells/Restoration/Transfusion.zsc"
 #include "Spells/Restoration/Resurrect.zsc"
 #include "Spells/Restoration/SoulGuard.zsc"
 #include "Spells/Restoration/Revitalization.zsc"
@@ -111,7 +110,7 @@ class ArcanumSpell abstract play
 	abstract int GetIndex() const;
 	abstract string GetName() const;
 	abstract int GetSpellType() const;
-	abstract int, int, int GetCastRequirements() const; // [Ace] Returns: blood, aggro, blues.
+	abstract int, int GetCastRequirements() const; // [Ace] Returns: blood, aggro.
 	abstract clearscope string GetDescription();
 	abstract string GetTechnicalInfo() const;
 	virtual int GetExperienceGain() const { return 1; }
