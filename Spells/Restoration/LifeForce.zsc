@@ -42,9 +42,9 @@ class LifeForceSigil : ArcanumSigil
 			plr.oldwoundcount = 0;
 			plr.woundcount = 0;
 			plr.burncount -= (Boosted ? 30 : 20) * SigilLevel;
+			plr.aggravateddamage -= (Boosted ? 15 : 10) * SigilLevel;
 			if (a != master)
 			{
-				plr.aggravateddamage -= (Boosted ? 15 : 10) * SigilLevel;
 				plr.bloodloss = 0;
 				plr.incaptimer = 0;
 			}
