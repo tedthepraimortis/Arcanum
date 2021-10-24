@@ -100,8 +100,8 @@ class ArcanumSpell abstract play
 {
 	enum SType
 	{
-		SType_SelfOrMass = 1 << 0,
-		SType_Targeted = 1 << 1
+		SType_SelfOrMass = 1,
+		SType_Targeted = 2
 	}
 
 	static const int ExperienceReqs[] = { 100, 200 }; // [Ace] Pulled these out my ass. Probably gonna need rebalancing.
@@ -110,7 +110,7 @@ class ArcanumSpell abstract play
 	abstract int GetIndex() const;
 	abstract string GetName() const;
 	abstract int GetSpellType() const;
-	abstract int, int GetCastRequirements() const; // [Ace] Returns: blood, aggro.
+	abstract int GetCastRequirements() const;
 	abstract clearscope string GetDescription();
 	abstract string GetTechnicalInfo() const;
 	virtual int GetExperienceGain() const { return 1; }

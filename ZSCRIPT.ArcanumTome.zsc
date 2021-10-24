@@ -94,15 +94,10 @@ class HDArcanumTome : HDWeapon
 		
 		sb.DrawString(DescFont, selSpell.GetTechnicalInfo(), (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_OLIVE);
 
-		double mult = AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.70 : 1.0;
-		int cost, aggro;
-		[cost, aggro] = selSpell.GetCastRequirements();
-		cost = int(cost * mult);
-		aggro = int(aggro * mult);
+		int cost = int(selSpell.GetCastRequirements() * (AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.70 : 1.0));
 
-		sb.DrawString(DescFont, "\c[DarkGray]Catalyst: \c[Black]"..aggro.."\c-", (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
-		sb.DrawString(DescFont, "\c[DarkGray]Cost: \c[Red]"..cost.."\c-", (-40, yOff + 40), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
-		sb.DrawString(DescFont, selSpell.GetDescription(), (-40, yOff + 60), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
+		sb.DrawString(DescFont, "\c[DarkGray]Cost: \c[Red]"..cost.."\c-", (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(DescFont, selSpell.GetDescription(), (-40, yOff + 50), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
 	}
 
 	override void DrawSightPicture(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl, bool sightbob, vector2 bob, double fov, bool scopeview, actor hpc, string whichdot)
@@ -408,49 +403,36 @@ class HDArcanumTome : HDWeapon
 
 				let plr = HDPlayerPawn(self);
 
-				double mult = AceCore.CheckForItem(plr, "HDSoulCube") ? 0.70 : 1.0;
-				int cost, aggro;
-				[cost, aggro] = selSpell.GetCastRequirements();
-				cost = int(cost * mult);
-				aggro = int(aggro * mult);
-
-				if (plr.aggravateddamage >= aggro)
+				FLineTraceData Data;
+				LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 6, 0, 0, Data);
+				if (Data.HitType == Data.TRACE_HitNone || Data.HitType == Data.TRACE_HitFloor)
 				{
-					FLineTraceData Data;
-					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 6, 0, 0, Data);
-					if (Data.HitType == Data.TRACE_HitNone || Data.HitType == Data.TRACE_HitFloor)
+					if (selSpell.GainExperience())
 					{
-						if (selSpell.GainExperience())
-						{
-							A_Log(selSpell.GetName().." has gained a level.", true);
-						}
-						
-						plr.bloodloss += cost;
-
-						ArcanumSigil c = ArcanumSigil(Spawn(selSpell.GetSigil(), Data.HitLocation));
-						c.angle = angle;
-						if (!c.bDONTPITCH)
-						{
-							c.pitch = pitch;
-						}
-						c.master = self;
-						c.SigilLevel = selSpell.Level;
-
-						double MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
-						int SpellType = selSpell.GetSpellType();
-						if (SpellType & ArcanumSpell.SType_SelfOrMass && pitch >= MPitch)
-						{
-							c.SigilType = ArcanumSpell.SType_SelfOrMass;
-						}
-						else
-						{
-							c.SigilType = ArcanumSpell.SType_Targeted;
-						}
+						A_Log(selSpell.GetName().." has gained a level.", true);
 					}
-				}
-				else
-				{
-					A_WeaponMessage("You don't feel powerful enough to cast "..selSpell.GetName()..".");
+					
+					plr.bloodloss += int(selSpell.GetCastRequirements() * (AceCore.CheckForItem(plr, "HDSoulCube") ? 0.70 : 1.0));
+
+					ArcanumSigil c = ArcanumSigil(Spawn(selSpell.GetSigil(), Data.HitLocation));
+					c.angle = angle;
+					if (!c.bDONTPITCH)
+					{
+						c.pitch = pitch;
+					}
+					c.master = self;
+					c.SigilLevel = selSpell.Level;
+
+					double MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
+					int SpellType = selSpell.GetSpellType();
+					if (SpellType & ArcanumSpell.SType_SelfOrMass && pitch >= MPitch)
+					{
+						c.SigilType = ArcanumSpell.SType_SelfOrMass;
+					}
+					else
+					{
+						c.SigilType = ArcanumSpell.SType_Targeted;
+					}
 				}
 			}
 			ARCT A 2;

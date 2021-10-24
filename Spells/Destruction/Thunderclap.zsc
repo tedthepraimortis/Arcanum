@@ -4,7 +4,7 @@ class ThunderclapSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
 	override string GetName() { return "Thunderclap"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int, int GetCastRequirements() { return 30, 10; }
+	override int GetCastRequirements() { return 30; }
 	override string GetDescription() { return String.Format("Strikes target area with \c[Gold]%i\c- lightning bolt%s.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Targeted, AoE, Dangerous"; }
 	override class<ArcanumSigil> GetSigil() { return 'ThunderclapSigil'; }

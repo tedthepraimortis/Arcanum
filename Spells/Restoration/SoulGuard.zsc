@@ -4,7 +4,7 @@ class SoulGuardSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Soul Guard"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int, int GetCastRequirements() { return 700, 60; }
+	override int GetCastRequirements() { return 1000; }
 	override string GetDescription() { return String.Format("Grants \c[Gold]%i\c- layer%s of spiritual armor.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Self, Targeted"; }
 	override int GetExperienceGain() { return 8; }
