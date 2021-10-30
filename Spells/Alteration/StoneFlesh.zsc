@@ -50,7 +50,7 @@ class StoneFleshSigil : ArcanumSigil
 		CreateRuneSlot((-Y, X), Size, RSize);
 
 		Size = (4, 6.666);
-		RSize = 1.0;
+		RSize = 1.35;
 		X = 16.75; Y = 16.75;
 		CreateRuneSlot((X, Y), Size, RSize);
 		CreateRuneSlot((X, -Y), Size, RSize);
