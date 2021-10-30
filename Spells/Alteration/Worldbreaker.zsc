@@ -33,9 +33,9 @@ class WorldbreakerSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (3.5, 5.83);
-		CreateRuneSlot((-7.8, 9.5), Size, 1.0, 1.75); CreateRuneSlot((7.8, 9.5), Size, 1.0, 1.75);
-		CreateRuneSlot((-18, 0), Size, 1.0, 1.75); CreateRuneSlot((18, 0), Size, 1.0, 1.75);
-		CreateRuneSlot((-7.8, -9.5), Size, 1.0, 1.75); CreateRuneSlot((7.8, -9.5), Size,1.07, 1.75);
+		CreateRuneSlot((-7.8, 9.5), Size, 1.0); CreateRuneSlot((7.8, 9.5), Size, 1.0);
+		CreateRuneSlot((-18, 0), Size, 1.0); CreateRuneSlot((18, 0), Size, 1.0);
+		CreateRuneSlot((-7.8, -9.5), Size, 1.0); CreateRuneSlot((7.8, -9.5), Size,1.07);
 	}
 
 	private bool HasPlayedSound;

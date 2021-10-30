@@ -75,12 +75,12 @@ class MassRecallSigil : ArcanumSigil
 	{
 		vector2 Size = (3, 5);
 		double X = 27.9, Y = 0;
-		CreateRuneSlot((-X, Y), Size, 0.85, 1.75); CreateRuneSlot((X, Y), Size, 0.85, 1.75);
+		CreateRuneSlot((-X, Y), Size, 0.85); CreateRuneSlot((X, Y), Size, 0.85);
 
 		Size = (4.2, 7);
 		X = 8.85; Y = 17.14;
-		CreateRuneSlot((-X, Y), Size, 1.4, 1.75); CreateRuneSlot((X, Y), Size, 1.4, 1.75);
-		CreateRuneSlot((-X, -Y), Size, 1.4, 1.75); CreateRuneSlot((X, -Y), Size, 1.4, 1.75);
+		CreateRuneSlot((-X, Y), Size, 1.4); CreateRuneSlot((X, Y), Size, 1.4);
+		CreateRuneSlot((-X, -Y), Size, 1.4); CreateRuneSlot((X, -Y), Size, 1.4);
 	}
 
 	Default

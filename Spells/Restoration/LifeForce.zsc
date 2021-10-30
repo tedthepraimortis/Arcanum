@@ -77,9 +77,9 @@ class LifeForceSigil : ArcanumSigil
 	{
 		vector2 BigSize = (4, 6.66);
 		vector2 SmallSize = (3, 5);
-		CreateRuneSlot((-9.3, 16.5), SmallSize, 0.9, 1.75); CreateRuneSlot((9.3, 16.5), SmallSize, 0.9, 1.75);
-		CreateRuneSlot((-17, 0), BigSize, 1.2, 1.75); CreateRuneSlot((17, 0), BigSize, 1.2, 1.75);
-		CreateRuneSlot((-9.3, -16.5), SmallSize, 0.9, 1.75); CreateRuneSlot((9.3, -16.5), SmallSize, 0.9, 1.75);
+		CreateRuneSlot((-9.3, 16.5), SmallSize, 0.9); CreateRuneSlot((9.3, 16.5), SmallSize, 0.9);
+		CreateRuneSlot((-17, 0), BigSize, 1.2); CreateRuneSlot((17, 0), BigSize, 1.2);
+		CreateRuneSlot((-9.3, -16.5), SmallSize, 0.9); CreateRuneSlot((9.3, -16.5), SmallSize, 0.9);
 	}
 
 	Default

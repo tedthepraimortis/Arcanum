@@ -25,15 +25,14 @@ class BridgeSigil : ArcanumSigil
 		vector2 Size = (2, 3.333);
 		double X = 0, Y = 18.2;
 		double RSize = 0.6;
-		double FSpeed = 1.50;
-		CreateRuneSlot((0, Y), Size, RSize, FSpeed);
-		CreateRuneSlot((0, -Y), Size, RSize, FSpeed);
+		CreateRuneSlot((0, Y), Size, RSize);
+		CreateRuneSlot((0, -Y), Size, RSize);
 
 		X = 3.9; Y = 11.4;
-		CreateRuneSlot((-X, Y), Size, RSize, FSpeed);
-		CreateRuneSlot((X, Y), Size, RSize, FSpeed);
-		CreateRuneSlot((X, -Y), Size, RSize, FSpeed);
-		CreateRuneSlot((-X, -Y), Size, RSize, FSpeed);
+		CreateRuneSlot((-X, Y), Size, RSize);
+		CreateRuneSlot((X, Y), Size, RSize);
+		CreateRuneSlot((X, -Y), Size, RSize);
+		CreateRuneSlot((-X, -Y), Size, RSize);
 	}
 
 

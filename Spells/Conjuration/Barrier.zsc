@@ -27,15 +27,14 @@ class BarrierSigil : ArcanumSigil
 		vector2 Size = (2, 3.333);
 		double X = 18.2, Y = 0;
 		double RSize = 0.6;
-		double FSpeed = 1.50;
-		CreateRuneSlot((-X, 0), Size, RSize, FSpeed);
-		CreateRuneSlot((X, 0), Size, RSize, FSpeed);
+		CreateRuneSlot((-X, 0), Size, RSize);
+		CreateRuneSlot((X, 0), Size, RSize);
 
 		X = 11.4; Y = 3.9;
-		CreateRuneSlot((-X, Y), Size, RSize, FSpeed);
-		CreateRuneSlot((X, Y), Size, RSize, FSpeed);
-		CreateRuneSlot((X, -Y), Size, RSize, FSpeed);
-		CreateRuneSlot((-X, -Y), Size, RSize, FSpeed);
+		CreateRuneSlot((-X, Y), Size, RSize);
+		CreateRuneSlot((X, Y), Size, RSize);
+		CreateRuneSlot((X, -Y), Size, RSize);
+		CreateRuneSlot((-X, -Y), Size, RSize);
 	}
 
 	Default

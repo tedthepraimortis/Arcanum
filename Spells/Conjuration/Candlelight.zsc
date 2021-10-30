@@ -24,11 +24,10 @@ class CandlelightSigil : ArcanumSigil
 	{
 		vector2 Size = (2, 3.333);
 		double RSize = 0.5;
-		double FSpeed = 1.75;
-		CreateRuneSlot((0, 10), Size, RSize, FSpeed);
-		CreateRuneSlot((0, -10), Size, RSize, FSpeed);
-		CreateRuneSlot((-7, -7), Size, RSize, FSpeed);
-		CreateRuneSlot((7, -7), Size, RSize, FSpeed);
+		CreateRuneSlot((0, 10), Size, RSize);
+		CreateRuneSlot((0, -10), Size, RSize);
+		CreateRuneSlot((-7, -7), Size, RSize);
+		CreateRuneSlot((7, -7), Size, RSize);
 	}
 
 

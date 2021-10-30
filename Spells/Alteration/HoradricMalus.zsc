@@ -113,14 +113,14 @@ class HoradricMalusSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 BigSize = (4, 6.66);
-		CreateRuneSlot((-14, 0), BigSize, 1.0, 1.35); CreateRuneSlot((14, 0), BigSize, 1.0, 1.35);
+		CreateRuneSlot((-14, 0), BigSize, 1.0); CreateRuneSlot((14, 0), BigSize, 1.0);
 
 		vector2 MedSize = (3, 5);
-		CreateRuneSlot((-7.8, 7.1), MedSize, 0.7, 1.35); CreateRuneSlot((7.8, 7.1), MedSize, 0.7, 1.35);
-		CreateRuneSlot((-7.8, -7.1), MedSize, 0.7, 1.35); CreateRuneSlot((7.8, -7.1), MedSize, 0.7, 1.35);
+		CreateRuneSlot((-7.8, 7.1), MedSize, 0.7); CreateRuneSlot((7.8, 7.1), MedSize, 0.7);
+		CreateRuneSlot((-7.8, -7.1), MedSize, 0.7); CreateRuneSlot((7.8, -7.1), MedSize, 0.7);
 
 		vector2 SmallSize = (2, 3.33);
-		CreateRuneSlot((0, 11), SmallSize, 0.5, 1.35); CreateRuneSlot((0, -11), SmallSize, 0.5, 1.35);
+		CreateRuneSlot((0, 11), SmallSize, 0.5); CreateRuneSlot((0, -11), SmallSize, 0.5);
 	}
 
 	private bool HasPlayedSound;

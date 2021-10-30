@@ -22,10 +22,10 @@ class DisplacementSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (3, 5);
-		CreateRuneSlot((-16.4, 0), Size, 0.9, 2.0);
-		CreateRuneSlot((0, 16.4), Size, 0.9, 2.0);
-		CreateRuneSlot((16.4, 0), Size, 0.9, 2.0);
-		CreateRuneSlot((0, -16.4), Size, 0.9, 2.0);
+		CreateRuneSlot((-16.4, 0), Size, 0.9);
+		CreateRuneSlot((0, 16.4), Size, 0.9);
+		CreateRuneSlot((16.4, 0), Size, 0.9);
+		CreateRuneSlot((0, -16.4), Size, 0.9);
 	}
 
 	Default

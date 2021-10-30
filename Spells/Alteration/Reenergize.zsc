@@ -64,11 +64,11 @@ class ReenergizeSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (2.2, 3.66);
-		CreateRuneSlot((-4.6, 8.40), Size, 0.65, 1.0); CreateRuneSlot((4.6, 8.40), Size, 0.65, 1.0);
-		CreateRuneSlot((-4.6, -8.40), Size, 0.65, 1.0); CreateRuneSlot((4.6,- 8.40), Size, 0.65, 1.0);
+		CreateRuneSlot((-4.6, 8.40), Size, 0.65); CreateRuneSlot((4.6, 8.40), Size, 0.65);
+		CreateRuneSlot((-4.6, -8.40), Size, 0.65); CreateRuneSlot((4.6,- 8.40), Size, 0.65);
 
-		CreateRuneSlot((-8.5, 4.5), Size, 0.65, 1.0); CreateRuneSlot((8.5, 4.5), Size, 0.65, 1.0);
-		CreateRuneSlot((-8.5, -4.5), Size, 0.65, 1.0); CreateRuneSlot((8.5,- 4.5), Size, 0.65, 1.0);
+		CreateRuneSlot((-8.5, 4.5), Size, 0.65); CreateRuneSlot((8.5, 4.5), Size, 0.65);
+		CreateRuneSlot((-8.5, -4.5), Size, 0.65); CreateRuneSlot((8.5,- 4.5), Size, 0.65);
 	}
 
 	Default

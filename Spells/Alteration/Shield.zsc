@@ -67,17 +67,17 @@ class ShieldSigil : ArcanumSigil
 		vector2 Size = (2.2, 3.666);
 		double X = 6.3, Y = 6.3;
 
-		CreateRuneSlot((X, Y), Size, 0.5, 1.0);
-		CreateRuneSlot((X, -Y), Size, 0.5, 1.0);
-		CreateRuneSlot((-X, -Y), Size, 0.5, 1.0);
-		CreateRuneSlot((-X, Y), Size, 0.5, 1.0);
+		CreateRuneSlot((X, Y), Size, 0.5);
+		CreateRuneSlot((X, -Y), Size, 0.5);
+		CreateRuneSlot((-X, -Y), Size, 0.5);
+		CreateRuneSlot((-X, Y), Size, 0.5);
 
 		Size = (3.5, 5.833);
 		X = 17; Y = 17;
-		CreateRuneSlot((0, Y), Size, 0.9, 1.0);
-		CreateRuneSlot((X, 0), Size, 0.9, 1.0);
-		CreateRuneSlot((0, -Y), Size, 0.9, 1.0);
-		CreateRuneSlot((-X, 0), Size, 0.9, 1.0);
+		CreateRuneSlot((0, Y), Size, 0.9);
+		CreateRuneSlot((X, 0), Size, 0.9);
+		CreateRuneSlot((0, -Y), Size, 0.9);
+		CreateRuneSlot((-X, 0), Size, 0.9);
 	}
 
 	Default

@@ -37,15 +37,14 @@ class HasteSigil : ArcanumSigil
 		double A = 18.3;
 		double B = 12.94;
 		double RSize = 1.25;
-		double FSpeed = 1.5;
-		CreateRuneSlot((0, A), Size, RSize, FSpeed);
-		CreateRuneSlot((B, B), Size, RSize, FSpeed);
-		CreateRuneSlot((A, 0), Size, RSize, FSpeed);
-		CreateRuneSlot((B, -B), Size, RSize, FSpeed);
-		CreateRuneSlot((0, -A), Size, RSize, FSpeed);
-		CreateRuneSlot((-B, -B), Size, RSize, FSpeed);
-		CreateRuneSlot((-A, 0), Size, RSize, FSpeed);
-		CreateRuneSlot((-B, B), Size, RSize, FSpeed);
+		CreateRuneSlot((0, A), Size, RSize);
+		CreateRuneSlot((B, B), Size, RSize);
+		CreateRuneSlot((A, 0), Size, RSize);
+		CreateRuneSlot((B, -B), Size, RSize);
+		CreateRuneSlot((0, -A), Size, RSize);
+		CreateRuneSlot((-B, -B), Size, RSize);
+		CreateRuneSlot((-A, 0), Size, RSize);
+		CreateRuneSlot((-B, B), Size, RSize);
 	}
 
 	Default

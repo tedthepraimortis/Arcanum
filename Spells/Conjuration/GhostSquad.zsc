@@ -55,8 +55,8 @@ class GhostSquadSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (2, 3.33);
-		CreateRuneSlot((-8.4, 0), Size, 0.5, 2.5); CreateRuneSlot((8.4, 0), Size, 0.5, 2.5);
-		CreateRuneSlot((0, -8.4), Size, 0.5, 2.5); CreateRuneSlot((0, 8.4), Size, 0.5, 2.5);
+		CreateRuneSlot((-8.4, 0), Size, 0.5); CreateRuneSlot((8.4, 0), Size, 0.5);
+		CreateRuneSlot((0, -8.4), Size, 0.5); CreateRuneSlot((0, 8.4), Size, 0.5);
 	}
 
 	Default

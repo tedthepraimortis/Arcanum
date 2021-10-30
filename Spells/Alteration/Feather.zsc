@@ -27,8 +27,8 @@ class FeatherSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 Size = (3.5, 5.83);
-		CreateRuneSlot((-10.6, 0), Size, 1.0, 4.0);
-		CreateRuneSlot((10.6, 0), Size, 1.0, 4.0);
+		CreateRuneSlot((-10.6, 0), Size, 1.0);
+		CreateRuneSlot((10.6, 0), Size, 1.0);
 	}
 
 	Default

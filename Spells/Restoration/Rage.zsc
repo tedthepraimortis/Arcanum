@@ -43,7 +43,7 @@ class RageSigil : ArcanumSigil
 
 	override void InitRuneSlots()
 	{
-		CreateRuneSlot((0, 0), (5, 8.33), 1.35, 1);
+		CreateRuneSlot((0, 0), (5, 8.33), 1.35);
 	}
 
 	Default

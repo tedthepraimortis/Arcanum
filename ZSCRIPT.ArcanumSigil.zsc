@@ -18,7 +18,7 @@ class ArcanumSigil : HDActor abstract
 		Super.PostBeginPlay();
 	}
 
-	protected void CreateRuneSlot(vector2 offCenter, vector2 size, double scaleMult = 1.0, double decayMult = 1.0)
+	protected void CreateRuneSlot(vector2 offCenter, vector2 size, double scaleMult = 1.0)
 	{
 		double Stretch = 1.0 + 0.2 * abs(cos(pitch));
 		
@@ -34,7 +34,7 @@ class ArcanumSigil : HDActor abstract
 			Rune.roll = random(0, 359);
 			Rune.A_SetSize(size.x, size.y);
 			Rune.SetOrigin(Rune.pos - (0, 0, Rune.Height / 2.0), false); // [Ace] Offset the slot to account for Doom's collision.
-			Rune.DecaySpeedMult = decayMult;
+			Rune.DecaySpeedMult = 1.0;
 			Rune.FadeOutSpeedMult = FadeOutSpeedMult;
 		}
 
