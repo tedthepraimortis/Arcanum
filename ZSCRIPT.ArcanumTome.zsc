@@ -94,7 +94,7 @@ class HDArcanumTome : HDWeapon
 		
 		sb.DrawString(DescFont, selSpell.GetTechnicalInfo(), (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_OLIVE);
 
-		double mult = AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.70 : 1.0;
+		double mult = AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.80 : 1.0;
 		int cost, blues;
 		[cost, blues] = selSpell.GetCastRequirements();
 		cost = int(cost * mult);
@@ -412,7 +412,7 @@ class HDArcanumTome : HDWeapon
 
 				let plr = HDPlayerPawn(self);
 
-				double mult = AceCore.CheckForItem(plr, "HDSoulCube") ? 0.70 : 1.0;
+				double mult = AceCore.CheckForItem(plr, "HDSoulCube") ? 0.80 : 1.0;
 				int cost, blues;
 				[cost, blues] = selSpell.GetCastRequirements();
 				cost = int(cost * mult);
