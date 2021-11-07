@@ -418,7 +418,7 @@ class HDArcanumTome : HDWeapon
 				cost = int(cost * mult);
 				blues = int(blues * mult);
 
-				if (CountInv('HDBlues') >= blues)
+				if (CountInv('HDBlues') >= blues && cost <= 2000 - plr.bloodloss)
 				{
 					FLineTraceData Data;
 					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 6, 0, 0, Data);
