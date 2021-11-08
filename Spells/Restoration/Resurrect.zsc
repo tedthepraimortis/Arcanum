@@ -52,7 +52,7 @@ class ResurrectSigil : ArcanumSigil
 					HDMobBase(it.thing).bodydamage = 0;
 				}
 				master.RaiseActor(it.thing, RF_NOCHECKPOSITION);
-				it.thing.bFRIENDLY = true;
+				it.thing.A_SetFriendly(true);
 				RevivesLeft--;
 			}
 		}
