@@ -127,6 +127,7 @@ class ArcanumBridge : ArcanumBarrier
 	override void PostBeginPlay()
 	{
 		InitialAngle = Angle;
+		A_GiveInventory('ImmunityToFire');
 	}
 
 	Default
