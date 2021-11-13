@@ -136,6 +136,7 @@ class ArcanumBridge : ArcanumBarrier
 		Height 1;
 		-WALLSPRITE
 		+FLATSPRITE
+		+ACTLIKEBRIDGE
 	}
 
 	States
