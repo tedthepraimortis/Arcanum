@@ -76,15 +76,11 @@ class ArcanumSigil : HDActor abstract
 			{
 				A_SetSize(-1, 1); // [Ace] So it shoots from the center.
 			}
-			if (SigilType == ArcanumSpell.SType_Targeted)
+			HasTriggered = true;
+			switch (SigilType)
 			{
-				HasTriggered = true;
-				ActivateTargeted();
-			}
-			else if (SigilType == ArcanumSpell.SType_SelfOrMass)
-			{
-				HasTriggered = true;
-				ActivateSelfOrMass();
+				case ArcanumSpell.SType_Targeted: ActivateTargeted(); break;
+				case ArcanumSpell.SType_SelfOrMass: ActivateSelfOrMass(); break;
 			}
 		}
 

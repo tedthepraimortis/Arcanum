@@ -38,6 +38,30 @@ class HDArcanumTome : HDWeapon
 		ArcanumSpell selSpell = GetSelectedSpell();
 		selSpell.DrawHUDStuff(sb, hpl);
 
+		Array<ArcanumIndicator> indicators;
+		int totalIndicators = 0;
+		for (int i = 0; i < SpellStorage.Trees.Size(); ++i)
+		{
+			for (int j = 0; j < SpellStorage.Trees[i].Spells.Size(); ++j)
+			{
+				string icon; class<Powerup> cls;
+				[icon, cls] = SpellStorage.Trees[i].Spells[j].GetIndicatorInfo();
+				if (icon != "" && cls && hpl.FindInventory(cls))
+				{
+					let ind = new('ArcanumIndicator');
+					ind.Icon = icon;
+					ind.Pos = (-115 - 20 * (totalIndicators % 5), -5 - 20 * (totalIndicators / 5));
+					ind.Col = 0xFF000000 | GetDefaultByType(SpellStorage.Trees[i].Spells[j].GetSigil()).fillcolor;
+					indicators.Push(ind);
+					totalIndicators++;
+				}
+			}
+		}
+		for (int i = 0; i < indicators.Size(); ++i)
+		{
+			sb.DrawImage(indicators[i].Icon, indicators[i].Pos, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_ITEM_CENTER_BOTTOM, 0.8, (15, 15), col: indicators[i].Col);
+		}
+
 		if (!(hdw.WeaponStatus[ATProp_Flags] & ATF_InSpellMenu))
 		{
 			return;

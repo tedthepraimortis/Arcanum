@@ -13,6 +13,7 @@ class ConvalescenceSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 2; }
 	override class<ArcanumSigil> GetSigil() { return 'ConvalescenceSigil'; }
+	override string, class<Powerup> GetIndicatorInfo() { return "INDCONVL", 'ConvalescenceEffect'; }
 }
 
 class ConvalescenceSigil : ArcanumSigil

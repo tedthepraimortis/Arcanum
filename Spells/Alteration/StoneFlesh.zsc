@@ -9,6 +9,7 @@ class StoneFleshSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 4; }
 	override class<ArcanumSigil> GetSigil() { return 'StoneFleshSigil'; }
+	override string, class<Powerup> GetIndicatorInfo() { return "INDSFLSH", 'StoneFleshEffect'; }
 }
 
 class StoneFleshSigil : ArcanumSigil
