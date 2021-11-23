@@ -77,7 +77,7 @@ class ConvalescenceEffect : Powerup
 			int zerk = plr.CountInv('HDZerk');
 			if (zerk > 0 && zerk <= HDZerk.HDZERK_COOLOFF)
 			{
-				plr.A_TakeInventory('HDZerk', 20);
+				plr.A_TakeInventory('HDZerk', 50);
 			}
 		}
 		else if (!plr && owner && GetAge() % 20 == 0)
