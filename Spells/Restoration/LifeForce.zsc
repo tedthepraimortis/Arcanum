@@ -48,7 +48,7 @@ class LifeForceSigil : ArcanumSigil
 				plr.bloodloss = 0;
 				plr.incaptimer = 0;
 			}
-			int MissingHealth = plr.MaxHealth() - plr.Health;
+			int MissingHealth = plr.default.Health - plr.Health;
 			plr.GiveBody(int(MissingHealth * (Boosted ? 0.70 : 0.35)));
 		}
 		else if (mon)

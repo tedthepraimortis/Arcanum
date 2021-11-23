@@ -71,9 +71,12 @@ class ConvalescenceEffect : Powerup
 	override void DoEffect()
 	{
 		let plr = HDPlayerPawn(owner);
-		if (plr && plr.beatcount == 0 && plr.beatcounter % (4 - Level) == 0 && plr.Health < plr.MaxHealth())
+		if (plr && plr.beatcount == 0 && plr.beatcounter % (4 - Level) == 0)
 		{
-			plr.GiveBody(1);
+			if (plr.Health < plr.default.Health)
+			{
+				plr.GiveBody(1);
+			}
 			int zerk = plr.CountInv('HDZerk');
 			if (zerk > 0 && zerk <= HDZerk.HDZERK_COOLOFF)
 			{
