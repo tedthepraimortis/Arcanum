@@ -20,7 +20,7 @@ class WorldbreakerSigil : ArcanumSigil
 		{
 			A_StartSound("weapons/bigcrack", CHAN_AUTO);
 			A_StartSound("world/explode", CHAN_VOICE);
-			DoorDestroyer.DestroyDoor(self, 128 * SigilLevel, 32 * SigilLevel, 32 * 2); 
+			DoorDestroyer.DestroyDoor(self, 128 * SigilLevel, 32 * SigilLevel, HDCONST_ONEMETRE * 2); 
 		}
 
 		if (!HasPlayedSound)

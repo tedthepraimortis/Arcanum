@@ -1,11 +1,17 @@
 class ResurrectSpell : ArcanumSpell
 {
+	static const int PowerLevel[] =
+	{
+		10, 5,
+		25, 15,
+		50, 30
+	};
 	override int GetIndex() { return 30; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Resurrect"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int, int GetCastRequirements() { return 700, 0; }
-	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within \c[Gold]%i\c-m of where the sigil was cast.", 10 * Level, 5 * Level); }
+	override int, int GetCastRequirements() { return 700, HDBLU_BOTTLE * HDBLU_MOUTH; }
+	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within \c[Gold]%i\c-m of where the sigil was cast.", PowerLevel[2 * (Level - 1)], PowerLevel[1 + 2 * (Level - 1)]); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 5; }
 	override class<ArcanumSigil> GetSigil() { return 'ResurrectSigil'; }
@@ -16,8 +22,8 @@ class ResurrectSigil : ArcanumSigil
 	override void ActivateSelfOrMass()
 	{
 		bool HasPlayedSound;
-		int RevivesLeft = 10 * SigilLevel;
-		double MaxRange = HDCONST_ONEMETRE * 5 * SigilLevel;
+		int RevivesLeft = ResurrectSpell.PowerLevel[2 * (SigilLevel - 1)];
+		double MaxRange = HDCONST_ONEMETRE * ResurrectSpell.PowerLevel[1 + 2 * (SigilLevel - 1)];
 
 		BlockThingsIterator it = BlockThingsIterator.Create(self, MaxRange);
 		while (RevivesLeft > 0 && it.Next())

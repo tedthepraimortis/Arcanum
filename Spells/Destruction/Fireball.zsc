@@ -5,7 +5,7 @@ class FireballSpell : ArcanumSpell
 	override string GetName() { return "Fireball"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int, int GetCastRequirements() { return 15, 0; }
-	override string GetDescription() { return String.Format("Barrage target area with \c[Gold]%i\c- fireballs.", 10 + 5 * Level); }
+	override string GetDescription() { return String.Format("Barrage target area with \c[Gold]%i\c- fireballs.", 10 + 10 * Level); }
 	override string GetTechnicalInfo() { return "Targeted, Thermal, Dangerous"; }
 	override class<ArcanumSigil> GetSigil() { return 'FireballSigil'; }
 }
@@ -16,7 +16,7 @@ class FireballSigil : ArcanumSigil
 	{
 		Super.PostBeginPlay();
 
-		ReactionTime = 10 + 5 * SigilLevel;
+		ReactionTime = 10 + 10 * SigilLevel;
 	}
 
 	override void ActivateTargeted()

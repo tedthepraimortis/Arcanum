@@ -1,12 +1,12 @@
 class ShieldSpell : ArcanumSpell
 {
-	const ShieldPerLevel = 1000;
+	static const int Shields[] = { 1000, 2500, 7500 };
 	override int GetIndex() { return 20; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Shield"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int, int GetCastRequirements() { return 400, 0; }
-	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage.", ShieldPerLevel * Level); }
+	override int, int GetCastRequirements() { return 400, HDBLU_BOTTLE * HDBLU_MOUTH / 2; }
+	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage.", Shields[Level - 1]); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 3; }
 	override class<ArcanumSigil> GetSigil() { return 'ShieldSigil'; }
@@ -20,7 +20,7 @@ class ShieldSpell : ArcanumSpell
 			sb.DrawRect(-29, -22, 2, 12);
 			sb.DrawRect(-27, -20, 2, 8);
 			sb.DrawRect(-25, -22, 2, 8);
-			sb.DrawWepNum(Shield.Amount, ShieldPerLevel * Level);
+			sb.DrawWepNum(Shield.Amount, Shields[Level - 1]);
 		}
 	}
 }
@@ -58,8 +58,8 @@ class ShieldSigil : ArcanumSigil
 		trgt.A_GiveInventory("ArcanumShield");
 		let Shield = ArcanumShield(trgt.FindInventory("ArcanumShield"));
 		Shield.MaxAmount = 0; // [Ace] This is so that the shield gets destroyed when it depletes.
-		Shield.Stamina = ShieldSpell.ShieldPerLevel * SigilLevel * 2;
-		Shield.Amount = ShieldSpell.ShieldPerLevel * SigilLevel;
+		Shield.Stamina = ShieldSpell.Shields[SigilLevel - 1] * 2;
+		Shield.Amount = ShieldSpell.Shields[SigilLevel - 1];
 	}
 
 	override void InitRuneSlots()

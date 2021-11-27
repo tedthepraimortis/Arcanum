@@ -1,11 +1,12 @@
 class HasteSpell : ArcanumSpell
 {
+	static const int Durations[] = { 2, 5, 10 };
 	override int GetIndex() { return 30; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Haste"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int, int GetCastRequirements() { return 300, 0; }
-	override string GetDescription() { return String.Format("All visible players within 20m get an increase to speed by \c[Gold]%i\c-%% for \c[Gold]%i\c- minutes.", 50 + 25 * Level, 2 + 2 * Level); }
+	override string GetDescription() { return String.Format("All visible players within 20m get an increase to speed by \c[Gold]%i\c-%% for \c[Gold]%i\c- minutes.", 50 + 25 * Level, Durations[Level - 1]); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 4; }
 	override class<ArcanumSigil> GetSigil() { return 'HasteSigil'; }
@@ -22,12 +23,9 @@ class HasteSigil : ArcanumSigil
 			let plr = players[i].mo;
 			if (plr && Distance3D(plr) <= HDCONST_ONEMETRE * 20 && CheckSight(plr))
 			{
-				for (int i = 0; i < SigilLevel; ++i)
-				{
-					plr.A_GiveInventory("HasteEffect");
-					let Effect = HasteEffect(plr.FindInventory("HasteEffect"));
-					Effect.Level = SigilLevel;
-				}
+				plr.A_GiveInventory("HasteEffect");
+				let effect = HasteEffect(plr.FindInventory("HasteEffect"));
+				effect.Level = SigilLevel;
 			}
 		}
 	}
@@ -67,7 +65,7 @@ class HasteEffect : PowerSpeed
 {
 	override void DoEffect()
 	{
-		EffectTics = min(EffectTics, 35 * 60 * (2 + 2 * Level));
+		EffectTics = min(EffectTics, 35 * 60 * HasteSpell.Durations[Level - 1]);
 		Speed = 1.50 + 0.25 * Level;
 		Super.DoEffect();
 	}
@@ -78,7 +76,6 @@ class HasteEffect : PowerSpeed
 	{
 		Speed 1.75;
 		+INVENTORY.ALWAYSPICKUP
-		+INVENTORY.ADDITIVETIME
 		Powerup.Duration 0xFFFF;
 	}
 }

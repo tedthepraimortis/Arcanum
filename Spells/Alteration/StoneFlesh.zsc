@@ -1,11 +1,12 @@
 class StoneFleshSpell : ArcanumSpell
 {
+	static const int Durations[] = { 3, 6, 10 };
 	override int GetIndex() { return 80; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Stoneflesh"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int, int GetCastRequirements() { return 400, 0; }
-	override string GetDescription() { return String.Format("All visible entities within 20m get 50%% increased resistance to most damage for \c[Gold]%i\c- minutes. Effect helps put out fire faster.", 2 + 1 * Level); }
+	override int, int GetCastRequirements() { return 400, HDBLU_BOTTLE * HDBLU_MOUTH / 2; }
+	override string GetDescription() { return String.Format("All visible entities within 20m get 50%% increased resistance to most damage for \c[Gold]%i\c- minutes. Effect helps put out fire faster.", Durations[Level - 1]); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 4; }
 	override class<ArcanumSigil> GetSigil() { return 'StoneFleshSigil'; }
@@ -20,17 +21,14 @@ class StoneFleshSigil : ArcanumSigil
 		BlockThingsIterator it = BlockThingsIterator.Create(self, HDCONST_ONEMETRE * 20);
 		while (it.Next())
 		{
-			if (it.thing.Health <= 0 || Distance3D(it.thing) > HDCONST_ONEMETRE * 20 || !CheckSight(it.thing) || !it.thing.bISMONSTER && !it.thing.player)
+			if (!it.thing.bISMONSTER && !it.thing.player || it.thing.Health <= 0 || Distance3D(it.thing) > HDCONST_ONEMETRE * 20 || !CheckSight(it.thing))
 			{
 				continue;
 			}
 
-			for (int i = 0; i < SigilLevel; ++i)
-			{
-				it.thing.A_GiveInventory("StoneFleshEffect");
-				let Effect = StoneFleshEffect(it.thing.FindInventory("StoneFleshEffect"));
-				Effect.Level = SigilLevel;
-			}
+			it.thing.A_GiveInventory("StoneFleshEffect");
+			let effect = StoneFleshEffect(it.thing.FindInventory("StoneFleshEffect"));
+			effect.Level = SigilLevel;
 		}
 	}
 
@@ -78,7 +76,7 @@ class StoneFleshEffect : Powerup
 {
 	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
 	{
-		if (passive && !(flags & (DMG_NO_FACTOR | DMG_FORCED)) && damageType != 'bleedout' && damageType != 'thermal' && damageType != 'maxhpdrain' && damageType != 'internal' && damageType != 'falling' && damageType != 'holy')
+		if (passive && !(flags & (DMG_NO_FACTOR | DMG_FORCED)) && damageType != 'bleedout' && damageType != 'hot' && damageType != 'maxhpdrain' && damageType != 'internal' && damageType != 'falling' && damageType != 'holy')
 		{
 			newdamage = int(damage * 0.50);
 		}
@@ -86,7 +84,7 @@ class StoneFleshEffect : Powerup
 
 	override void DoEffect()
 	{
-		EffectTics = min(EffectTics, 35 * 60 * (2 + 1 * Level));
+		EffectTics = min(EffectTics, 35 * 60 * StoneFleshSpell.Durations[Level - 1]);
 		if (owner)
 		{
 			owner.A_GiveInventory("HDFireDouse", 20);
@@ -100,7 +98,6 @@ class StoneFleshEffect : Powerup
 	Default
 	{
 		+INVENTORY.ALWAYSPICKUP
-		+INVENTORY.ADDITIVETIME
 		Powerup.Duration 0xFFFF;
 	}
 }

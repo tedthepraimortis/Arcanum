@@ -4,8 +4,8 @@ class RevitalizationSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Revitalization"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int, int GetCastRequirements() { return 500, 0; }
-	override string GetDescription() { return String.Format("Heals all visible entities within 20m by 75%% of their total health. Players rapidly regenerate 5 health per heartbeat, and are immune to incap and stun for \c[Gold]%i\c- seconds.", 60 * Level); }
+	override int, int GetCastRequirements() { return 500, HDBLU_BOTTLE * HDBLU_MOUTH; }
+	override string GetDescription() { return String.Format("Heals all visible entities within 20m by 75%% of their total health. Players rapidly regenerate 5 health per heartbeat, and are immune to incap and stun for \c[Gold]%i\c- minute%s.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 5; }
 	override class<ArcanumSigil> GetSigil() { return 'RevitalizationSigil'; }
@@ -83,16 +83,13 @@ class RevitalizationEffect : Powerup
 {
 	override void DoEffect()
 	{
-		EffectTics = min(EffectTics, 35 * (60 * Level));
+		EffectTics = min(EffectTics, 35 * 60 * Level);
 		let plr = HDPlayerPawn(owner);
-		if (plr && plr.beatcount == 0 && plr.beatcounter % 1 == 0)
+		if (plr && plr.beatcount == 0)
 		{
 			plr.incaptimer = 0;
 			plr.stunned = 0;
-			if (plr.Health < plr.MaxHealth())
-			{
-				plr.GiveBody(5);
-			}
+			plr.GiveBody(5);
 		}
 
 		Super.DoEffect();
@@ -103,7 +100,6 @@ class RevitalizationEffect : Powerup
 	Default
 	{
 		+INVENTORY.ALWAYSPICKUP
-		+INVENTORY.ADDITIVETIME
-		Powerup.Duration -60;
+		Powerup.Duration 0xFFFF;
 	}
 }
