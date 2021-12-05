@@ -132,8 +132,8 @@ class ArcanumBridge : ArcanumBarrier
 
 	Default
 	{
-		Radius 15;
-		Height 1;
+		Radius 20;
+		Height 3;
 		-WALLSPRITE
 		+FLATSPRITE
 		+ACTLIKEBRIDGE
