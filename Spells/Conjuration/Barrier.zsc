@@ -171,17 +171,12 @@ class ArcanumBarrier : Actor
 		// [Ace] I need the pivot point of the sprite.
 		A_SpriteOffset(0, -Height / 2);
 		SetOrigin((pos.x, pos.y, pos.z - (Height / 2)), false);
-		InitialAngle = Angle;
 		A_GiveInventory('ImmunityToFire');
 		Super.PostBeginPlay();
 	}
 
 	override void Tick()
 	{
-		if (Angle != InitialAngle)
-		{
-			Angle = InitialAngle;
-		}
 		A_Stop();
 
 		//AceCore.DrawXYZ(self);
@@ -205,8 +200,6 @@ class ArcanumBarrier : Actor
 		Renderstyle "Add";
 		Scale 0;
 	}
-
-	protected double InitialAngle;
 
 	States
 	{
