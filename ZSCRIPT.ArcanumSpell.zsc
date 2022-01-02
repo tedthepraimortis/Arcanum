@@ -117,7 +117,7 @@ class ArcanumSpell abstract play
 	virtual int GetMaxLevel() const { return ExperienceReqs.Size() + 1; }
 	abstract class<ArcanumSigil> GetSigil() const;
 	virtual ui string, class<Powerup> GetIndicatorInfo() const { return "", null; }
-	virtual ui void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl) { }
+	virtual ui void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl, HDArcanumTome tome) { }
 
 	// [Ace] Returns whether or not the spell leveled up.
 	bool GainExperience()

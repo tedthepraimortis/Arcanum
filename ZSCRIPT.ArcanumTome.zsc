@@ -36,7 +36,7 @@ class HDArcanumTome : HDWeapon
 	override void DrawHUDStuff(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl)
 	{
 		ArcanumSpell selSpell = GetSelectedSpell();
-		selSpell.DrawHUDStuff(sb, hpl);
+		selSpell.DrawHUDStuff(sb, hpl, self);
 
 		Array<ArcanumIndicator> indicators;
 		int totalIndicators = 0;
@@ -253,6 +253,7 @@ class HDArcanumTome : HDWeapon
 	ArcanumSpellBrain SpellStorage;
 	private transient CVar InvertSelection;
 	private transient CVar ZoomHold;
+	Actor SpiedActor;
 
 	Default
 	{
@@ -367,6 +368,12 @@ class HDArcanumTome : HDWeapon
 					return;
 				}
 				A_WeaponReady(WRF_ALL);
+				
+				invoker.SpiedActor = AimTarget();
+				if (invoker.SpiedActor && !invoker.SpiedActor.bISMONSTER)
+				{
+					invoker.SpiedActor = null;
+				}
 			}
 			Goto ReadyEnd;
 		Select0:
