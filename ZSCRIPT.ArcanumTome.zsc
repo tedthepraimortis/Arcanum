@@ -9,7 +9,37 @@ class HDArcanumTome : HDWeapon
 	{
 		ATProp_Flags,
 		ATProp_SelectedTree,
-		ATProp_SelectedSpell
+		ATProp_SelectedSpell,
+		ATProp_Mana
+	}
+
+	override void DoEffect()
+	{
+		Super.DoEffect();
+		if (!owner)
+		{
+			return;
+		}
+
+		int curBlues = owner.CountInv('HDBlues');
+		if (curBlues > 0 && WeaponStatus[ATProp_Mana] < HDBLU_BALL)
+		{
+			double baseSpeed = HDBLU_BALL / (35 * 60 * 20.0);
+			double speedFac = curBlues / double(HDBLU_BALL);
+
+			AccumulatedBlues += baseSpeed * speedFac;
+			if (AccumulatedBlues >= 1)
+			{
+				int toCharge = int(AccumulatedBlues);
+				owner.A_TakeInventory('HDBlues', toCharge);
+				WeaponStatus[ATProp_Mana] = min(WeaponStatus[ATProp_Mana] + toCharge, HDBLU_BALL);
+				AccumulatedBlues %= 1.0; // [Ace] Don't lose fractions.
+			}
+		}
+		else
+		{
+			AccumulatedBlues = 0;
+		}
 	}
 
 	override bool AddSpareWeapon(actor newowner) { return AddSpareWeaponRegular(newowner); }
@@ -37,6 +67,19 @@ class HDArcanumTome : HDWeapon
 	{
 		ArcanumSpell selSpell = GetSelectedSpell();
 		selSpell.DrawHUDStuff(sb, hpl, self);
+
+		// [Ace] Mana bar.
+		if (sb.hudlevel == 1)
+		{
+			double fillFac = hdw.WeaponStatus[ATProp_Mana] / double(HDBLU_BALL);
+
+			for (int i = 0; i < int(11 * fillFac); ++i)
+			{
+				double fillSin = sin(((i + 1) / 11.0) * 180.0);
+				sb.Fill(0xFF0022FF, -54, -5 - i * 2, round(11 * fillSin), 2, sb.DI_SCREEN_CENTER_BOTTOM);
+				sb.Fill(0xFF0022FF, -54, -5 - i * 2, round(-11 * fillSin), 2, sb.DI_SCREEN_CENTER_BOTTOM);
+			}
+		}
 
 		Array<ArcanumIndicator> indicators;
 		int totalIndicators = 0;
@@ -119,16 +162,9 @@ class HDArcanumTome : HDWeapon
 		sb.DrawString(DescFont, selSpell.GetTechnicalInfo(), (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_OLIVE);
 
 		double mult = AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.80 : 1.0;
-		int cost, blues;
-		[cost, blues] = selSpell.GetCastRequirements();
-		cost = int(cost * mult);
-		blues = int(blues * mult);
+		int cost = int(selSpell.GetManaCost() * mult);
 
-		string str = String.Format("\c[Red]%i\c-", cost);
-		if (blues > 0)
-		{
-			str = str..String.Format("\c[DarkGray]/\c[ArcanumReqBlue]%i\c-", blues);
-		}
+		string str = String.Format("\c[ArcanumReqBlue]%i\c-", cost);
 		sb.DrawString(DescFont, "\c[DarkGray]Cost: "..str, (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		sb.DrawString(DescFont, selSpell.GetDescription(), (-40, yOff + 50), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
 	}
@@ -144,6 +180,15 @@ class HDArcanumTome : HDWeapon
 		sb.SetClipRect(cx, cy, cw, ch);
 	}
 
+	override void LoadoutConfigure(string input)
+	{
+		int StartBlues = GetLoadoutVar(input, "blues", 4);
+		if (StartBlues > 0)
+		{
+			BluesToGive = StartBlues;
+		}
+	}
+
 	override void DetachFromOwner()
 	{
 		WeaponStatus[ATProp_Flags] &= ~ATF_InSpellMenu;
@@ -154,6 +199,14 @@ class HDArcanumTome : HDWeapon
 	override void AttachToOwner(Actor other)
 	{
 		Super.AttachToOwner(other);
+
+		let plr = HDPlayerPawn(other);
+		if (plr && BluesToGive > 0)
+		{
+			plr.regenblues = BluesToGive;
+			BluesToGive = 0;
+		}
+
 		InitStorage();
 	}
 
@@ -214,16 +267,18 @@ class HDArcanumTome : HDWeapon
 
 	override void ActualPickup(Actor other, bool silent)
 	{
-		let Tome = HDArcanumTome(other.FindInventory("HDArcanumTome"));
-		if (Tome && Tome.SpellStorage)
+		let tome = HDArcanumTome(other.FindInventory("HDArcanumTome"));
+		if (tome && tome.SpellStorage)
 		{
+			tome.WeaponStatus[ATProp_Mana] = min(tome.WeaponStatus[ATProp_Mana] + WeaponStatus[ATProp_Mana], HDBLU_BALL);
+			
 			// [Ace] Only give experience to spells that fit the bill, i.e. those that actually support experience.
 			Array<ArcanumSpell> valid;
-			for (int i = 0; i < Tome.SpellStorage.Trees.Size(); ++i)
+			for (int i = 0; i < tome.SpellStorage.Trees.Size(); ++i)
 			{
-				for (int j = 0; j < Tome.SpellStorage.Trees[i].Spells.Size(); ++j)
+				for (int j = 0; j < tome.SpellStorage.Trees[i].Spells.Size(); ++j)
 				{
-					let cur = Tome.SpellStorage.Trees[i].Spells[j];
+					let cur = tome.SpellStorage.Trees[i].Spells[j];
 					if (cur.Level < cur.GetMaxLevel())
 					{
 						valid.Push(cur);
@@ -250,6 +305,8 @@ class HDArcanumTome : HDWeapon
 		Super.ActualPickup(other, silent);
 	}
 
+	private double AccumulatedBlues;
+	private int BluesToGive;
 	ArcanumSpellBrain SpellStorage;
 	private transient CVar InvertSelection;
 	private transient CVar ZoomHold;
@@ -444,12 +501,8 @@ class HDArcanumTome : HDWeapon
 				let plr = HDPlayerPawn(self);
 
 				double mult = AceCore.CheckForItem(plr, "HDSoulCube") ? 0.80 : 1.0;
-				int cost, blues;
-				[cost, blues] = selSpell.GetCastRequirements();
-				cost = int(cost * mult);
-				blues = int(blues * mult);
-
-				if (CountInv('HDBlues') >= blues && cost <= 2000 - plr.bloodloss)
+				int cost = int(selSpell.GetManaCost() * mult);
+				if (invoker.WeaponStatus[ATProp_Mana] >= cost)
 				{
 					FLineTraceData Data;
 					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 6, 0, 0, Data);
@@ -460,11 +513,7 @@ class HDArcanumTome : HDWeapon
 							A_Log(selSpell.GetName().." has gained a level.", true);
 						}
 						
-						plr.bloodloss += cost;
-						if (blues > 0)
-						{
-							A_TakeInventory('HDBlues', blues);
-						}
+						invoker.WeaponStatus[ATProp_Mana] -= cost;
 
 						ArcanumSigil c = ArcanumSigil(Spawn(selSpell.GetSigil(), Data.HitLocation));
 						c.angle = angle;

@@ -4,15 +4,18 @@
 - When casting targeted spells, you can only activate the runes from behind. There is an angle limit so you cannot cheese runes from behind a corner.
 - Touch spells require the sigil to be within 2m of the target.
 - Gold numbers denote values that change with spell level.
-- When updating the mod after new spells have been added, use `ARC_ReInitSpells` to refresh the list. Existing spells will not be reset.
+- When updating the mod mid-playthrough after new spells have been added, use `ARC_ReInitSpells` to refresh the list. Existing spells will not be reset.
 
 ### Notes
 ---
 - Loadout code is `arc`.
-- Catalyst is the minimum amount of aggravated damage you need to have to begin casting a spell.
-- Cost is how much blood it'll cost to cast it. Some spells require blues as well as a secondary resource.
+- Configuration codes are:
+	- `blues`: Starting blues. Up to 4 digits.
 
-### Known Issues
+### How it works
+- Blues are absorbed passively into the tome at a standard rate of one bluesphere per 20 minutes. Two spheres will be absorbed in 20 minutes. Fifty spheres will be absorbed in 20 minutes. Half a potion will be absorbed in 20 minutes. You get the idea. You can't eat a single bluesphere and become a god of death.
+
+### Known issues
 ---
 - Sometimes some runes can spawn above the sigil when floors are involved. This is unfixable due to the engine not allowing anything below the floor or above the ceiling unless it has +NOINTERACTION, but at that point you would be completely unable to trigger the runes.
 

@@ -4,7 +4,7 @@ class FarReachSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Far Reach"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int, int GetCastRequirements() { return 40, 0; }
+	override int GetManaCost() { return 5; }
 	override string GetDescription() { return "Open doors, trigger switches, and pick up items within a range of 40m.\nDisarms ammo boxes.\n\n\c[Fire]You can launch yourself forward with this spell. Use with caution.\c-"; }
 	override string GetTechnicalInfo() { return "Targeted"; }
 	override int GetMaxLevel() { return 1; }

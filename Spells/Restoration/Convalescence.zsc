@@ -4,7 +4,7 @@ class ConvalescenceSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Convalescence"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int, int GetCastRequirements() { return 100, 0; }
+	override int GetManaCost() { return 5; }
 	override string GetDescription()
 	{
 		string plural = Level < GetMaxLevel() ? "s" : "";
