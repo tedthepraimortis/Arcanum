@@ -8,6 +8,7 @@
 #include "Spells/Restoration/Convalescence.zsc"
 #include "Spells/Restoration/LifeForce.zsc"
 #include "Spells/Restoration/Rage.zsc"
+#include "Spells/Restoration/Transfusion.zsc"
 #include "Spells/Restoration/Resurrect.zsc"
 #include "Spells/Restoration/SoulGuard.zsc"
 #include "Spells/Restoration/Revitalization.zsc"
