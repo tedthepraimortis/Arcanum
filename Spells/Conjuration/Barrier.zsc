@@ -4,7 +4,7 @@ class BarrierSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
 	override string GetName() { return "Barrier"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int GetManaCost() { return 15; }
+	override int GetManaCost() { return 35; }
 	override string GetDescription() { return "Creates a 10m-wide impenetrable energy wall 1m in front of you. Lasts 90 seconds. Blocks movement and projectiles."; }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
 	override int GetMaxLevel() { return 1; }

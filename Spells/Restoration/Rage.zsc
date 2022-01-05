@@ -4,7 +4,7 @@ class RageSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Rage"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int GetManaCost() { return 50; }
+	override int GetManaCost() { return 80; }
 	override string GetDescription() { return String.Format("[this page is full of incomprehensible scribbles]"); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetMaxLevel() { return 1; }

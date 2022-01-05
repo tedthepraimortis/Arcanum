@@ -13,7 +13,7 @@
 	- `blues`: Starting blues. Up to 4 digits.
 
 ### How it works
-- Blues are absorbed passively into the tome at a standard rate of one bluesphere per 20 minutes. Two spheres will be absorbed in 20 minutes. Fifty spheres will be absorbed in 20 minutes. Half a potion will be absorbed in 20 minutes. You get the idea. You can't eat a single bluesphere and become a god of death.
+- Blues are absorbed passively into the tome at a standard rate of one bluesphere per 30 minutes. That rate grows or shrinks depending on the current amount of blues you have in you. More spheres means faster absorption and vice versa. You can't eat a single bluesphere and become a god of death.
 
 ### Known issues
 ---

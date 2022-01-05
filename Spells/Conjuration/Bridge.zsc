@@ -4,7 +4,7 @@ class BridgeSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
 	override string GetName() { return "Bridge"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int GetManaCost() { return 15; }
+	override int GetManaCost() { return 35; }
 	override string GetDescription() { return "Creates a 20m-long energy bridge. Lasts 30 seconds."; }
 	override string GetTechnicalInfo() { return "Angled"; }
 	override int GetMaxLevel() { return 1; }

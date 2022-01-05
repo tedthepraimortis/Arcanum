@@ -24,7 +24,7 @@ class HDArcanumTome : HDWeapon
 		int curBlues = owner.CountInv('HDBlues');
 		if (curBlues > 0 && WeaponStatus[ATProp_Mana] < HDBLU_BALL)
 		{
-			double baseSpeed = HDBLU_BALL / (35 * 60 * 20.0);
+			double baseSpeed = HDBLU_BALL / (35 * 60 * 30.0);
 			double speedFac = curBlues / double(HDBLU_BALL);
 
 			AccumulatedBlues += baseSpeed * speedFac;

@@ -10,7 +10,7 @@ class ResurrectSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Resurrect"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int GetManaCost() { return 80; }
+	override int GetManaCost() { return 100; }
 	override string GetDescription() { return String.Format("Resurrects up to \c[Gold]%i\c- targets within \c[Gold]%i\c-m of where the sigil was cast.", PowerLevel[2 * (Level - 1)], PowerLevel[1 + 2 * (Level - 1)]); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 5; }

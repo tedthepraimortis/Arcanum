@@ -4,7 +4,7 @@ class CandlelightSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
 	override string GetName() { return "Candlelight"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int GetManaCost() { return 3; }
+	override int GetManaCost() { return 5; }
 	override string GetDescription() { return "Emit a bright light for 5 minutes."; }
 	override string GetTechnicalInfo() { return "Self"; }
 	override int GetMaxLevel() { return 1; }
