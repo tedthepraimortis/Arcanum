@@ -4,7 +4,7 @@ class GuardianOrbSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
 	override string GetName() { return "Guardian Orb"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int GetManaCost() { return 40; }
+	override int GetManaCost() { return 60; }
 	override string GetDescription() { return String.Format("A point defense orb that orbits its target, shooting down inbound tracers and small floating monsters within 5m. Can summon up to \c[Gold]%i\c- orb%s.", Level, Level > 1 ? "s" : ""); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 2; }
@@ -186,7 +186,7 @@ class GuardianOrb : Actor
 					double dist = Distance3D(target);
 					for (int i = 0; i < dist; i += 2)
 					{
-						A_SpawnParticle(0xFF1111, SPF_FULLBRIGHT, 3, 5, 0, dir.x * i, dir.y * i, dir.z * i, 0, 0, 0, frandom(-1, 1), frandom(-1, 1), frandom(-1, 1));
+						A_SpawnParticle(0xFF1111, SPF_FULLBRIGHT, 3, 5, 0, dir.x * i, dir.y * i, dir.z * i);
 					}
 					for (int i = 0; i < 10; ++i)
 					{
