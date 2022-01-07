@@ -4,8 +4,8 @@ class TransfusionSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Transfusion"; }
 	override int GetSpellType() { return SType_Targeted; }
-	override int GetManaCost() { return 20; }
-	override string GetDescription() { return String.Format("Transfers 25%% of your blues to the target."); }
+	override int GetManaCost() { return 10; }
+	override string GetDescription() { return String.Format("Transfers all of the tome's stored blues to the target."); }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
 	override int GetMaxLevel() { return 1; }
 	override class<ArcanumSigil> GetSigil() { return 'TransfusionSigil'; }
@@ -19,10 +19,13 @@ class TransfusionSigil : ArcanumSigil
 		let you = HDPlayerPawn(master);
 		if (plr && you) // [Ace] <3
 		{
-			PlayCastSound(self, "Arcanum/Restoration/Transfusion");
-			int blueAmount = int(you.regenblues * 0.25);
-			you.regenblues -= blueAmount;
-			plr.regenblues += blueAmount;
+			let tome = HDArcanumTome(you.FindInventory('HDArcanumTome'));
+			if (tome.WeaponStatus[tome.ATProp_Mana] > 0)
+			{
+				PlayCastSound(self, "Arcanum/Restoration/Transfusion");
+				plr.A_GiveInventory('HDBlues', tome.WeaponStatus[tome.ATProp_Mana]);
+				tome.WeaponStatus[tome.ATProp_Mana] = 0;
+			}
 		}
 	}
 
