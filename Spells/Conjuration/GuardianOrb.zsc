@@ -50,8 +50,8 @@ class GuardianOrbSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 4.0;
-		StencilColor "FF3333";
+		ArcanumSigil.FadeOutSpeedMult 3.0;
+		StencilColor "DD1010";
 	}
 
 	States
