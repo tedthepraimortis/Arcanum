@@ -192,7 +192,7 @@ class GuardianOrb : Actor
 					{
 						target.A_SpawnParticle(0xFF1111, SPF_FULLBRIGHT | SPF_RELATIVE, random(10, 25), frandom(2, 3), frandom(0, 359), frandom(0, target.radius), 0, frandom(0, target.height), random(0, 3.0), 0, random(-1.0, 2.0), 0, 0, -1);
 					}
-					target.DamageMobj(self, self, 3, 'Electrical');
+					target.DamageMobj(self, self, 3, 'Electrical', DMG_THRUSTLESS);
 					ReactionTime -= 3;
 					A_SetScale(max(default.scale.x * 0.2, default.scale.x * (ReactionTime / double(default.ReactionTime))));
 					if (ReactionTime <= 0)
