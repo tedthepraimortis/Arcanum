@@ -1,6 +1,6 @@
 class GhostSquadSpell : ArcanumSpell
 {
-	override int GetIndex() { return 0; }
+	override int GetIndex() { return 5; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
 	override string GetName() { return "Ghost Squad"; }
 	override int GetSpellType() { return SType_Targeted; }

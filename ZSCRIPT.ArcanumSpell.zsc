@@ -25,6 +25,7 @@
 #include "Spells/Alteration/StoneFlesh.zsc"
 #include "Spells/Alteration/MassRecall.zsc"
 
+#include "Spells/Conjuration/GuardianOrb.zsc"
 #include "Spells/Conjuration/GhostSquad.zsc"
 #include "Spells/Conjuration/HolyForce.zsc"
 #include "Spells/Conjuration/Barrier.zsc"

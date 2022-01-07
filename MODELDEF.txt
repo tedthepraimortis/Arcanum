@@ -29,6 +29,7 @@ Model ArcanumRuneGlyph
 	SurfaceSkin 0 0 "Runes/ARUNZ0.png" FrameIndex ARUN Z 0 0
 }
 
+// [Ace; 07.01.22] I don't care enough anymore to always keep this alphabetically sorted.
 Model ArcanumSigilAdd
 {
 	Path "Models" Model 0 "ArcanumPlane.obj" DONTCULLBACKFACES USEACTORPITCH
@@ -78,4 +79,5 @@ Model ArcanumSigilAdd
 	SurfaceSkin 0 0 "BarrierSigil_d.png" FrameIndex CRCN C 0 0
 	SurfaceSkin 0 0 "BridgeSigil_d.png" FrameIndex CRCN D 0 0
 	SurfaceSkin 0 0 "CandlelightSigil_d.png" FrameIndex CRCN E 0 0
+	SurfaceSkin 0 0 "GuardianOrb_d.png" FrameIndex CRCN F 0 0
 }

@@ -31,6 +31,13 @@ Arcanum/Alteration/Displacement/End "Sounds/Alteration/DisplacementEnd.wav"
 Arcanum/Alteration/StoneFlesh "Sounds/Alteration/StoneFlesh.wav"
 Arcanum/Alteration/MassRecall "Sounds/Alteration/MassRecall.wav"
 
+Arcanum/Conjuration/GuardianOrb/Cast "Sounds/Conjuration/GuardianOrbCast.wav"
+Arcanum/Conjuration/GuardianOrb/Fire "Sounds/Conjuration/GuardianOrbFire.ogg"
+$limit Arcanum/Conjuration/GuardianOrb/Fire 0
+
+Arcanum/Conjuration/GuardianOrb/Die "Sounds/Conjuration/GuardianOrbDie.ogg"
+$limit Arcanum/Conjuration/GuardianOrb/Die 0
+
 $alias Arcanum/Conjuration/GhostSquad misc/p_pkup
 Arcanum/Conjuration/HolyForce "Sounds/Conjuration/HolyForce.wav"
 Arcanum/Conjuration/Barrier "Sounds/Conjuration/Barrier.wav"

@@ -35,7 +35,7 @@ class HammerfistSigil : ArcanumSigil
 	Default
 	{
 		ArcanumSigil.FadeOutSpeedMult 4.0;
-		StencilColor "716e80";
+		StencilColor "716E80";
 	}
 
 	States
@@ -89,7 +89,7 @@ class HammerfistFist : HDActor // [Ace] A fistful of redundancy.
 		Radius 2;
 		Height 2;
 		Projectile;
-		Damage 20000;
+		DamageFunction 20000;
 		DamageType 'Bashing';
 		-NOGRAVITY
 		Gravity 2.0;
