@@ -134,7 +134,7 @@ class GuardianOrb : Actor
 		+FORCEXYBILLBOARD
 		+FRIENDLY
 		+BRIGHT
-		ReactionTime 10; // [Ace] 20 revenant tracers.
+		ReactionTime 800; // [Ace] 20 revenant tracers.
 		MaxTargetRange HDCONST_ONEMETRE * 5;
 	}
 
