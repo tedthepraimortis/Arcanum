@@ -6,7 +6,7 @@ class ImmolationSpell : ArcanumSpell
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetManaCost() { return 120; }
 	override string GetDescription() { return String.Format("Sets all enemies within \c[Gold]%i\c-m on fire.", 10 * Level); }
-	override string GetTechnicalInfo() { return "Mass"; }
+	override string GetTechnicalInfo() { return "Mass, Thermal"; }
 	override int GetExperienceGain() { return 3; }
 	override class<ArcanumSigil> GetSigil() { return 'ImmolationSigil'; }
 }
