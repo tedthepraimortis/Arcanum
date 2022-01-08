@@ -32,10 +32,10 @@ class GuardianOrbSigil : ArcanumSigil
 
 	private void CreatOrb(Actor other)
 	{
-		PlayCastSound(self, "Arcanum/Conjuration/GuardianOrb/Cast");
 		let manager = GuardianOrbManager.Get(other);
 		if (manager.Orbs.Size() < SigilLevel)
 		{
+			PlayCastSound(self, "Arcanum/Conjuration/GuardianOrb/Cast");
 			manager.CreateOrb(other);
 		}
 	}
