@@ -55,7 +55,6 @@ class ThunderclapSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 2.0;
 		ReactionTime 0xFFFFFF;
 		StencilColor "77AFFF";
 	}

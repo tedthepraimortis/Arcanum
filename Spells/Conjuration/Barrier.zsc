@@ -39,7 +39,6 @@ class BarrierSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 2.0;
 		+ARCANUMSIGIL.DONTPITCH
 		StencilColor "70C3F0";
 	}

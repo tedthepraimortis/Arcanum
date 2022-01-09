@@ -30,7 +30,6 @@ class DisplacementSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 2.0;
 		StencilColor "8EFACA";
 	}
 

@@ -38,7 +38,6 @@ class BridgeSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 2.0;
 		StencilColor "70C3F0";
 	}
 

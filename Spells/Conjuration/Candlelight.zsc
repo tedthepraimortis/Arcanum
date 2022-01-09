@@ -33,7 +33,6 @@ class CandlelightSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 3.0;
 		StencilColor "EEEE55";
 	}
 

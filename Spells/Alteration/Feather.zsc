@@ -33,7 +33,6 @@ class FeatherSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 3.0;
 		StencilColor "C4BF87";
 	}
 

@@ -62,7 +62,6 @@ class FireballSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 2.0;
 		+FRIENDLY
 		+ARCANUMSIGIL.NOHEIGHTADJUST
 		StencilColor "FF2200";

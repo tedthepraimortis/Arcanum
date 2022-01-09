@@ -34,7 +34,6 @@ class HammerfistSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 4.0;
 		StencilColor "716E80";
 	}
 

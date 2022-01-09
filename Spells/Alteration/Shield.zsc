@@ -90,7 +90,6 @@ class ShieldSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 3.0;
 		StencilColor "5CFA6E";
 	}
 

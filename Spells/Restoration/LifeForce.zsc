@@ -84,7 +84,6 @@ class LifeForceSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 2.0;
 		StencilColor "FF0A0A";
 	}
 

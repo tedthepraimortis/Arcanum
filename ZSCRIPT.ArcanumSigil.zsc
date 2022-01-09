@@ -35,7 +35,6 @@ class ArcanumSigil : HDActor abstract
 			Rune.A_SetSize(size.x, size.y);
 			Rune.SetOrigin(Rune.pos - (0, 0, Rune.Height / 2.0), false); // [Ace] Offset the slot to account for Doom's collision.
 			Rune.DecaySpeedMult = 1.0;
-			Rune.FadeOutSpeedMult = FadeOutSpeedMult;
 		}
 
 		RuneSlots.Push(ArcanumRuneSlot(a));
@@ -103,9 +102,6 @@ class ArcanumSigil : HDActor abstract
 	protected double AddAlpha;
 	property AddAlpha: AddAlpha;
 
-	protected double FadeOutSpeedMult;
-	property FadeOutSpeedMult: FadeOutSpeedMult;
-
 	int SigilBehaviourFlags;
 	flagdef NoHeightAdjust: SigilBehaviourFlags, 0;
 	flagdef DontPitch: SigilBehaviourFlags, 1;
@@ -115,7 +111,6 @@ class ArcanumSigil : HDActor abstract
 		Height 22;
 		Radius 25;
 		ArcanumSigil.AddAlpha 1.0;
-		ArcanumSigil.FadeOutSpeedMult 1.0;
 		ReactionTime 0;
 		+NOINTERACTION
 		+BRIGHT
@@ -138,7 +133,6 @@ class ArcanumSigil : HDActor abstract
 						let AddSigil = ArcanumSigilAdd(a);
 						AddSigil.A_SetScale(Scale.x * (1.0 - abs(i) / 30.0), Scale.y * (1.0 - abs(i) / 30.0));
 						AddSigil.AddAlpha = 1.0 + AddAlpha; // [Ace; 10.05.21] +1.0 to compenensate for the reduced number of sigils. Performance reasons.
-						AddSigil.FadeOutSpeedMult = FadeOutSpeedMult;
 					}
 				}
 			}
@@ -224,8 +218,7 @@ class ArcanumRuneSlot : Actor
 
 	bool Active;
 	bool IsDisappearing;
-	double DecaySpeedMult; // [Ace] The naming sucks, but this is actually how fast the rune fades out and gets deactivated. FadeOut is for completely disappearing.
-	double FadeOutSpeedMult;
+	double DecaySpeedMult;
 
 	Default
 	{
@@ -256,7 +249,7 @@ class ArcanumRuneSlot : Actor
 			}
 			Stop;
 		Disappear:
-			ARUN # 1 A_FadeOut(0.025 * FadeOutSpeedMult);
+			ARUN # 1 A_FadeOut(0.08);
 			Loop;
 	}
 }
@@ -299,7 +292,7 @@ class ArcanumSigilAdd : ArcanumSigil
 		Disappear:
 			#### # 1
 			{
-				A_FadeOut(0.001 * AddAlpha * FadeOutSpeedMult);
+				A_FadeOut(0.004 * AddAlpha);
 				OnDisappearing();
 			}
 			Loop;

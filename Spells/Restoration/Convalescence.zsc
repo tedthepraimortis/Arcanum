@@ -54,7 +54,6 @@ class ConvalescenceSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 2.0;
 		StencilColor "FF9E9E";
 	}
 

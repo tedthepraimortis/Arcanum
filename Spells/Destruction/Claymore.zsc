@@ -59,7 +59,6 @@ class ClaymoreSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 3.0;
 		+ARCANUMSIGIL.DONTPITCH
 		ReactionTime 35 * 60 * 15;
 		StencilColor "77AFFF";

@@ -48,7 +48,6 @@ class RageSigil : ArcanumSigil
 
 	Default
 	{
-		ArcanumSigil.FadeOutSpeedMult 3.0;
 		StencilColor "FF0000";
 	}
 
