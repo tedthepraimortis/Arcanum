@@ -81,6 +81,7 @@ class HDArcanumTome : HDWeapon
 			}
 		}
 
+		Actor ptr = SpiedActor ? SpiedActor : Actor(hpl);
 		Array<ArcanumIndicator> indicators;
 		int totalIndicators = 0;
 		for (int i = 0; i < SpellStorage.Trees.Size(); ++i)
@@ -89,7 +90,7 @@ class HDArcanumTome : HDWeapon
 			{
 				string icon; class<Powerup> cls;
 				[icon, cls] = SpellStorage.Trees[i].Spells[j].GetIndicatorInfo();
-				if (icon != "" && cls && hpl.FindInventory(cls))
+				if (icon != "" && cls && ptr.FindInventory(cls))
 				{
 					let ind = new('ArcanumIndicator');
 					ind.Icon = icon;
