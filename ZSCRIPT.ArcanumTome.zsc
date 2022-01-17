@@ -73,11 +73,10 @@ class HDArcanumTome : HDWeapon
 		{
 			double fillFac = hdw.WeaponStatus[ATProp_Mana] / double(HDBLU_BALL);
 
+			static const int Lengths[] = { 3, 7, 9, 9, 11, 11, 11, 9, 9, 7, 3 };
 			for (int i = 0; i < int(11 * fillFac); ++i)
 			{
-				double fillSin = sin(((i + 1) / 11.0) * 180.0);
-				sb.Fill(0xFF0022FF, -54, -5 - i * 2, round(11 * fillSin), 2, sb.DI_SCREEN_CENTER_BOTTOM);
-				sb.Fill(0xFF0022FF, -54, -5 - i * 2, round(-11 * fillSin), 2, sb.DI_SCREEN_CENTER_BOTTOM);
+				sb.Fill(0xFF0022FF, -55 - Lengths[i], -5 - i * 2, Lengths[i] * 2, 2, sb.DI_SCREEN_CENTER_BOTTOM);
 			}
 		}
 
