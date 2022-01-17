@@ -1,12 +1,12 @@
 class ShieldSpell : ArcanumSpell
 {
-	static const int Shields[] = { 1000, 2500, 7500 };
+	static const int Shields[] = { 2000, 5000, 10000 };
 	override int GetIndex() { return 20; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Shield"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int GetManaCost() { return 60; }
-	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage.", Shields[Level - 1]); }
+	override int GetManaCost() { return 90; }
+	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage. Shield helps put out fire.", Shields[Level - 1]); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 3; }
 	override class<ArcanumSigil> GetSigil() { return 'ShieldSigil'; }
@@ -28,7 +28,7 @@ class ShieldSpell : ArcanumSpell
 			sb.DrawRect(-29, -22, 2, 12);
 			sb.DrawRect(-27, -20, 2, 8);
 			sb.DrawRect(-25, -22, 2, 8);
-			sb.DrawWepNum(sld.Amount, Shields[Level - 1]);
+			sb.DrawWepNum(sld.Amount, Shields[Level - 1], alwaysprecise: true);
 		}
 	}
 }
@@ -115,6 +115,8 @@ class ArcanumShield : HDMagicShield
 			Destroy();
 			return;
 		}
+
+		owner.A_GiveInventory('HDFireDouse', 3);
 	}
 
 	Default

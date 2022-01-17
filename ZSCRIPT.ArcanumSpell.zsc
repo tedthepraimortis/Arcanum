@@ -21,7 +21,6 @@
 #include "Spells/Alteration/Feather.zsc"
 #include "Spells/Alteration/Reenergize.zsc"
 #include "Spells/Alteration/Displacement.zsc"
-#include "Spells/Alteration/StoneFlesh.zsc"
 #include "Spells/Alteration/MassRecall.zsc"
 
 #include "Spells/Conjuration/GuardianOrb.zsc"
@@ -116,10 +115,15 @@ class ArcanumSpell abstract play
 	abstract ui string GetTechnicalInfo() const;
 	virtual int GetExperienceGain() const { return 1; }
 	virtual int GetMaxLevel() const { return ExperienceReqs.Size() + 1; }
-	abstract class<ArcanumSigil> GetSigil() const;
-	virtual ui string, class<Powerup> GetIndicatorInfo() const { return "", null; }
+	abstract class<ArcanumSigil> GetSigil() const;	
 	virtual ui void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl, HDArcanumTome tome) { }
 
+	// [Ace; 17.01.22] This is currently unused because I've opted for a threshold system rather than a time duration.
+	// HDest is a slow mod so half the time the effects expire before you've made use of them or they require you to know in advance that you'd need them.
+	// This virtual only makes sense for timed effects whose indicator is not drawn in DrawHudStuff.
+	// The returns are the graphic to use and the class the internal stuff should check for.
+	virtual ui string, class<Powerup> GetIndicatorInfo() const { return "", null; }
+	
 	// [Ace] Returns whether or not the spell leveled up.
 	bool GainExperience()
 	{

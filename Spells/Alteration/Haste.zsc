@@ -1,16 +1,35 @@
 class HasteSpell : ArcanumSpell
 {
-	static const int Durations[] = { 2, 5, 10 };
+	static const int Lengths[] = { 1000, 2500, 5000 };
 	override int GetIndex() { return 30; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Haste"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
-	override int GetManaCost() { return 50; }
-	override string GetDescription() { return String.Format("All visible players within 20m get an increase to speed by \c[Gold]%i\c-%% for \c[Gold]%i\c- minutes.", 50 + 25 * Level, Durations[Level - 1]); }
+	override int GetManaCost() { return 120; }
+	override string GetDescription() { return String.Format("All visible players within 20m get an increase to speed by \c[Gold]%i\c-%%. Effect expires after \c[Gold]%.1f\c- km.", 50 + 25 * Level, Lengths[Level - 1] / 1000.0); }
 	override string GetTechnicalInfo() { return "Mass"; }
 	override int GetExperienceGain() { return 4; }
 	override class<ArcanumSigil> GetSigil() { return 'HasteSigil'; }
-	override string, class<Powerup> GetIndicatorInfo() { return "INDHASTE", 'HasteEffect'; }
+	override void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl, HDArcanumTome tome)
+	{
+		HasteEffect haste = null;
+		if (tome.SpiedActor)
+		{
+			haste = HasteEffect(tome.SpiedActor.FindInventory('HasteEffect'));
+		}
+		else
+		{
+			haste = HasteEffect(hpl.FindInventory('HasteEffect'));
+		}
+		if (haste)
+		{
+			sb.DrawRect(-24, -20, 5, 4);
+			sb.DrawRect(-32, -16, 13, 2);
+			sb.DrawRect(-34, -14, 15, 2);
+			sb.DrawRect(-36, -12, 17, 2);
+			sb.DrawWepNum(int(haste.DistanceLeft), Lengths[Level - 1], alwaysprecise: true);
+		}
+	}
 }
 
 class HasteSigil : ArcanumSigil
@@ -25,7 +44,8 @@ class HasteSigil : ArcanumSigil
 			{
 				plr.A_GiveInventory("HasteEffect");
 				let effect = HasteEffect(plr.FindInventory("HasteEffect"));
-				effect.Level = SigilLevel;
+				effect.SpeedFactor = 0.25 * (SigilLevel - 1);
+				effect.DistanceLeft = HasteSpell.Lengths[SigilLevel - 1];
 			}
 		}
 	}
@@ -65,17 +85,23 @@ class HasteEffect : PowerSpeed
 {
 	override void DoEffect()
 	{
-		EffectTics = min(EffectTics, 35 * 60 * HasteSpell.Durations[Level - 1]);
-		Speed = 1.50 + 0.25 * Level;
+		DistanceLeft -= owner.vel.xy.length() / HDCONST_ONEMETRE;
+		if (DistanceLeft <= 0)
+		{
+			Destroy();
+			return;
+		}
+		Speed = default.Speed + SpeedFactor;
 		Super.DoEffect();
 	}
 
-	int Level;
+	double SpeedFactor;
+	double DistanceLeft;
 
 	Default
 	{
 		Speed 1.75;
 		+INVENTORY.ALWAYSPICKUP
-		Powerup.Duration 0xFFFF;
+		Powerup.Duration 0xFFFFFF;
 	}
 }

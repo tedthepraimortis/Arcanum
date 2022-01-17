@@ -10,7 +10,42 @@ class RevitalizationSpell : ArcanumSpell
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 3; }
 	override class<ArcanumSigil> GetSigil() { return 'RevitalizationSigil'; }
-	override string, class<Powerup> GetIndicatorInfo() { return "INDREVIT", 'RevitalizationEffect'; }
+	override void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl, HDArcanumTome tome)
+	{
+		RevitalizationEffect revit = null;
+		if (tome.SpiedActor)
+		{
+			revit = RevitalizationEffect(tome.SpiedActor.FindInventory('RevitalizationEffect'));
+		}
+		else
+		{
+			revit = RevitalizationEffect(hpl.FindInventory('RevitalizationEffect'));
+		}
+		if (revit)
+		{
+			// TL.
+			sb.DrawRect(-33, -21, 2, -4);
+			sb.DrawRect(-31, -23, -4, 2);
+
+			// TR.
+			sb.DrawRect(-25, -21, 2, -4);
+			sb.DrawRect(-25, -23, 4, 2);
+
+			// Cross.
+			sb.DrawRect(-30, -26, 4, 16);
+			sb.DrawRect(-36, -20, 16, 4);
+
+			// BL.
+			sb.DrawRect(-33, -15, 2, 4);
+			sb.DrawRect(-31, -15, -4, 2);
+
+			// BR.
+			sb.DrawRect(-25, -15, 2, 4);
+			sb.DrawRect(-25, -15, 4, 2);
+			
+			sb.DrawWepNum(revit.TotalHealth, HealthAmounts[Level - 1], alwaysprecise: true);
+		}
+	}
 }
 
 class RevitalizationSigil : ArcanumSigil
