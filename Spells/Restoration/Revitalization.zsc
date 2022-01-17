@@ -1,80 +1,66 @@
 class RevitalizationSpell : ArcanumSpell
 {
-	override int GetIndex() { return 50; }
+	static const int HealthAmounts[] = { 200, 500, 1000 };
+	override int GetIndex() { return 0; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Revitalization"; }
-	override int GetSpellType() { return SType_SelfOrMass; }
-	override int GetManaCost() { return 50; }
-	override string GetDescription() { return String.Format("Heals all visible entities within 20m by 75%% of their total health. Players rapidly regenerate 5 health per heartbeat, and are immune to incap and stun for \c[Gold]%i\c- minute%s.", Level, Level > 1 ? "s" : ""); }
-	override string GetTechnicalInfo() { return "Mass"; }
-	override int GetExperienceGain() { return 5; }
+	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
+	override int GetManaCost() { return 40; }
+	override string GetDescription() { return String.Format("Recover \c[Gold]%i\c- health every heartbeat. Effect expires after \c[Gold]%i\c- health points. Prevents pain jolts from second flesh for the duration of the effect. Helps with zerk comedown.", Level, HealthAmounts[Level - 1]); }
+	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
+	override int GetExperienceGain() { return 3; }
 	override class<ArcanumSigil> GetSigil() { return 'RevitalizationSigil'; }
 	override string, class<Powerup> GetIndicatorInfo() { return "INDREVIT", 'RevitalizationEffect'; }
 }
 
 class RevitalizationSigil : ArcanumSigil
 {
+	override void ActivateTargeted()
+	{
+		Actor a = AimTarget();
+		if (a && a.Health > 0 && Distance3D(a) <= HDCONST_ONEMETRE * 2)
+		{
+			DoHealing(a);
+		}
+	}
+
 	override void ActivateSelfOrMass()
 	{
-		HDMobBase Other;
-		HDPlayerPawn PActor;
-
-		BlockThingsIterator it = BlockThingsIterator.Create(self, HDCONST_ONEMETRE * 20);
-		while (it.Next())
+		if (master)
 		{
-			if (it.thing.Health <= 0 || Distance3D(it.thing) > HDCONST_ONEMETRE * 20 || !CheckSight(it.thing))
-			{
-				continue;
-			}
-
-			Other = HDMobBase(it.thing);
-			PActor = HDPlayerPawn(it.thing);
-
-			if (PActor)
-			{
-				PActor.GiveBody(int(PActor.MaxHealth() * 0.75));
-				for (int i = 0; i < SigilLevel; ++i)
-				{
-					PActor.A_GiveInventory("RevitalizationEffect");
-					let Effect = RevitalizationEffect(PActor.FindInventory("RevitalizationEffect"));
-					Effect.Level = SigilLevel;
-				}
-			}
-			else if (Other)
-			{
-				Other.bodydamage = 0;
-				Other.stunned = 0;
-				Other.GiveBody(int(Other.SpawnHealth() * 0.75));
-				Other.A_GiveInventory("ConvalescenceEffect");
-				let Effect = ConvalescenceEffect(Other.FindInventory("ConvalescenceEffect"));
-				Effect.Level = 5;
-			}
+			DoHealing(master);
 		}
+	}
+
+	private void DoHealing(Actor a)
+	{
 		PlayCastSound(self, "Arcanum/Restoration/Revitalization");
+		a.A_GiveInventory("RevitalizationEffect");
+		let effect = RevitalizationEffect(a.FindInventory("RevitalizationEffect"));
+		effect.TotalHealth = RevitalizationSpell.HealthAmounts[SigilLevel - 1];
+		effect.HealthPerBeat = SigilLevel;
 	}
 
 	override void InitRuneSlots()
 	{
-		vector2 BigSize = (6, 10);
-		CreateRuneSlot((-32.5, 0), BigSize, 1.75); CreateRuneSlot((32.5, 0), BigSize, 1.75);
-		CreateRuneSlot((0, 32.5), BigSize, 1.75); CreateRuneSlot((0, -32.5), BigSize, 1.75);
+		vector2 BigSize = (3, 5);
+		CreateRuneSlot((-16.25, 0), BigSize, 0.9); CreateRuneSlot((16.25, 0), BigSize, 0.9);
+		CreateRuneSlot((0, 16.25), BigSize, 0.9); CreateRuneSlot((0, -16.25), BigSize, 0.9);
 
-		vector2 SmallSize = (5, 8.333);
-		CreateRuneSlot((-12.3, 12.3), SmallSize, 1.4); CreateRuneSlot((12.3, 12.3), SmallSize, 1.4);
-		CreateRuneSlot((-12.3, -12.3), SmallSize, 1.4); CreateRuneSlot((12.3, -12.3), SmallSize, 1.4);
+		vector2 SmallSize = (2.5, 4.15);
+		CreateRuneSlot((-6.15, 6.15), SmallSize, 0.7); CreateRuneSlot((6.15, 6.15), SmallSize, 0.7);
+		CreateRuneSlot((-6.15, -6.15), SmallSize, 0.7); CreateRuneSlot((6.15, -6.15), SmallSize, 0.7);
 	}
 
 	Default
 	{
-		Height 44;
-		Radius 50;
 		StencilColor "FF66FF";
 	}
 
 	States
 	{
 		Spawn:
-			CRRE F 0;
+			CRRE A 0;
 			Goto Super::Spawn;
 	}
 }
@@ -83,19 +69,57 @@ class RevitalizationEffect : Powerup
 {
 	override void DoEffect()
 	{
-		EffectTics = min(EffectTics, 35 * 60 * Level);
 		let plr = HDPlayerPawn(owner);
 		if (plr && plr.beatcount == 0)
 		{
-			plr.incaptimer = 0;
-			plr.stunned = 0;
-			plr.GiveBody(5);
+			int toRecover = min(HealthPerBeat, TotalHealth);
+			
+			if (plr.Health < plr.MaxHealth())
+			{
+				plr.GiveBody(toRecover);
+				TotalHealth -= toRecover;
+			}
+			
+			int zerk = plr.CountInv('HDZerk');
+			if (zerk > 0 && zerk <= HDZerk.HDZERK_COOLOFF)
+			{
+				plr.A_TakeInventory('HDZerk', 20 * toRecover);
+				TotalHealth -= toRecover;
+			}
+		}
+		else if (!plr && owner && GetAge() % 20 == 0)
+		{
+			int toRecover = min(HealthPerBeat, TotalHealth);
+			let mob = HDMobBase(owner);
+			if (mob)
+			{
+				mob.BodyDamage = max(0, mob.BodyDamage - toRecover * 2);
+			}
+			owner.GiveBody(toRecover * 2);
+			TotalHealth -= toRecover;
+		}
+
+		if (TotalHealth <= 0)
+		{
+			Destroy();
+			return;
 		}
 
 		Super.DoEffect();
 	}
 
-	int Level;
+	override void ModifyDamage(int damage, Name damageType, out int newdamage, bool passive, Actor inflictor, Actor source, int flags)
+	{
+		if (damageType == 'staples')
+		{
+			damageType = 'None';
+			newdamage = 0;
+		}
+		Super.ModifyDamage(damage, damageType, newdamage, passive, inflictor, source, flags);
+	}
+
+	int HealthPerBeat;
+	int TotalHealth;
 
 	Default
 	{

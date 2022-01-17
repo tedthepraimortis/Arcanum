@@ -10,7 +10,6 @@ Arcanum/Destruction/Voidstorm/Start "Sounds/Destruction/VoidstormStart.wav"
 Arcanum/Destruction/Voidstorm/Loop "Sounds/Destruction/VoidstormLoop.wav"
 $limit Arcanum/Destruction/Voidstorm/Loop 0
 
-Arcanum/Restoration/Convalescence "Sounds/Restoration/Convalescence.wav"
 Arcanum/Restoration/LifeForce "Sounds/Restoration/LifeForce.wav"
 Arcanum/Restoration/Rage "Sounds/Restoration/Rage.wav"
 $pitchset Arcanum/Restoration/Rage 0.7
