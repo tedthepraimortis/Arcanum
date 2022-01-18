@@ -1,6 +1,6 @@
 class HasteSpell : ArcanumSpell
 {
-	static const int Lengths[] = { 1000, 2500, 5000 };
+	static const int Lengths[] = { 2500, 5000, 10000 };
 	override int GetIndex() { return 30; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Haste"; }
