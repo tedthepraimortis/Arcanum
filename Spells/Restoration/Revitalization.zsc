@@ -79,8 +79,8 @@ class RevitalizationSigil : ArcanumSigil
 	override void InitRuneSlots()
 	{
 		vector2 BigSize = (3, 5);
-		CreateRuneSlot((-16.25, 0), BigSize, 0.9); CreateRuneSlot((16.25, 0), BigSize, 0.9);
-		CreateRuneSlot((0, 16.25), BigSize, 0.9); CreateRuneSlot((0, -16.25), BigSize, 0.9);
+		CreateRuneSlot((-16.25, 0), BigSize, 0.8); CreateRuneSlot((16.25, 0), BigSize, 0.8);
+		CreateRuneSlot((0, 16.25), BigSize, 0.8); CreateRuneSlot((0, -16.25), BigSize, 0.8);
 
 		vector2 SmallSize = (2.5, 4.15);
 		CreateRuneSlot((-6.15, 6.15), SmallSize, 0.7); CreateRuneSlot((6.15, 6.15), SmallSize, 0.7);
