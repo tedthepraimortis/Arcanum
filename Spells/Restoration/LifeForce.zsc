@@ -5,7 +5,7 @@ class LifeForceSpell : ArcanumSpell
 	override string GetName() { return "Life Force"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 25; }
-	override string GetDescription() { return String.Format("Fixes all wounds and restores 35%% of missing health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-. Restores lost blood and removes incap, but only for others.", 25 * Level, 10 * Level); }
+	override string GetDescription() { return String.Format("Fixes all wounds and restores 35%% of missing health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-. Restores lost blood and removes incap.", 25 * Level, 10 * Level); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetExperienceGain() { return 2; }
 	override class<ArcanumSigil> GetSigil() { return 'LifeForceSigil'; }
@@ -43,11 +43,9 @@ class LifeForceSigil : ArcanumSigil
 			plr.woundcount = 0;
 			plr.burncount -= (revit ? 50 : 25) * SigilLevel;
 			plr.aggravateddamage -= (revit ? 20 : 10) * SigilLevel;
-			if (a != master)
-			{
-				plr.bloodloss = 0;
-				plr.incaptimer = 0;
-			}
+			plr.bloodloss = 0;
+			plr.incaptimer = 0;
+
 			int MissingHealth = plr.default.Health - plr.Health;
 			plr.GiveBody(int(MissingHealth * (revit ? 0.70 : 0.35)));
 			if (revit)
