@@ -7,16 +7,25 @@ class MassRecallSpell : ArcanumSpell
 	override int GetManaCost() { return 50; }
 	override string GetDescription() { return "Teleports all players, dead or alive, to the circle."; }
 	override string GetTechnicalInfo() { return "Mass"; }
-	override int GetMaxLevel() { return 1; }
+	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'MassRecallSigil'; }
 }
 
 class MassRecallSigil : ArcanumSigil
 {
+	private void TryPlaySound()
+	{
+		if (!HasPlayedSound)
+		{
+			PlayCastSound(self, "Arcanum/Alteration/MassRecall");
+			HasPlayedSound = true;
+		}
+	}
+
 	override void ActivateSelfOrMass()
 	{
-		bool HasPlayedSound;
-		int AngOff = 0;
+		bool hasPlayedSound;
+		int angOff = 0;
 		for (int i = 0; i < MAXPLAYERS; ++i)
 		{
 			if (!players[i].mo || players[i].mo == master)
@@ -27,47 +36,35 @@ class MassRecallSigil : ArcanumSigil
 			let plr = players[i].mo;
 			if (plr.Health > 0)
 			{
-				if (!HasPlayedSound)
-				{
-					PlayCastSound(self, "Arcanum/Alteration/MassRecall");
-					HasPlayedSound = true;
-				}
-				plr.Warp(master, 32, 0, 0, AngOff, flags: WARPF_NOCHECKPOSITION);
+				TryPlaySound();
+				plr.Warp(master, 32, 0, 0, angOff, flags: WARPF_NOCHECKPOSITION);
 				plr.A_StartSound("misc/teleport", 20);
-				AngOff += 45;
+				angOff += 45;
 			}
 		}
 
 		if (hd_pof)
 		{
 			ThinkerIterator it = ThinkerIterator.Create("HDPlayerCorpse", STAT_DEFAULT);
-			HDPlayerCorpse PCorpse;
-			while ((PCorpse = HDPlayerCorpse(it.Next())))
+			HDPlayerCorpse pCorpse;
+			while ((pCorpse = HDPlayerCorpse(it.Next())))
 			{
-				if (!HasPlayedSound)
-				{
-					PlayCastSound(self, "Arcanum/Alteration/MassRecall");
-					HasPlayedSound = true;
-				}
-				PCorpse.Warp(master, 32, 0, 0, AngOff, flags: WARPF_NOCHECKPOSITION);
-				PCorpse.A_StartSound("misc/teleport", 20);
-				AngOff += 45;
+				TryPlaySound();
+				pCorpse.Warp(master, 32, 0, 0, angOff, flags: WARPF_NOCHECKPOSITION);
+				pCorpse.A_StartSound("misc/teleport", 20);
+				angOff += 45;
 			}
 		}
 
-		Name FollowerCls = 'HDFollower';
-		ThinkerIterator it = ThinkerIterator.Create(FollowerCls, STAT_DEFAULT);
+		Name followerClsName = 'HDFollower';
+		ThinkerIterator it = ThinkerIterator.Create(followerClsName, STAT_DEFAULT);
 		Actor flw;
 		while ((flw = Actor(it.Next())))
 		{
-			if (!HasPlayedSound)
-			{
-				PlayCastSound(self, "Arcanum/Alteration/MassRecall");
-				HasPlayedSound = true;
-			}
-			flw.Warp(master, 32, 0, 0, AngOff, flags: WARPF_NOCHECKPOSITION);
+			TryPlaySound();
+			flw.Warp(master, 32, 0, 0, angOff, flags: WARPF_NOCHECKPOSITION);
 			flw.A_StartSound("misc/teleport", 20);
-			AngOff += 45;
+			angOff += 45;
 		}
 	}
 
@@ -82,6 +79,8 @@ class MassRecallSigil : ArcanumSigil
 		CreateRuneSlot((-X, Y), Size, 1.4); CreateRuneSlot((X, Y), Size, 1.4);
 		CreateRuneSlot((-X, -Y), Size, 1.4); CreateRuneSlot((X, -Y), Size, 1.4);
 	}
+
+	private bool HasPlayedSound;
 
 	Default
 	{

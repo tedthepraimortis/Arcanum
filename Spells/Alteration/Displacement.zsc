@@ -7,7 +7,7 @@ class DisplacementSpell : ArcanumSpell
 	override int GetManaCost() { return 30; }
 	override string GetDescription() { return "Partly severs your link to this world and gives you the ability to fly for 4 seconds, then teleports you to where you cast the spell. Enemies cannot see you while being displaced."; }
 	override string GetTechnicalInfo() { return "Self"; }
-	override int GetMaxLevel() { return 1; }
+	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'DisplacementSigil'; }
 }
 

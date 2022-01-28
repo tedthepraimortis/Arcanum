@@ -75,7 +75,14 @@ class ArcanumSigil : HDActor abstract
 			{
 				A_SetSize(-1, 1); // [Ace] So it shoots from the center.
 			}
-			HasTriggered = true;
+			if (!HasTriggered)
+			{
+				HasTriggered = true;
+				if (Spell.GainExperience(multiplayer ? 1.25 : 1.0))
+				{
+					master.A_Log("\c[Fire]"..Spell.GetName().."\c- has reached full power.", true);
+				}
+			}
 			switch (SigilType)
 			{
 				case ArcanumSpell.SType_Targeted: ActivateTargeted(); break;
@@ -95,9 +102,10 @@ class ArcanumSigil : HDActor abstract
 
 	private Array<ArcanumRuneSlot> RuneSlots;
 
-	int SigilLevel;
+	double ExperienceFactor;
 	int SigilType;
 	bool HasTriggered;
+	ArcanumSpell Spell;
 
 	protected double AddAlpha;
 	property AddAlpha: AddAlpha;

@@ -7,7 +7,7 @@ class VoidstormSpell : ArcanumSpell
 	override int GetManaCost() { return 200; }
 	override string GetDescription() { return "Launches forward a black hole that sucks enemies in and removes them from existence. It explodes once it comes into contact with a hard surface."; }
 	override string GetTechnicalInfo() { return "Mass, Dangerous"; }
-	override int GetMaxLevel() { return 1; }
+	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'VoidstormSigil'; }
 }
 

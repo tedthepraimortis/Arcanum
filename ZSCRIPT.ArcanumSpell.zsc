@@ -32,8 +32,8 @@
 
 class ArcanumSpellTree abstract play
 {
-	abstract string GetName() const;
-	abstract string GetDescription() const;
+	abstract clearscope string GetName() const;
+	abstract clearscope string GetDescription() const;
 	Array<ArcanumSpell> Spells;
 
 	void InsertSpell(ArcanumSpell spl)
@@ -104,8 +104,6 @@ class ArcanumSpell abstract play
 		SType_Targeted = 2
 	}
 
-	static const int ExperienceReqs[] = { 100, 200 }; // [Ace] Pulled these out my ass. Probably gonna need rebalancing.
-
 	abstract class<ArcanumSpellTree> GetTree() const;
 	abstract int GetIndex() const;
 	abstract string GetName() const;
@@ -113,8 +111,7 @@ class ArcanumSpell abstract play
 	abstract int GetManaCost() const; // [Ace] Returns: blood, blues.
 	abstract ui string GetDescription() const;
 	abstract ui string GetTechnicalInfo() const;
-	virtual int GetExperienceGain() const { return 1; }
-	virtual int GetMaxLevel() const { return ExperienceReqs.Size() + 1; }
+	abstract int GetMaxExperience() const;
 	abstract class<ArcanumSigil> GetSigil() const;	
 	virtual ui void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl, HDArcanumTome tome) { }
 
@@ -123,28 +120,26 @@ class ArcanumSpell abstract play
 	// This virtual only makes sense for timed effects whose indicator is not drawn in DrawHudStuff.
 	// The returns are the graphic to use and the class the internal stuff should check for.
 	virtual ui string, class<Powerup> GetIndicatorInfo() const { return "", null; }
-	
-	// [Ace] Returns whether or not the spell leveled up.
-	bool GainExperience()
+
+	// [Ace] Returns whether or not the spell reached max level.
+	bool GainExperience(double amt)
 	{
-		if (Level >= min(GetMaxLevel(), ExperienceReqs.Size() + 1))
+		int maxExp = GetMaxExperience();
+		if (Experience == maxExp)
 		{
 			return false;
 		}
 
-		Experience += int(ceil(GetExperienceGain() * (multiplayer ? 1.5 : 1.0)));
-		if (Experience >= ExperienceReqs[Level - 1])
-		{
-			Experience -= ExperienceReqs[Level - 1];
-			Level++;
-			return true;
-		}
-
-		return false;
+		Experience = min(maxExp, Experience + amt);
+		return Experience == maxExp;
 	}
 
-	int Experience;
-	int Level;
+	clearscope double GetExperienceFactor()
+	{
+		return Experience / GetMaxExperience();
+	}
+
+	double Experience;
 }
 
 class ArcanumIndicator ui

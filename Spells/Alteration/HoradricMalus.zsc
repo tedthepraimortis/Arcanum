@@ -5,9 +5,9 @@ class HoradricMalusSpell : ArcanumSpell
 	override string GetName() { return "Horadric Malus"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 60; }
-	override string GetDescription() { return String.Format("Repairs repairable items by \c[Gold]%i%%\c- of their missing durability. Repairs Vulcanettes and *.E.R.P.s", 35 + 15 * Level); }
+	override string GetDescription() { return String.Format("Repairs repairable items by \c[Gold]%i%%\c- of their missing durability. Repairs Vulcanettes and *.E.R.P.s, among other things.", int(35 + 45 * GetExperienceFactor())); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
-	override int GetExperienceGain() { return 5; }
+	override int GetMaxExperience() { return 120; }
 	override class<ArcanumSigil> GetSigil() { return 'HoradricMalusSigil'; }
 }
 
@@ -57,7 +57,7 @@ class HoradricMalusSigil : ArcanumSigil
 					maxDurability = 107;
 				}
 				int missing = maxDurability - arm.Durability;
-				arm.Durability += int(missing * (0.35 + 0.15 * SigilLevel));
+				arm.Durability += int(missing * (0.35 + 0.45 * ExperienceFactor));
 			}
 
 			let wpn = HDWeapon(Next);
@@ -68,14 +68,14 @@ class HoradricMalusSigil : ArcanumSigil
 					case 'Vulcanette':
 					{
 						TryPlaySound();
-						wpn.WeaponStatus[VULCS_PERMADAMAGE] = int(wpn.WeaponStatus[VULCS_PERMADAMAGE] * (0.65 - 0.15 * SigilLevel));
-						wpn.WeaponStatus[VULCS_BREAKCHANCE] = int(wpn.WeaponStatus[VULCS_BREAKCHANCE] * (0.65 - 0.15 * SigilLevel));
+						wpn.WeaponStatus[VULCS_PERMADAMAGE] = int(wpn.WeaponStatus[VULCS_PERMADAMAGE] * (0.65 - 0.45 * ExperienceFactor));
+						wpn.WeaponStatus[VULCS_BREAKCHANCE] = int(wpn.WeaponStatus[VULCS_BREAKCHANCE] * (0.65 - 0.45 * ExperienceFactor));
 						break;
 					}
 					case 'HDVera':
 					{
 						TryPlaySound();
-						wpn.WeaponStatus[10] = int(wpn.WeaponStatus[10] * (0.65 - 0.15 * SigilLevel));
+						wpn.WeaponStatus[10] = int(wpn.WeaponStatus[10] * (0.65 - 0.45 * ExperienceFactor));
 						break;
 					}
 					case 'DERPUsable':
@@ -101,8 +101,8 @@ class HoradricMalusSigil : ArcanumSigil
 					case 'HDDeployableBarricade':
 					{
 						TryPlaySound();
-						int HealthMissing = pkp.default.Health - pkp.Health;
-						pkp.Health += int(HealthMissing * (0.35 + 0.15 * SigilLevel));
+						int missing = pkp.default.Health - pkp.Health;
+						pkp.Health += int(missing * (0.35 + 0.45 * ExperienceFactor));
 						break;
 					}
 				}

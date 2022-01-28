@@ -27,16 +27,16 @@ class ArcanumHandler : EventHandler
 
 	override void PlayerEntered(PlayerEvent e)
 	{
-		ArcanumSpellBrain Brain = ArcanumSpellBrain.Get(e.PlayerNumber);
-		Brain.InitSpells(); // [Ace] Because PostBeginPlay seems to be called a bit too late on it. In fact, it doesn't seem to be called at all.
+		ArcanumSpellBrain brain = ArcanumSpellBrain.Get(e.PlayerNumber);
+		brain.InitSpells(false); // [Ace] Because PostBeginPlay seems to be called a bit too late on it. In fact, it doesn't seem to be called at all.
 	}
 
 	override void NetworkProcess(ConsoleEvent e)
 	{
 		if (e.Name ~== "ARC_ReInitSpells")
 		{
-			ArcanumSpellBrain Brain = ArcanumSpellBrain.Get(e.Player);
-			Brain.InitSpells();
+			ArcanumSpellBrain brain = ArcanumSpellBrain.Get(e.Player);
+			brain.InitSpells(e.Args[0]);
 		}
 	}
 }

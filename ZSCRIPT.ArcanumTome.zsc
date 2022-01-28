@@ -68,7 +68,7 @@ class HDArcanumTome : HDWeapon
 		ArcanumSpell selSpell = GetSelectedSpell();
 		selSpell.DrawHUDStuff(sb, hpl, self);
 
-		// [Ace] Mana bar.
+		// [Ace] Ponder this mana orb.
 		if (sb.hudlevel == 1)
 		{
 			double fillFac = hdw.WeaponStatus[ATProp_Mana] / double(HDBLU_BALL);
@@ -110,52 +110,49 @@ class HDArcanumTome : HDWeapon
 			return;
 		}
 
-		Font fnt = "SPTTLFNT";
-		HUDFont TitleFont = HUDFont.Create(fnt);
+		if (!TitleFont)
+		{
+			TitleFont = HudFont.Create("SPTTLFNT");
+		}
+		if (!DescFont)
+		{
+			DescFont = HUDFont.Create("SPDSCFNT");
+		}
+		if (!ExpFont)
+		{
+			ExpFont = HUDFont.Create("SPDSCFNT", 6, Mono_CellCenter);
+		}
 
-		fnt = "SPDSCFNT";
-		HUDFont DescFont = HUDFont.Create(fnt);
+		int baseOffset = -100;
 
-		int BaseOffset = -100;
+		ArcanumSpellTree SelTree = SpellStorage.Trees[hdw.WeaponStatus[ATProp_SelectedTree]];
+		sb.DrawString(TitleFont, SelTree.GetName(), (-140, baseOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(DescFont, SelTree.GetDescription(), (-140, baseOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 280, 1);
 
-		int SelTreeIndex = hdw.WeaponStatus[ATProp_SelectedTree];
-		ArcanumSpellTree SelTree = SpellStorage.Trees[SelTreeIndex];
-		sb.DrawString(TitleFont, SelTree.GetName(), (-140, BaseOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
-		sb.DrawString(DescFont, SelTree.GetDescription(), (-140, BaseOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 280, 1);
-
-		sb.DrawString(TitleFont, "Spells", (-140, BaseOffset + 90), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(TitleFont, "Spells", (-140, baseOffset + 90), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		for (int i = 0; i < SelTree.Spells.Size(); ++i)
 		{
 			ArcanumSpell CurSpell = SelTree.Spells[i];
-			sb.DrawString(DescFont, CurSpell.GetName(), (-140, BaseOffset + 110 + 10 * i), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, CurSpell == SelSpell ? Font.CR_GOLD : Font.CR_WHITE);
+			sb.DrawString(DescFont, CurSpell.GetName(), (-140, baseOffset + 110 + 10 * i), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, CurSpell == SelSpell ? Font.CR_GOLD : Font.CR_WHITE);
 		}
 		
-		int yOff = BaseOffset + 90;
+		int yOff = baseOffset + 90;
 		sb.DrawString(TitleFont, selSpell.GetName(), (-40, yOff), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_TEAL);
-		if (selSpell.GetMaxLevel() > 1)
+		if (selSpell.GetMaxExperience() > 0)
 		{
-			string RomanNumeral = "";
-			switch (selSpell.Level)
+			sb.DrawString(DescFont, "Experience", (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_GOLD);
+			string expStr = "[";
+			for (int i = 0; i < 16; ++i)
 			{
-				case 1: RomanNumeral = "I"; break;
-				case 2: RomanNumeral = "II"; break;
-				case 3: RomanNumeral = "III"; break;
-				case 4: RomanNumeral = "IV"; break;
-				case 5: RomanNumeral = "V"; break;
-			}
-
-			string FullString = "\c[Gold]Level "..RomanNumeral.."\c-";
-			if (selSpell.Level < selSpell.GetMaxLevel())
-			{
-				FullString = FullString.." [";
-				for (int i = 0; i <= 10; ++i)
+				string notch = " ";
+				if (i < floor(16 * selSpell.GetExperienceFactor()))
 				{
-					int Percentage = int(floor((selSpell.Experience / double(selSpell.ExperienceReqs[selSpell.Level - 1])) * 10));
-					FullString = FullString..(i < Percentage ? "=" : " ");
+					notch = "=";
 				}
-				FullString = FullString.."]";
+				expStr = expStr..notch;
 			}
-			sb.DrawString(DescFont, FullString, (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE);
+			expStr = expStr.."]";
+			sb.DrawString(ExpFont, expStr, (14, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE);
 			yOff += 10;
 		}
 		
@@ -279,25 +276,31 @@ class HDArcanumTome : HDWeapon
 				for (int j = 0; j < tome.SpellStorage.Trees[i].Spells.Size(); ++j)
 				{
 					let cur = tome.SpellStorage.Trees[i].Spells[j];
-					if (cur.Level < cur.GetMaxLevel())
+					if (cur.Experience < cur.GetMaxExperience())
 					{
 						valid.Push(cur);
 					}
 				}
 			}
 
-			int VSize = valid.Size();
-			for (int i = 0; VSize > 0 && i < 25; ++i)
+			if (valid.Size() > 0)
 			{
-				let cur = valid[random(0, VSize - 1)];
-				if (cur.GainExperience())
+				ArcanumSpell randSpell = valid[random(0, valid.Size() - 1)];
+				if (randSpell.GainExperience(randSpell.GetMaxExperience() / (multiplayer ? 4.0 : 5.0)))
 				{
-					other.A_Log(cur.GetName().." has gained a level.", true);
+					other.A_Log("\c[Fire]"..randSpell.GetName().."\c- has reached full power.", true);
+				}
+				else
+				{
+					other.A_Log("Your knowledge of \c[Fire]"..randSpell.GetName().."\c- increases.", true);
 				}
 			}
-
+			else
+			{
+				other.A_Log("You fail to learn anything new.", true);
+			}
+			
 			other.A_StartSound("weapons/pocket");
-			other.A_Log("Your knowledge grows.", true);
 			Destroy();
 			return;
 		}
@@ -305,6 +308,7 @@ class HDArcanumTome : HDWeapon
 		Super.ActualPickup(other, silent);
 	}
 
+	private transient ui HUDFont TitleFont, DescFont, ExpFont;
 	private double AccumulatedBlues;
 	private int BluesToGive;
 	ArcanumSpellBrain SpellStorage;
@@ -458,12 +462,12 @@ class HDArcanumTome : HDWeapon
 					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, height - 6, 0, 0, Data);
 					if (Data.HitType == Data.TRACE_HitActor && Data.HitActor is 'ArcanumRuneSlot')
 					{
-						let RuneSlot = ArcanumRuneSlot(Data.HitActor);
-						let Sigil = ArcanumSigil(RuneSlot.master);
+						let runeSlot = ArcanumRuneSlot(Data.HitActor);
+						let sigil = ArcanumSigil(runeSlot.master);
 
-						if (Sigil && Sigil.master == self)
+						if (sigil && sigil.master == self)
 						{
-							RuneSlot.ActivateRune(self);
+							runeSlot.ActivateRune(self);
 						}
 						break;
 					}
@@ -476,17 +480,17 @@ class HDArcanumTome : HDWeapon
 			ARCT A 0
 			{
 				ArcanumSpell SelSpell = invoker.GetSelectedSpell();
-				int ST = SelSpell.GetSpellType();
+				int st = SelSpell.GetSpellType();
 
-				double MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
-				if (ST & ArcanumSpell.SType_SelfOrMass && !(ST & ArcanumSpell.SType_Targeted) && pitch < MPitch)
+				double mPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
+				if (st & ArcanumSpell.SType_SelfOrMass && !(st & ArcanumSpell.SType_Targeted) && pitch < mPitch)
 				{
 					A_SetPitch(pitch + 10, SPF_INTERPOLATE);
 					A_Refire('AltFire');
 					return;
 				}
 
-				if (ST & ArcanumSpell.SType_SelfOrMass && pitch >= MPitch || ST & ArcanumSpell.SType_Targeted)
+				if (st & ArcanumSpell.SType_SelfOrMass && pitch >= mPitch || st & ArcanumSpell.SType_Targeted)
 				{
 					SetWeaponState('ActuallyAltFire');
 					return;
@@ -508,31 +512,27 @@ class HDArcanumTome : HDWeapon
 					LineTrace(angle, radius + 10, pitch, TRF_NOSKY, height - 6, 0, 0, Data);
 					if (Data.HitType == Data.TRACE_HitNone || Data.HitType == Data.TRACE_HitFloor)
 					{
-						if (selSpell.GainExperience())
-						{
-							A_Log(selSpell.GetName().." has gained a level.", true);
-						}
-						
 						invoker.WeaponStatus[ATProp_Mana] -= cost;
 
-						ArcanumSigil c = ArcanumSigil(Spawn(selSpell.GetSigil(), Data.HitLocation));
-						c.angle = angle;
-						if (!c.bDONTPITCH)
+						ArcanumSigil s = ArcanumSigil(Spawn(selSpell.GetSigil(), Data.HitLocation));
+						s.angle = angle;
+						if (!s.bDONTPITCH)
 						{
-							c.pitch = pitch;
+							s.pitch = pitch;
 						}
-						c.master = self;
-						c.SigilLevel = selSpell.Level;
+						s.master = self;
+						s.ExperienceFactor = selSpell.Experience / double(selSpell.GetMaxExperience());
+						s.Spell = selSpell;
 
-						double MPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
-						int SpellType = selSpell.GetSpellType();
-						if (SpellType & ArcanumSpell.SType_SelfOrMass && pitch >= MPitch)
+						double mPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
+						int st = selSpell.GetSpellType();
+						if (st & ArcanumSpell.SType_SelfOrMass && pitch >= mPitch)
 						{
-							c.SigilType = ArcanumSpell.SType_SelfOrMass;
+							s.SigilType = ArcanumSpell.SType_SelfOrMass;
 						}
 						else
 						{
-							c.SigilType = ArcanumSpell.SType_Targeted;
+							s.SigilType = ArcanumSpell.SType_Targeted;
 						}
 					}
 				}

@@ -1,14 +1,13 @@
 class RevitalizationSpell : ArcanumSpell
 {
-	static const int HealthAmounts[] = { 200, 500, 1000 };
 	override int GetIndex() { return 0; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Revitalization"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 40; }
-	override string GetDescription() { return String.Format("Recover \c[Gold]%i\c- health every heartbeat. Effect expires after \c[Gold]%i\c- health points. Prevents pain jolts from second flesh for the duration of the effect. Helps with zerk comedown.", Level, HealthAmounts[Level - 1]); }
+	override string GetDescription() { return String.Format("Recover \c[Gold]%i\c- health every heartbeat. Effect expires after \c[Gold]%i\c- health points. Prevents pain jolts from second flesh for the duration of the effect. Helps with zerk comedown.", int(1 + 2 * GetExperienceFactor()), int(200 + 800 * GetExperienceFactor())); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
-	override int GetExperienceGain() { return 3; }
+	override int GetMaxExperience() { return 160; }
 	override class<ArcanumSigil> GetSigil() { return 'RevitalizationSigil'; }
 	override void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl, HDArcanumTome tome)
 	{
@@ -21,6 +20,7 @@ class RevitalizationSpell : ArcanumSpell
 		{
 			revit = RevitalizationEffect(hpl.FindInventory('RevitalizationEffect'));
 		}
+
 		if (revit)
 		{
 			// TL.
@@ -43,7 +43,7 @@ class RevitalizationSpell : ArcanumSpell
 			sb.DrawRect(-25, -15, 2, 4);
 			sb.DrawRect(-25, -15, 4, 2);
 			
-			sb.DrawWepNum(revit.TotalHealth, HealthAmounts[Level - 1], alwaysprecise: true);
+			sb.DrawWepNum(revit.TotalHealth, int(200 + 800 * GetExperienceFactor()), alwaysprecise: true);
 		}
 	}
 }
@@ -72,8 +72,8 @@ class RevitalizationSigil : ArcanumSigil
 		PlayCastSound(self, "Arcanum/Restoration/Revitalization");
 		a.A_GiveInventory("RevitalizationEffect");
 		let effect = RevitalizationEffect(a.FindInventory("RevitalizationEffect"));
-		effect.TotalHealth = RevitalizationSpell.HealthAmounts[SigilLevel - 1];
-		effect.HealthPerBeat = SigilLevel;
+		effect.TotalHealth = int(200 + 800 * ExperienceFactor);
+		effect.HealthPerBeat = int(1 + 2 * ExperienceFactor);
 	}
 
 	override void InitRuneSlots()

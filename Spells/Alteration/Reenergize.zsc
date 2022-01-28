@@ -5,9 +5,9 @@ class ReenergizeSpell : ArcanumSpell
 	override string GetName() { return "Reenergize"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 35; }
-	override string GetDescription() { return String.Format("Restores up to \c[Gold]%i\c- battery charge, filling partial batteries first.", 20 * Level); }
+	override string GetDescription() { return String.Format("Restores up to \c[Gold]%i\c- battery charge, filling partial batteries first.", int(20 + 80 * GetExperienceFactor())); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
-	override int GetExperienceGain() { return 5; }
+	override int GetMaxExperience() { return 300; }
 	override class<ArcanumSigil> GetSigil() { return 'ReenergizeSigil'; }
 }
 
@@ -16,42 +16,41 @@ class ReenergizeSigil : ArcanumSigil
 {
 	override void ActivateTargeted()
 	{
-		let plr = HDPlayerPawn(AimTarget());
-		if (plr && plr.Health > 0 && Distance3D(plr) <= HDCONST_ONEMETRE * 2)
+		Actor a = AimTarget();
+		if (a && a.Health > 0 && Distance3D(a) <= HDCONST_ONEMETRE * 2)
 		{
-			RechargeBatteries(plr);
+			RechargeBatteries(a);
 		}
 	}
 
 	override void ActivateSelfOrMass()
 	{
-		let plr = HDPlayerPawn(master);
-		if (plr)
+		if (master)
 		{
-			RechargeBatteries(plr);
+			RechargeBatteries(master);
 		}
 	}
 
-	private void RechargeBatteries(HDPlayerPawn plr)
+	private void RechargeBatteries(Actor other)
 	{
-		bool HasPlayedSound;
-		int RemainingCharges = 20 * SigilLevel;
-		let Stack = HDBattery(plr.FindInventory("HDBattery"));
-		if (Stack)
+		bool hasPlayedSound;
+		int chargesLeft = int(20 + 80 * ExperienceFactor);
+		let stack = HDBattery(other.FindInventory("HDBattery"));
+		if (stack)
 		{
-			while (RemainingCharges > 0)
+			while (chargesLeft > 0)
 			{
-				int Index = AceCore.GetHighestBattery(Stack, Stack.MaxPerUnit);
-				if (Index > -1)
+				int index = AceCore.GetHighestBattery(stack, stack.MaxPerUnit);
+				if (index > -1)
 				{
-					if (!HasPlayedSound)
+					if (!hasPlayedSound)
 					{
 						PlayCastSound(self, "Arcanum/Alteration/Reenergize");
-						HasPlayedSound = true;
+						hasPlayedSound = true;
 					}
-					int AmountToMax = Stack.MaxPerUnit - Stack.Mags[Index];
-					Stack.Mags[Index] += min(RemainingCharges, AmountToMax);
-					RemainingCharges -= AmountToMax;
+					int amountToMax = stack.MaxPerUnit - stack.Mags[index];
+					stack.Mags[index] += min(chargesLeft, amountToMax);
+					chargesLeft -= amountToMax;
 				}
 				else
 				{

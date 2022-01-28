@@ -1,14 +1,13 @@
 class ShieldSpell : ArcanumSpell
 {
-	static const int Shields[] = { 2000, 5000, 10000 };
 	override int GetIndex() { return 20; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Shield"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 90; }
-	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage. Shield helps put out fire.", Shields[Level - 1]); }
+	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage. Shield helps put out fire.", int(1000 + 9000 * GetExperienceFactor())); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
-	override int GetExperienceGain() { return 3; }
+	override int GetMaxExperience() { return 160; }
 	override class<ArcanumSigil> GetSigil() { return 'ShieldSigil'; }
 	override void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl, HDArcanumTome tome)
 	{
@@ -28,7 +27,7 @@ class ShieldSpell : ArcanumSpell
 			sb.DrawRect(-29, -22, 2, 12);
 			sb.DrawRect(-27, -20, 2, 8);
 			sb.DrawRect(-25, -22, 2, 8);
-			sb.DrawWepNum(sld.Amount, Shields[Level - 1], alwaysprecise: true);
+			sb.DrawWepNum(sld.Amount, sld.MaxAmount, alwaysprecise: true);
 		}
 	}
 }
@@ -64,9 +63,10 @@ class ShieldSigil : ArcanumSigil
 			Spark.vel = (sv / 50.0);
 		}
 		trgt.A_GiveInventory("ArcanumShield");
-		let Shield = ArcanumShield(trgt.FindInventory("ArcanumShield"));
-		Shield.Stamina = ShieldSpell.Shields[SigilLevel - 1] * 2;
-		Shield.Amount = ShieldSpell.Shields[SigilLevel - 1];
+		let shield = ArcanumShield(trgt.FindInventory("ArcanumShield"));
+		int amt = int(1000 + 9000 * ExperienceFactor);
+		shield.Stamina = amt * 2;
+		shield.MaxAmount = shield.Amount = amt;
 	}
 
 	override void InitRuneSlots()
@@ -120,7 +120,6 @@ class ArcanumShield : HDMagicShield
 
 	Default
 	{
-		Inventory.MaxAmount 1000;
 		-INVENTORY.INVBAR
 		HDDamageHandler.Priority 10001; // [Ace] Handle it before the regular shield.
 	}

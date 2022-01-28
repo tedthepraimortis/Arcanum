@@ -1,13 +1,17 @@
 class ArcanumSpellBrain : Thinker
 {
-	void InitSpells()
+	void InitSpells(bool reset)
 	{
+		if (reset)
+		{
+			Trees.Clear();
+		}
+		
 		for (int i = 0; i < AllClasses.Size(); ++i)
 		{
 			if (AllClasses[i] is 'ArcanumSpell' && AllClasses[i].GetClassName() != 'ArcanumSpell')
 			{
 				ArcanumSpell spell = ArcanumSpell(new(AllClasses[i]));
-				spell.Level = 1;
 
 				int treesSize = Trees.Size();
 				int treeIndex = TreesSize;

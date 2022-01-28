@@ -5,9 +5,9 @@ class WorldbreakerSpell : ArcanumSpell
 	override string GetName() { return "Worldbreaker"; }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetManaCost() { return 60; }
-	override string GetDescription() { return String.Format("Destroys the target geometry. Maximum sector dimensions: \c[Gold]%ix%i\c-\n\n\c[Fire]Effect occurs 3 seconds after activation.\c-", 128 * Level, 32 * Level); }
+	override string GetDescription() { return String.Format("Destroys the target geometry. Maximum sector dimensions: \c[Gold]%ix%i\c-\n\n\c[Fire]Effect occurs 3 seconds after activation.\c-", int(128 + 256 * GetExperienceFactor()), int(32 + 64 * GetExperienceFactor())); }
 	override string GetTechnicalInfo() { return "Targeted, Touch"; }
-	override int GetExperienceGain() { return 5; }
+	override int GetMaxExperience() { return 60; }
 	override class<ArcanumSigil> GetSigil() { return 'WorldbreakerSigil'; }
 }
 
@@ -20,7 +20,7 @@ class WorldbreakerSigil : ArcanumSigil
 		{
 			A_StartSound("weapons/bigcrack", CHAN_AUTO);
 			A_StartSound("world/explode", CHAN_VOICE);
-			DoorDestroyer.DestroyDoor(self, 128 * SigilLevel, 32 * SigilLevel, HDCONST_ONEMETRE * 2); 
+			DoorDestroyer.DestroyDoor(self, int(128 + 256 * ExperienceFactor), int(32 + 64 * ExperienceFactor), HDCONST_ONEMETRE * 2); 
 		}
 
 		if (!HasPlayedSound)

@@ -7,7 +7,7 @@ class CandlelightSpell : ArcanumSpell
 	override int GetManaCost() { return 5; }
 	override string GetDescription() { return "Emit a bright light for 5 minutes."; }
 	override string GetTechnicalInfo() { return "Self"; }
-	override int GetMaxLevel() { return 1; }
+	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'CandlelightSigil'; }
 }
 

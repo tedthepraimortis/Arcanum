@@ -5,9 +5,13 @@ class GuardianOrbSpell : ArcanumSpell
 	override string GetName() { return "Guardian Orb"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 60; }
-	override string GetDescription() { return String.Format("A point defense orb that orbits its target, shooting down inbound tracers and small floating monsters within 5m. Can summon up to \c[Gold]%i\c- orb%s.", Level, Level > 1 ? "s" : ""); }
+	override string GetDescription()
+	{
+		int count = int(1 + 2 * GetExperienceFactor());
+		return String.Format("A point defense orb that orbits its target, shooting down inbound tracers and small floating monsters within 5m. Can summon up to \c[Gold]%i\c- orb%s.", count, count > 1 ? "s" : "");
+	}
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
-	override int GetExperienceGain() { return 2; }
+	override int GetMaxExperience() { return 80; }
 	override class<ArcanumSigil> GetSigil() { return 'GuardianOrbSigil'; }
 }
 
@@ -33,7 +37,7 @@ class GuardianOrbSigil : ArcanumSigil
 	private void CreatOrb(Actor other)
 	{
 		let manager = GuardianOrbManager.Get(other);
-		if (manager.Orbs.Size() < SigilLevel)
+		if (manager.Orbs.Size() < int(1 + 5 * ExperienceFactor))
 		{
 			PlayCastSound(self, "Arcanum/Conjuration/GuardianOrb/Cast");
 			manager.CreateOrb(other);

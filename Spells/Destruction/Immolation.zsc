@@ -5,9 +5,9 @@ class ImmolationSpell : ArcanumSpell
 	override string GetName() { return "Immolation"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetManaCost() { return 120; }
-	override string GetDescription() { return String.Format("Sets all enemies within \c[Gold]%i\c-m on fire.", 10 * Level); }
+	override string GetDescription() { return String.Format("Sets all enemies within \c[Gold]%.1f\c-m on fire.", 10 + 20 * GetExperienceFactor()); }
 	override string GetTechnicalInfo() { return "Mass, Thermal"; }
-	override int GetExperienceGain() { return 3; }
+	override int GetMaxExperience() { return 40; }
 	override class<ArcanumSigil> GetSigil() { return 'ImmolationSigil'; }
 }
 
@@ -16,7 +16,7 @@ class ImmolationSigil : ArcanumSigil
 	override void ActivateSelfOrMass()
 	{
 		bool HasPlayedSound;
-		double ImmolationDistance = HDCONST_ONEMETRE * 10 * SigilLevel;
+		double ImmolationDistance = HDCONST_ONEMETRE * (10 + 20 * ExperienceFactor);
 		BlockThingsIterator it = BlockThingsIterator.Create(self, ImmolationDistance);
 		while (it.Next())
 		{

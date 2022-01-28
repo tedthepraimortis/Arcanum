@@ -7,7 +7,7 @@ class RageSpell : ArcanumSpell
 	override int GetManaCost() { return 90; }
 	override string GetDescription() { return String.Format("[this page is full of incomprehensible scribbles]"); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
-	override int GetMaxLevel() { return 1; }
+	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'RageSigil'; }
 }
 

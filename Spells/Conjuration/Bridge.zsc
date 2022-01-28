@@ -7,7 +7,7 @@ class BridgeSpell : ArcanumSpell
 	override int GetManaCost() { return 35; }
 	override string GetDescription() { return "Creates a 20m-long energy bridge. Lasts 30 seconds."; }
 	override string GetTechnicalInfo() { return "Angled"; }
-	override int GetMaxLevel() { return 1; }
+	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'BridgeSigil'; }
 }
 

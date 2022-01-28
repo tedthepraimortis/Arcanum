@@ -5,9 +5,13 @@ class LifeForceSpell : ArcanumSpell
 	override string GetName() { return "Life Force"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 25; }
-	override string GetDescription() { return String.Format("Fixes all wounds and restores 35%% of missing health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-. Restores lost blood and removes incap.", 25 * Level, 10 * Level); }
+	override string GetDescription()
+	{
+		double fac = GetExperienceFactor();
+		return String.Format("Fixes all wounds and restores \c[Gold]%i\c-%% of missing health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-. Restores lost blood and removes incap.", int(25 + 75 * fac), int(25 + 50 * fac), int(10 + 20 * fac));
+	}
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
-	override int GetExperienceGain() { return 2; }
+	override int GetMaxExperience() { return 100; }
 	override class<ArcanumSigil> GetSigil() { return 'LifeForceSigil'; }
 }
 
@@ -33,34 +37,45 @@ class LifeForceSigil : ArcanumSigil
 	private void DoHealing(Actor a)
 	{
 		let plr = HDPlayerPawn(a);
-		let mon = HDMobBase(a);
+		
 		let revit = a.FindInventory('RevitalizationEffect');
+		if (revit)
+		{
+			ExperienceFactor *= 2.0;
+			revit.Destroy();
+		}
+
+		double healthFixFac = 0.25 + 0.75 * ExperienceFactor;
+		int burnFix = int(25 + 50 * ExperienceFactor);
+		int aggroFix = int(10 + 20 * ExperienceFactor);
+
 		if (plr)
 		{
 			PlayCastSound(self, "Arcanum/Restoration/LifeForce");
 			plr.unstablewoundcount = 0;
 			plr.oldwoundcount = 0;
 			plr.woundcount = 0;
-			plr.burncount -= (revit ? 50 : 25) * SigilLevel;
-			plr.aggravateddamage -= (revit ? 20 : 10) * SigilLevel;
+			plr.burncount -= burnFix;
+			plr.aggravateddamage -= aggroFix;
 			plr.bloodloss = 0;
 			plr.incaptimer = 0;
 
-			int MissingHealth = plr.default.Health - plr.Health;
-			plr.GiveBody(int(MissingHealth * (revit ? 0.70 : 0.35)));
-			if (revit)
-			{
-				revit.Destroy();
-			}
+			int missingHealth = plr.default.Health - plr.Health;
+			plr.GiveBody(int(missingHealth * healthFixFac));
 		}
-		else if (mon)
+		else if (a)
 		{
 			PlayCastSound(self, "Arcanum/Restoration/LifeForce");
-			mon.stunned = 0;
-			mon.bodydamage = 0; // [Ace] Eh, why not?
-			mon.bloodloss = 0;
-			int MissingHealth = mon.SpawnHealth() - mon.Health;
-			mon.GiveBody(int(MissingHealth * (revit ? 0.70 : 0.35)));
+			int missingHealth = a.SpawnHealth() - a.Health;
+			a.GiveBody(int(missingHealth * healthFixFac));
+
+			let mon = HDMobBase(a);
+			if (mon)
+			{
+				mon.stunned = 0;
+				mon.bodydamage = 0; // [Ace] Eh, why not?
+				mon.bloodloss = 0;
+			}
 
 			// [Ace] Stop bleeding.
 			ThinkerIterator it = ThinkerIterator.Create("HDBleedingWound", STAT_DEFAULT);
@@ -71,10 +86,6 @@ class LifeForceSigil : ArcanumSigil
 				{
 					BleedThinker.Destroy();
 				}
-			}
-			if (revit)
-			{
-				revit.Destroy();
 			}
 		}
 	}
