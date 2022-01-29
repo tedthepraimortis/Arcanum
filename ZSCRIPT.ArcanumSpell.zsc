@@ -136,7 +136,8 @@ class ArcanumSpell abstract play
 
 	clearscope double GetExperienceFactor()
 	{
-		return Experience / GetMaxExperience();
+		int maxExp = GetMaxExperience();
+		return maxExp > 0 ? Experience / maxExp : 0;
 	}
 
 	double Experience;

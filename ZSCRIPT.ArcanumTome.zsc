@@ -521,7 +521,7 @@ class HDArcanumTome : HDWeapon
 							s.pitch = pitch;
 						}
 						s.master = self;
-						s.ExperienceFactor = selSpell.Experience / double(selSpell.GetMaxExperience());
+						s.ExperienceFactor = selSpell.GetExperienceFactor();
 						s.Spell = selSpell;
 
 						double mPitch = min(ArcanumSigil.SelfCastMaxPitch, player.MaxPitch - (90 - ArcanumSigil.SelfCastMaxPitch));
