@@ -19,9 +19,8 @@ class CandlelightSigil : ArcanumSigil
 		Actor l = Spawn('CandlelightLight', master.pos + (0, 0, master.height / 2));
 		l.master = master;
 		int size = int(HDCONST_ONEMETRE * (5 + 5 * ExperienceFactor));
-		l.Args[3] = size;
-		l.Args[4] = size + 16;
-		l.ReactionTime = int(35 * 60 * (5 + 5 * ExperienceFactor));
+		l.mass = size;
+		l.ReactionTime = l.stamina = int(35 * 60 * (5 + 5 * ExperienceFactor));
 	}
 
 	override void InitRuneSlots()
@@ -54,7 +53,31 @@ class CandlelightLight : PointLightFlickerRandom
 	{
 		ReactionTime--;
 
-		if (!master || ReactionTime <= 0)
+		if (stamina <= 0)
+		{
+			Destroy();
+			return;
+		}
+
+		if (ReactionTime > 0)
+		{
+			double lifeFac = max(0.4, ReactionTime / double(stamina));
+			int size = int(mass * lifeFac);
+			Args[3] = size;
+			Args[4] = size + 16;
+		}
+		else
+		{
+			Args[3]--;
+			Args[4]--;
+			if (Args[3] <= 0)
+			{
+				Destroy();
+				return;
+			}
+		}
+
+		if (!master)
 		{
 			Destroy();
 			return;
@@ -67,6 +90,6 @@ class CandlelightLight : PointLightFlickerRandom
 
 	Default
 	{
-		Args 255, 255, 255, 168, 184;
+		Args 255, 255, 255;
 	}
 }
