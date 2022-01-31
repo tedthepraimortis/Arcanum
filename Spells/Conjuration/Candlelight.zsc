@@ -5,9 +5,9 @@ class CandlelightSpell : ArcanumSpell
 	override string GetName() { return "Candlelight"; }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetManaCost() { return 5; }
-	override string GetDescription() { return "Emit a bright light for 5 minutes."; }
+	override string GetDescription() { return String.Format("Emit a bright light with a radius of \c[Gold]%.1f\c-m for \c[Gold]%.1f\c- minutes.", 5 + 5 * GetExperienceFactor(), 5 + 5 * GetExperienceFactor()); }
 	override string GetTechnicalInfo() { return "Self"; }
-	override int GetMaxExperience() { return 0; }
+	override int GetMaxExperience() { return 50; }
 	override class<ArcanumSigil> GetSigil() { return 'CandlelightSigil'; }
 }
 
@@ -18,6 +18,10 @@ class CandlelightSigil : ArcanumSigil
 		PlayCastSound(master, "Arcanum/Conjuration/Candlelight");
 		Actor l = Spawn('CandlelightLight', master.pos + (0, 0, master.height / 2));
 		l.master = master;
+		int size = int(HDCONST_ONEMETRE * (5 + 5 * ExperienceFactor));
+		l.Args[3] = size;
+		l.Args[4] = size + 16;
+		l.ReactionTime = int(35 * 60 * (5 + 5 * ExperienceFactor));
 	}
 
 	override void InitRuneSlots()
@@ -63,7 +67,6 @@ class CandlelightLight : PointLightFlickerRandom
 
 	Default
 	{
-		ReactionTime 35 * 60 * 5;
-		Args 255, 255, 255, 168, 189;
+		Args 255, 255, 255, 168, 184;
 	}
 }
