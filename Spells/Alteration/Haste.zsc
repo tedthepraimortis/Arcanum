@@ -99,6 +99,7 @@ class HasteEffect : PowerSpeed
 
 	Default
 	{
+		+INVENTORY.HUBPOWER
 		+INVENTORY.ALWAYSPICKUP
 		Powerup.Duration 0xFFFFFF;
 	}
