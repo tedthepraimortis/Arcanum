@@ -4,10 +4,10 @@ class ShieldSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Shield"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int GetManaCost() { return 90; }
+	override int GetManaCost() { return 70; }
 	override string GetDescription() { return String.Format("Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage. Shield helps put out fire.", int(1000 + 9000 * GetExperienceFactor())); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
-	override int GetMaxExperience() { return 160; }
+	override int GetMaxExperience() { return 130; }
 	override class<ArcanumSigil> GetSigil() { return 'ShieldSigil'; }
 	override void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl, HDArcanumTome tome)
 	{

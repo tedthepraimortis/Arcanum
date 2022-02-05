@@ -7,7 +7,7 @@ class ReenergizeSpell : ArcanumSpell
 	override int GetManaCost() { return 35; }
 	override string GetDescription() { return String.Format("Restores up to \c[Gold]%i\c- battery charge, filling partial batteries first.", int(20 + 80 * GetExperienceFactor())); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
-	override int GetMaxExperience() { return 300; }
+	override int GetMaxExperience() { return 200; }
 	override class<ArcanumSigil> GetSigil() { return 'ReenergizeSigil'; }
 }
 
