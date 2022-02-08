@@ -7,7 +7,7 @@ class FarReachSpell : ArcanumSpell
 	override int GetManaCost() { return 10; }
 	override string GetDescription() { return String.Format("Open doors, trigger switches, and pick up items within a range of \c[Gold]%.1f\c-m.\nDisarms ammo boxes.\n\n\c[Fire]You can launch yourself forward with this spell. Use with caution.\c-", 20 + 40 * GetExperienceFactor()); }
 	override string GetTechnicalInfo() { return "Targeted"; }
-	override int GetMaxExperience() { return 250; }
+	override int GetMaxExperience() { return 300; }
 	override class<ArcanumSigil> GetSigil() { return 'FarReachSigil'; }
 }
 
