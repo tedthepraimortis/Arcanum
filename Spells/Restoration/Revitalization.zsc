@@ -158,7 +158,7 @@ class RevitalizationEffect : Powerup
 
 	Default
 	{
-		+INVENTORY.HUBPOWER
+		+INVENTORY.PERSISTENTPOWER
 		+INVENTORY.ALWAYSPICKUP
 		Powerup.Duration 0xFFFF;
 	}
