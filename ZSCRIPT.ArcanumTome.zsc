@@ -332,7 +332,11 @@ class HDArcanumTome : HDWeapon
 	States
 	{
 		Spawn:
-			ARCT Z -1;
+			ARCT Z -1 NoDelay
+			{
+				if (invoker.ZoomHold) { invoker.ZoomHold = null; }
+				if (invoker.InvertSelection) { invoker.InvertSelection = null; }
+			}
 			Stop;
 		ReadyBook:
 			ARCB A 1;
