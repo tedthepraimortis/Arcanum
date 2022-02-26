@@ -25,7 +25,7 @@ class ClaymoreSigil : ArcanumSigil
 				pitch = random(-20, 20);
 				Actor a = AimTarget();
 
-				if (a && a.Health > 0 && Distance2D(a) < 64 && (a.bISMONSTER && !a.bFRIENDLY || a.player && a != master))
+				if (a && a.Health > 0 && Distance2D(a) < 64 && (a.bISMONSTER && !a.bFRIENDLY || deathmatch && a.player && a != master))
 				{
 					DetonationTicker = 7;
 					PlayCastSound(self, "Arcanum/Destruction/Claymore");
