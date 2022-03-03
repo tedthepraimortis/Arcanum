@@ -122,7 +122,7 @@ class ArcanumSigil : HDActor abstract
 		ReactionTime 0;
 		+NOINTERACTION
 		+BRIGHT
-		RenderStyle "AddShaded";
+		Renderstyle "AddShaded";
 		Species "ArcanumSigil";	
 	}
 
@@ -237,7 +237,7 @@ class ArcanumRuneSlot : Actor
 		+BRIGHT
 		+NOSECTOR
 		Alpha 1.0;
-		RenderStyle "AddShaded";
+		Renderstyle "AddShaded";
 		Species "ArcanumSigil";	
 	}
 
@@ -313,7 +313,7 @@ class ArcanumRuneGlyph : Actor // [Ace] Used because I need it to be centered. M
 	{
 		+BRIGHT
 		+NOINTERACTION
-		RenderStyle "AddShaded";
+		Renderstyle "AddShaded";
 		Species "ArcanumSigil";	
 	}
 
