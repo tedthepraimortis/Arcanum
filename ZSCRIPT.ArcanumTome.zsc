@@ -25,8 +25,8 @@ class HDArcanumTome : HDWeapon
 		bool hasCube = AceCore.CheckForItem(owner, 'HDSoulCube');
 		if (curBlues > 0 && WeaponStatus[ATProp_Mana] < HDBLU_BALL)
 		{
-			double baseSpeed = HDBLU_BALL / (35 * 60 * (hasCube ? 10.0 : 20.0));
-			double speedFac = curBlues / double(HDBLU_BALL);
+			double baseSpeed = HDBLU_BALL / (35 * 60 * (hasCube ? 15.0 : 20.0));
+			double speedFac = max(0.5, curBlues / double(HDBLU_BALL));
 
 			AccumulatedBlues += baseSpeed * speedFac;
 			if (AccumulatedBlues >= 1)
