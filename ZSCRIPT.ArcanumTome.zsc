@@ -71,6 +71,11 @@ class HDArcanumTome : HDWeapon
 
 	override void DrawHUDStuff(HDStatusBar sb, HDWeapon hdw, HDPlayerPawn hpl)
 	{
+		if (!hpl)
+		{
+			return;
+		}
+		
 		ArcanumSpell selSpell = GetSelectedSpell();
 		selSpell.DrawHUDStuff(sb, hpl, self);
 
