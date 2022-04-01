@@ -4,7 +4,7 @@ class RevitalizationSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
 	override string GetName() { return "Revitalization"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int GetManaCost() { return 40; }
+	override int GetManaCost() { return 30; }
 	override string GetDescription() { return String.Format("Recover \c[Gold]%i\c- health every heartbeat. Effect expires after \c[Gold]%i\c- health points. Prevents pain jolts from second flesh for the duration of the effect. Helps with zerk comedown.", int(1 + 2 * GetExperienceFactor()), int(200 + 800 * GetExperienceFactor())); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetMaxExperience() { return 160; }
