@@ -28,7 +28,7 @@ class HDArcanumTome : HDWeapon
 			double baseSpeed = HDBLU_BALL / (35 * 60 * (hasCube ? 15.0 : 20.0));
 			double speedFac = max(0.5, curBlues / double(HDBLU_BALL));
 
-			if (owner.FindInventory('HDInvuln'))
+			if (owner.FindInventory('PowerInvulnerable'))
 			{
 				speedFac *= 5;
 			}
