@@ -62,6 +62,18 @@ class LifeForceSigil : ArcanumSigil
 
 			int missingHealth = plr.default.Health - plr.Health;
 			plr.GiveBody(int(missingHealth * healthFixFac));
+
+			Name diseaseClsName = 'DiseaseBase';
+			if ((class<Inventory>)(diseaseClsName))
+			{
+				for (Inventory next = plr.Inv; next != null; next = next.Inv)
+				{
+					if (next is diseaseClsName)
+					{
+						next.Amount -= int(5 + 15 * ExperienceFactor);
+					}
+				}
+			}
 		}
 		else if (a)
 		{

@@ -121,6 +121,20 @@ class RevitalizationEffect : Powerup
 				plr.A_TakeInventory('HDZerk', 20 * toRecover);
 				TotalHealth -= toRecover;
 			}
+
+			Name diseaseClsName = 'DiseaseBase';
+			if ((class<Inventory>)(diseaseClsName))
+			{
+				for (Inventory next = plr.Inv; next != null; next = next.Inv)
+				{
+					if (next is diseaseClsName)
+					{
+						int toCure = min(toRecover, next.Amount);
+						next.Amount -= toCure;
+						TotalHealth -= toCure;
+					}
+				}
+			}
 		}
 		else if (!plr && owner && GetAge() % 20 == 0)
 		{
