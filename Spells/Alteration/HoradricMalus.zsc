@@ -7,7 +7,7 @@ class HoradricMalusSpell : ArcanumSpell
 	override int GetManaCost() { return 60; }
 	override string GetDescription() { return String.Format("Repairs repairable items by \c[Gold]%i%%\c- of their missing durability. Repairs Vulcanettes and *.E.R.P.s, among other things.", int(35 + 45 * GetExperienceFactor())); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
-	override int GetMaxExperience() { return 120; }
+	override int GetMaxExperience() { return 100; }
 	override class<ArcanumSigil> GetSigil() { return 'HoradricMalusSigil'; }
 }
 
