@@ -70,7 +70,7 @@ class LifeForceSigil : ArcanumSigil
 				{
 					if (next is diseaseClsName)
 					{
-						next.Amount -= int(5 + 15 * ExperienceFactor);
+						next.Amount -= int(15 + 35 * ExperienceFactor);
 					}
 				}
 			}
