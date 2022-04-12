@@ -4,6 +4,7 @@ Code:
 Sprites:
 - Runes are the Strogg alphabet from Quake (id Software)
 - Sigils by Accensus
+- Leaky barrel by Mor'ladim
 
 Sounds:
 - Diablo II (Blizzard Entertainment)

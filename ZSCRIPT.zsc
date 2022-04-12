@@ -4,6 +4,7 @@ version "4.5"
 #include "ZSCRIPT.ArcanumSpell.zsc"
 #include "ZSCRIPT.ArcanumSigil.zsc"
 #include "ZSCRIPT.ArcanumTome.zsc"
+#include "ZSCRIPT.ManaBarrel.zsc"
 
 class ArcanumHandler : EventHandler
 {
@@ -19,9 +20,17 @@ class ArcanumHandler : EventHandler
 			case 'Lumberjack':
 				if (random[arcanrand]() <= 64)
 				{
-					e.Replacement = "HDArcanumTome";
+					e.Replacement = 'HDArcanumTome';
 				}
 				break;
+			case 'HDBarrel':
+			{
+				if (random[arcanrand]() <= 8)
+				{
+					e.Replacement = 'ManaBarrel';
+				}
+				break;
+			}
 		}
 	}
 
