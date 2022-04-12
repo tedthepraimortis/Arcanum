@@ -27,10 +27,9 @@ class ManaBarrelHole : Thinker
 			Barrel.A_SpawnParticle(0x0520FF, (SPF_RELATIVE & ~SPF_RELANG) | SPF_FULLBRIGHT, 35, 3, Angle + frandom(-1.0, 1.0), Barrel.radius / 2, 0, Height, 6 * pressure * frandom(0.95, 1.05), accelz: -1);
 		}
 
-		if (DepleteTicker++ == 70)
+		if (++DepleteTicker % 70 == 0)
 		{
 			Barrel.ManaLeft--;
-			DepleteTicker = 0;
 		}
 
 		Super.Tick();
@@ -178,7 +177,6 @@ class ManaBarrel : Actor
 				if (++DepleteTicker % 3 == 0)
 				{
 					ManaLeft--;
-					DepleteTicker = 0;
 				}
 			}
 			Loop;
