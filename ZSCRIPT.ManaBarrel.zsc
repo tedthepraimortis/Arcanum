@@ -50,6 +50,11 @@ class ManaBarrel : Actor
 
 	override bool Used(Actor user)
 	{
+		if (Distance3D(user) > 48)
+		{
+			return false;
+		}
+
 		if (ManaLeft == 0)
 		{
 			user.A_Log("This barrel is empty.", true);
