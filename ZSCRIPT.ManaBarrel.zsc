@@ -7,7 +7,7 @@ class ManaBarrelHole : Thinker
 
 	override void Tick()
 	{
-		if (!Barrel)
+		if (!Barrel || Barrel.ManaLeft == 0)
 		{
 			Destroy();
 			return;
@@ -29,7 +29,7 @@ class ManaBarrelHole : Thinker
 
 		if (++DepleteTicker % 70 == 0)
 		{
-			Barrel.ManaLeft--;
+			Barrel.ManaLeft = max(0, Barrel.ManaLeft - 1);
 		}
 
 		Super.Tick();
@@ -126,7 +126,7 @@ class ManaBarrel : Actor
 	}
 
 	const TotalMana = HDBLU_BOTTLE * 5;
-	int ManaLeft;
+	uint ManaLeft;
 	private int DepleteTicker;
 	private bool Broken;
 
