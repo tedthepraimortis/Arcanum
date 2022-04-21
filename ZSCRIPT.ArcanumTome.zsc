@@ -92,8 +92,8 @@ class HDArcanumTome : HDWeapon
 
 			if (hpl.CountInv('HDBlues') > 0)
 			{
-				sb.Fill(0xFF0022FF, -44, -7, 6, 2, sb.DI_SCREEN_CENTER_BOTTOM);
-				sb.Fill(0xFF0022FF, -42, -9, 2, 6, sb.DI_SCREEN_CENTER_BOTTOM);
+				sb.Fill(0xFF0022FF, -70, -7, 6, 2, sb.DI_SCREEN_CENTER_BOTTOM);
+				sb.Fill(0xFF0022FF, -68, -9, 2, 6, sb.DI_SCREEN_CENTER_BOTTOM);
 			}
 		}
 
