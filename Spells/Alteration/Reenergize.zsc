@@ -4,7 +4,7 @@ class ReenergizeSpell : ArcanumSpell
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
 	override string GetName() { return "Reenergize"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int GetManaCost() { return 35; }
+	override int GetManaCost() { return 30; }
 	override string GetDescription() { return String.Format("Restores up to \c[Gold]%i\c- battery charge, filling partial batteries first.", int(20 + 80 * GetExperienceFactor())); }
 	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
 	override int GetMaxExperience() { return 200; }
