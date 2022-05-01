@@ -63,7 +63,8 @@ class ManaBarrel : Actor
 
 		if (!(user.player.ReadyWeapon is 'HDBlueBottler'))
 		{
-			if (ManaLeft >= TotalMana * 0.9)
+			double maxSipFac = HDPlayerPawn(user) && HDPlayerPawn(user).incapacitated > 0 ? 0.9 : 0.8;
+			if (ManaLeft >= TotalMana * maxSipFac)
 			{
 				user.A_GiveInventory('HDBlues', HDBLU_MOUTH);
 				user.A_Log("You take a sip.", true);
