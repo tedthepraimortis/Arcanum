@@ -11,7 +11,9 @@
 - Loadout code is `arc`.
 - Configuration codes are:
 	- `blues`: Starting blues. Up to 4 digits.
-- Blue barrels may spawn in place of regular explosive barrels. To utilize them, you need to have a partial potion on you. Using the barrel will fill it up. One barrel is the equivalent of 5 potions, or 2 soulspheres. Barrel can be shot and will leak! It can also break if it takes too much damage.
+- Blue barrels may spawn in place of regular explosive barrels. If you use them while holding a partial potion, it will fill it up. If the barrel is above 90% and you are not holding a potion, you can take a sip directly.
+- One barrel is the equivalent of 5 potions, or 2 soulspheres.
+- Barrels can be shot they will leak! They can also break if they take too much damage.
 
 ### How it works
 - Blues are absorbed passively into the tome at a standard rate of one bluesphere per 20 minutes. That rate grows or shrinks depending on the current amount of blues you have in you. More spheres means faster absorption and vice versa. You can't eat a single bluesphere and become a god of death.
