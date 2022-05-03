@@ -16,6 +16,19 @@ class HDArcanumTome : HDWeapon
 	override void DoEffect()
 	{
 		Super.DoEffect();
+		if (!CoreHandler)
+		{
+			CoreHandler = AceCoreHandler(EventHandler.Find('AceCoreHandler'));
+		}
+
+		InterfaceRequest req = CoreHandler.GetRequest('DepleteArcanum', self);
+		if (req)
+		{
+			WeaponStatus[ATProp_Mana] = max(0, WeaponStatus[ATProp_Mana] - req.Arg.ToInt());
+			req.Destroy();
+			return;
+		}
+
 		if (!owner)
 		{
 			return;
@@ -328,6 +341,7 @@ class HDArcanumTome : HDWeapon
 	private transient ui HUDFont TitleFont, DescFont, ExpFont;
 	private double AccumulatedBlues;
 	private int BluesToGive;
+	private AceCoreHandler CoreHandler;
 	ArcanumSpellBrain SpellStorage;
 	private transient CVar InvertSelection;
 	private transient CVar ZoomHold;
