@@ -21,17 +21,30 @@ class HDArcanumTome : HDWeapon
 			CoreHandler = AceCoreHandler(EventHandler.Find('AceCoreHandler'));
 		}
 
-		InterfaceRequest req = CoreHandler.GetRequest('DepleteArcanum', self);
-		if (req)
-		{
-			WeaponStatus[ATProp_Mana] = max(0, WeaponStatus[ATProp_Mana] - req.Arg.ToInt());
-			req.Destroy();
-			return;
-		}
-
 		if (!owner)
 		{
 			return;
+		}
+
+		for (int i = 0; i < CoreHandler.Requests.Size(); ++i)
+		{
+			InterfaceRequest req = CoreHandler.Requests[i];
+			if (req.Receiver == self)
+			{
+				switch (req.RequestName)
+				{
+					case 'DrainChargeArcanum':
+					{
+						int amt = req.Arg.ToInt();
+						if (amt != 0)
+						{
+							WeaponStatus[ATProp_Mana] = clamp(WeaponStatus[ATProp_Mana] + amt, 0, HDBLU_BALL);
+						}
+						req.Remove(); i--; // [Ace] req.Remove() will shift the index. We need to make sure the next element is not skipped.
+						break;
+					}
+				}
+			}
 		}
 
 		int curBlues = owner.CountInv('HDBlues');
