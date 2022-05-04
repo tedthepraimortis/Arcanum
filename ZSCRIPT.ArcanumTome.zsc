@@ -20,12 +20,7 @@ class HDArcanumTome : HDWeapon
 		{
 			CoreHandler = AceCoreHandler(EventHandler.Find('AceCoreHandler'));
 		}
-
-		if (!owner)
-		{
-			return;
-		}
-
+		
 		for (int i = 0; i < CoreHandler.Requests.Size(); ++i)
 		{
 			InterfaceRequest req = CoreHandler.Requests[i];
