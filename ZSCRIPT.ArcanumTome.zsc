@@ -69,6 +69,18 @@ class HDArcanumTome : HDWeapon
 		}
 	}
 
+	override void PreTravelled()
+	{
+		Super.PreTravelled();
+
+		int amt = min(HDBLU_BALL - WeaponStatus[ATProp_Mana], owner.CountInv('HDBlues'));
+		if (amt > 0)
+		{
+			WeaponStatus[ATProp_Mana] += amt;
+			owner.A_TakeInventory('HDBlues', amt);
+		}
+	}
+
 	override bool AddSpareWeapon(actor newowner) { return AddSpareWeaponRegular(newowner); }
 	override HDWeapon GetSpareWeapon(actor newowner , bool reverse, bool doselect) { return GetSpareWeaponRegular(newowner, reverse, doselect); }
 	override double GunMass() { return 4; }
