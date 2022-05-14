@@ -101,7 +101,7 @@ class ManaBarrel : Actor
 	override int DamageMobj(Actor inflictor, Actor source, int damage, Name mod, int flags, double angle)
 	{
 		int dmg = Super.DamageMobj(inflictor, source, damage / 4, mod, flags, angle);
-		if (dmg < Health && mod != 'Melee')
+		if (dmg < Health && (mod == 'Bashing' && !random(0, 3) || mod == 'Piercing'))
 		{
 			if (inflictor)
 			{
