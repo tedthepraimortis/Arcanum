@@ -250,7 +250,7 @@ class HDArcanumTome : HDWeapon
 		let plr = HDPlayerPawn(other);
 		if (plr && BluesToGive > 0)
 		{
-			plr.regenblues = BluesToGive;
+			plr.A_GiveInventory('HDBlues', BluesToGive);
 			BluesToGive = 0;
 		}
 
