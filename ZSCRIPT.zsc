@@ -25,7 +25,7 @@ class ArcanumHandler : EventHandler
 				break;
 			case 'HDBarrel':
 			{
-				if (random[arcanrand]() <= AceCore.GetScaledChance(6, 20, acl_spawnscale_min, acl_spawnscale_max))
+				if (random[arcanrand]() <= AceCore.GetScaledChance(4, 16, acl_spawnscale_min, acl_spawnscale_max))
 				{
 					e.Replacement = 'ManaBarrel';
 				}
