@@ -224,7 +224,7 @@ class ManaBarrelLight : PointLight
 		}
 
 		SetOrigin((Barrel.pos.xy, Barrel.pos.z + 36), true);
-		Args[3] = random(28, 32);
+		Args[3] = random[manbarlightrand](28, 32);
 	}
 
 	ManaBarrel Barrel;
