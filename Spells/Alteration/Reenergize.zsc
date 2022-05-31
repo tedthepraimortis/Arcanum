@@ -40,7 +40,7 @@ class ReenergizeSigil : ArcanumSigil
 		{
 			while (chargesLeft > 0)
 			{
-				int index = AceCore.GetHighestBattery(stack, stack.MaxPerUnit);
+				int index = AceCore.GetHighestMag(stack, stack.MaxPerUnit);
 				if (index > -1)
 				{
 					if (!hasPlayedSound)

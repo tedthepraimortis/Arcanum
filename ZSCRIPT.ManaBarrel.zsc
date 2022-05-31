@@ -71,6 +71,10 @@ class ManaBarrel : Actor
 				user.A_StartSound("potion/chug", 15);
 				ManaLeft--;
 			}
+			else
+			{
+				user.A_Log("You can't reach anything.", true);
+			}
 			return false;
 		}
 
@@ -80,18 +84,20 @@ class ManaBarrel : Actor
 			return false;
 		}
 
-		for (int i = 0; i < potion.Mags.Size(); ++i)
+		int lowestIndex = AceCore.GetLowestMag(potion, 0);
+		if (lowestIndex > -1)
 		{
-			if (potion.Mags[i] < HDBLU_BOTTLE)
+			if (potion.Mags[lowestIndex] < HDBLU_BOTTLE)
 			{
-				int toFill = min(ManaLeft, HDBLU_BOTTLE - potion.Mags[i]);
+				int toFill = min(ManaLeft, HDBLU_BOTTLE - potion.Mags[lowestIndex]);
 				
-				potion.Mags[i] += toFill;
+				potion.Mags[lowestIndex] += toFill;
 				ManaLeft -= toFill;
 
-				user.A_Log("You filled a potion.", true);
+				double potsLeft = ManaLeft / double(HDBLU_BOTTLE);
+				string extra = potsLeft > 0 ? String.Format(" There is still enough mana to fill \c[LightBlue]%.1f\c- bottles.", potsLeft) : " That was the last of the mana.";
+				user.A_Log("You filled a potion."..extra, true);
 				user.A_StartSound("potion/swish", 15);
-				break;
 			}
 		}
 
