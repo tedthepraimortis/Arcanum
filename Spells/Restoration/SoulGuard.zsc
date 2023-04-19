@@ -2,13 +2,13 @@ class SoulGuardSpell : ArcanumSpell
 {
 	override int GetIndex() { return 40; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
-	override string GetName() { return "Soul Guard"; }
+	override string GetName() { return "Shield Guard"; }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
-	override int GetManaCost() { return 180; }
+	override int GetManaCost() { return 75; }
 	override string GetDescription()
 	{
 		int layers = int(1 + 2 * GetExperienceFactor());
-		return String.Format("Grants \c[Gold]%i\c- layer%s of spiritual armor.", layers, layers > 1 ? "s" : "");
+		return String.Format("Creates a shieldcore.", layers, layers > 1 ? "s" : "");
 	}
 	override string GetTechnicalInfo() { return "Self, Targeted"; }
 	override int GetMaxExperience() { return 40; }
@@ -38,7 +38,7 @@ class SoulGuardSigil : ArcanumSigil
 	private void GiveSpiritualArmor(HDPlayerPawn plr)
 	{
 		PlayCastSound(self, "Arcanum/Restoration/SoulGuard");
-		plr.A_GiveInventory("SpiritualArmour", int(1 + 2 * ExperienceFactor));
+		plr.A_GiveInventory("ShieldCore", int(1 + 2 * ExperienceFactor));
 	}
 
 	override void InitRuneSlots()
