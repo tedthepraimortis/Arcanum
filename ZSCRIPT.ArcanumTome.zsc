@@ -33,7 +33,7 @@ class HDArcanumTome : HDWeapon
 						int amt = req.Arg.ToInt();
 						if (amt != 0)
 						{
-							WeaponStatus[ATProp_Mana] = clamp(WeaponStatus[ATProp_Mana] + amt, 0, HDBLU_BALL);
+							WeaponStatus[ATProp_Mana] = clamp(WeaponStatus[ATProp_Mana] + amt, 0, HDHM_BALL);
 						}
 						req.Remove(); i--; // [Ace] req.Remove() will shift the index. We need to make sure the next element is not skipped.
 						break;
@@ -42,12 +42,12 @@ class HDArcanumTome : HDWeapon
 			}
 		}
 
-		int curBlues = owner.CountInv('HDBlues');
+		int curBlues = owner.CountInv('HealingMagic');
 		bool hasCube = AceCore.CheckForItem(owner, 'HDSoulCube');
-		if (curBlues > 0 && WeaponStatus[ATProp_Mana] < HDBLU_BALL)
+		if (curBlues > 0 && WeaponStatus[ATProp_Mana] < HDHM_BALL)
 		{
-			double baseSpeed = HDBLU_BALL / (35 * 60 * (hasCube ? 15.0 : 20.0));
-			double speedFac = max(0.5, curBlues / double(HDBLU_BALL));
+			double baseSpeed = HDHM_BALL / (35 * 60 * (hasCube ? 15.0 : 20.0));
+			double speedFac = max(0.5, curBlues / double(HDHM_BALL));
 
 			if (owner.FindInventory('PowerInvulnerable'))
 			{
@@ -58,8 +58,8 @@ class HDArcanumTome : HDWeapon
 			if (AccumulatedBlues >= 1)
 			{
 				int toCharge = int(AccumulatedBlues);
-				owner.A_TakeInventory('HDBlues', toCharge);
-				WeaponStatus[ATProp_Mana] = min(WeaponStatus[ATProp_Mana] + toCharge, HDBLU_BALL);
+				owner.A_TakeInventory('HealingMagic', toCharge);
+				WeaponStatus[ATProp_Mana] = min(WeaponStatus[ATProp_Mana] + toCharge, HDHM_BALL);
 				AccumulatedBlues %= 1.0; // [Ace] Don't lose fractions.
 			}
 		}
@@ -73,11 +73,11 @@ class HDArcanumTome : HDWeapon
 	{
 		Super.PreTravelled();
 
-		int amt = min(HDBLU_BALL - WeaponStatus[ATProp_Mana], owner.CountInv('HDBlues'));
+		int amt = min(HDHM_BALL - WeaponStatus[ATProp_Mana], owner.CountInv('HealingMagic'));
 		if (amt > 0)
 		{
 			WeaponStatus[ATProp_Mana] += amt;
-			owner.A_TakeInventory('HDBlues', amt);
+			owner.A_TakeInventory('HealingMagic', amt);
 		}
 	}
 
@@ -115,7 +115,7 @@ class HDArcanumTome : HDWeapon
 		// [Ace] Ponder this mana orb.
 		if (sb.hudlevel == 1)
 		{
-			double fillFac = hdw.WeaponStatus[ATProp_Mana] / double(HDBLU_BALL);
+			double fillFac = hdw.WeaponStatus[ATProp_Mana] / double(HDHM_BALL);
 
 			static const int Lengths[] = { 3, 7, 9, 9, 11, 11, 11, 9, 9, 7, 3 };
 			for (int i = 0; i < int(11 * fillFac); ++i)
@@ -123,7 +123,7 @@ class HDArcanumTome : HDWeapon
 				sb.Fill(0xFF0022FF, -55 - Lengths[i], -5 - i * 2, Lengths[i] * 2, 2, sb.DI_SCREEN_CENTER_BOTTOM);
 			}
 
-			if (hpl.CountInv('HDBlues') > 0)
+			if (hpl.CountInv('HealingMagic') > 0)
 			{
 				sb.Fill(0xFF0022FF, -70, -7, 6, 2, sb.DI_SCREEN_CENTER_BOTTOM);
 				sb.Fill(0xFF0022FF, -68, -9, 2, 6, sb.DI_SCREEN_CENTER_BOTTOM);
@@ -250,7 +250,7 @@ class HDArcanumTome : HDWeapon
 		let plr = HDPlayerPawn(other);
 		if (plr && BluesToGive > 0)
 		{
-			plr.A_GiveInventory('HDBlues', BluesToGive);
+			plr.A_GiveInventory('HealingMagic', BluesToGive);
 			BluesToGive = 0;
 		}
 
@@ -317,7 +317,7 @@ class HDArcanumTome : HDWeapon
 		let tome = HDArcanumTome(other.FindInventory("HDArcanumTome"));
 		if (tome && tome.SpellStorage)
 		{
-			tome.WeaponStatus[ATProp_Mana] = min(tome.WeaponStatus[ATProp_Mana] + WeaponStatus[ATProp_Mana], HDBLU_BALL);
+			tome.WeaponStatus[ATProp_Mana] = min(tome.WeaponStatus[ATProp_Mana] + WeaponStatus[ATProp_Mana], HDHM_BALL);
 			
 			// [Ace] Only give experience to spells that fit the bill, i.e. those that actually support experience.
 			Array<ArcanumSpell> valid;
