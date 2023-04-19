@@ -79,15 +79,12 @@ class ManaBarrel : Actor
 		}
 
 		let potion = HDMagAmmo(user.FindInventory('HDHealingPotion'));
-		//let potsips = invoker.weaponstatus[INJECTS_AMOUNT];
-		//let potion = HDMagAmmo(user.FindInventory('HDHealingBottler'));
 		if (!potion)
 		{
 			return false;
 		}
 
 		int lowestIndex = AceCore.GetLowestMag(potion, 0);
-		/*
 		if (lowestIndex > -1)
 		{
 			if (potion.Mags[lowestIndex] < HDHM_BOTTLE)
@@ -103,21 +100,7 @@ class ManaBarrel : Actor
 				user.A_StartSound("potion/swish", 15);
 			}
 		}
-		*/
-		if (weaponstatus[INJECTS_AMOUNT]<12)
-		{
-				int toFill = min(ManaLeft, HDHM_BOTTLE - potion.Mags[lowestIndex]);
-				
-				potion.Mags[lowestIndex] += toFill;
-				ManaLeft -= toFill;
 
-				double potsLeft = ManaLeft / double(HDHM_BOTTLE);
-				string extra = potsLeft > 0 ? String.Format(" There is still enough mana to fill \c[LightBlue]%.1f\c- bottles.", potsLeft) : " That was the last of the mana.";
-				user.A_Log("You filled a potion."..extra, true);
-				user.A_StartSound("potion/swish", 15);
-			
-		}
-		user.A_Log("How did you miss the barrel?", true);
 		return false;
 	}
 
