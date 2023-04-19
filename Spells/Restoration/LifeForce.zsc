@@ -52,9 +52,10 @@ class LifeForceSigil : ArcanumSigil
 		if (plr)
 		{
 			PlayCastSound(self, "Arcanum/Restoration/LifeForce");
-			plr.unstablewoundcount = 0;
+			
+			//plr.unstablewoundcount = 0;
 			plr.oldwoundcount = 0;
-			plr.woundcount = 0;
+			//plr.woundcount = 0;
 			plr.burncount -= burnFix;
 			plr.aggravateddamage -= aggroFix;
 			plr.bloodloss = 0;
