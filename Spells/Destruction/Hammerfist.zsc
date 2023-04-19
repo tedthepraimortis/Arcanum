@@ -59,7 +59,7 @@ class HammerfistFist : HDActor // [Ace] A fistful of redundancy.
 			let Necro = Necromancer(victim);
 			if (Necro && !Necro.bFRIENDLY && Necro.CheckInventory("HolyCompeller", 1))
 			{
-				Necro.HitsLeft = 0;
+//				Necro.HitsLeft = 0;
 			}
 			return Super.SpecialMissileHit(victim);
 		}
