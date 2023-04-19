@@ -49,9 +49,9 @@ class DisplacementSpellPower : Powerup
 
 		let plr = HDPlayerPawn(owner);
 		CastPos = plr.pos;
-		WoundCount = plr.woundcount;
+		//WoundCount = plr.woundcount;
 		OldWoundCount = plr.oldwoundcount;
-		UnstableWoundCount = plr.unstablewoundcount;
+		//UnstableWoundCount = plr.unstablewoundcount;
 		BurnCount = plr.burncount;
 		AggravatedDamage = plr.aggravateddamage;
 
@@ -77,9 +77,9 @@ class DisplacementSpellPower : Powerup
 		plr.vel = (0, 0, 0);
 		plr.pitch = 0;
 
-		plr.woundcount = WoundCount;
+		//plr.woundcount = WoundCount;
 		plr.oldwoundcount = OldWoundCount;
-		plr.unstablewoundcount = UnstableWoundCount;
+		//plr.unstablewoundcount = UnstableWoundCount;
 		plr.burncount = BurnCount;
 		plr.aggravateddamage = AggravatedDamage;
 
