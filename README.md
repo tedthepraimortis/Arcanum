@@ -1,5 +1,5 @@
 ### Important
-- This mod requires [AceCoreLib](https://gitlab.com/accensi/hd-addons/acecorelib).
+- This mod requires [AceCoreLib](https://github.com/HDest-Community/AceCoreLib).
 - To cast self/mass spells, look at your feet and summon a rune. When casting such spells, you must be within the sigil to be able to activate the runes.
 - When casting targeted spells, you can only activate the runes from behind. There is an angle limit so you cannot cheese runes from behind a corner.
 - Touch spells require the sigil to be within 2m of the target.
