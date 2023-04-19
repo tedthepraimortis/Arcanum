@@ -23,7 +23,7 @@ class TransfusionSigil : ArcanumSigil
 			if (tome.WeaponStatus[tome.ATProp_Mana] > 0)
 			{
 				PlayCastSound(self, "Arcanum/Restoration/Transfusion");
-				plr.A_GiveInventory('HDBlues', tome.WeaponStatus[tome.ATProp_Mana]);
+				plr.A_GiveInventory('HealingMagic', tome.WeaponStatus[tome.ATProp_Mana]);
 				tome.WeaponStatus[tome.ATProp_Mana] = 0;
 			}
 		}
