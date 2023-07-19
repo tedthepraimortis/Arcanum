@@ -49,7 +49,7 @@ class ManaBarrel : Actor
 	}
 
 	override bool Used(Actor user)
-	{
+	{	
 		if (Distance3D(user) > radius + user.radius * 2)
 		{
 			return false;
@@ -61,7 +61,9 @@ class ManaBarrel : Actor
 			return false;
 		}
 		//if (!(user.player.ReadyWeapon is 'HDHealingBottler' ||self.countinv('HDHealingPotion') >> 0))
-		if (user.player.ReadyWeapon is 'HDHealingBottler' ||self.countinv('HDHealingPotion') >> 0)
+		let potion = HDMagAmmo(user.FindInventory('HDHealingPotion'));
+		int lowestIndex = AceCore.GetLowestMag(potion, 0);
+		if (!(user.player.ReadyWeapon is 'HDHealingBottler' ||self.countinv('HDHealingPotion') >= 1 || potion.Mags[lowestIndex] < HDHM_BOTTLE))
 		{
 			double maxSipFac = HDPlayerPawn(user) && HDPlayerPawn(user).incapacitated > 0 ? 0.9 : 0.8;
 			if (ManaLeft >= TotalMana * maxSipFac)
@@ -78,13 +80,13 @@ class ManaBarrel : Actor
 			return false;
 		}
 
-		let potion = HDMagAmmo(user.FindInventory('HDHealingPotion'));
+		//let potion = HDMagAmmo(user.FindInventory('HDHealingPotion'));
 		if (!potion)
 		{
 			return false;
 		}
 
-		int lowestIndex = AceCore.GetLowestMag(potion, 0);
+		//int lowestIndex = AceCore.GetLowestMag(potion, 0);
 		//if (lowestIndex > -1)
 		if (lowestIndex > -1)
 		{
