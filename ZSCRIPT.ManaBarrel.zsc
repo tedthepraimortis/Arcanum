@@ -60,8 +60,8 @@ class ManaBarrel : Actor
 			user.A_Log("This barrel is empty.", true);
 			return false;
 		}
-
-		if (!(user.player.ReadyWeapon is 'HDHealingBottler'))
+		//if (!(user.player.ReadyWeapon is 'HDHealingBottler' ||self.countinv('HDHealingPotion') >> 0))
+		if (user.player.ReadyWeapon is 'HDHealingBottler' ||self.countinv('HDHealingPotion') >> 0)
 		{
 			double maxSipFac = HDPlayerPawn(user) && HDPlayerPawn(user).incapacitated > 0 ? 0.9 : 0.8;
 			if (ManaLeft >= TotalMana * maxSipFac)
@@ -85,6 +85,7 @@ class ManaBarrel : Actor
 		}
 
 		int lowestIndex = AceCore.GetLowestMag(potion, 0);
+		//if (lowestIndex > -1)
 		if (lowestIndex > -1)
 		{
 			if (potion.Mags[lowestIndex] < HDHM_BOTTLE)
