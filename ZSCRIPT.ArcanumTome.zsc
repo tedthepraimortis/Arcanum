@@ -514,7 +514,24 @@ class HDArcanumTome : HDWeapon
 				FLineTraceData Data;
 				for (int i = 8; i <= 192; i += 8)
 				{
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, height - 6, 0, 0, Data);
+					//Is this silly? Yes! Does it make casting way more reliable? Also Yes!
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 8, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 7, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 6, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 5, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 4, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 3, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 2, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 1, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 0, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 1, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 2, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 3, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 4, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 5, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 6, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 7, 0, 0, Data);
+					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 8, 0, 0, Data);
 					if (Data.HitType == Data.TRACE_HitActor && Data.HitActor is 'ArcanumRuneSlot')
 					{
 						let runeSlot = ArcanumRuneSlot(Data.HitActor);
