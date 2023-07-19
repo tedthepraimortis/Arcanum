@@ -257,7 +257,8 @@ class ArcanumRuneSlot : Actor
 			}
 			Stop;
 		Disappear:
-			ARUN # 1 A_FadeOut(0.08);
+			//ARUN # 1 A_FadeOut(0.08); disappears way too fast
+			ARUN # 1 A_FadeOut(0.025);
 			Loop;
 	}
 }
@@ -298,6 +299,7 @@ class ArcanumSigilAdd : ArcanumSigil
 	States
 	{
 		Disappear:
+			#### # 25;
 			#### # 1
 			{
 				A_FadeOut(0.004 * AddAlpha);
