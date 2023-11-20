@@ -61,9 +61,9 @@ class ManaBarrel : Actor
 			return false;
 		}
 		//if (!(user.player.ReadyWeapon is 'HDHealingBottler' ||self.countinv('HDHealingPotion') >> 0))
-		let potion = HDMagAmmo(user.FindInventory('HDHealingPotion'));
-		int lowestIndex = AceCore.GetLowestMag(potion, 0);
-		if (!(user.player.ReadyWeapon is 'HDHealingBottler' ||self.countinv('HDHealingPotion') >= 1 || potion.Mags[lowestIndex] < HDHM_BOTTLE))
+		let potion = HDWeapon(user.FindInventory('HDHealingPotion'));
+
+		if (!(user.player.ReadyWeapon is 'HDHealingPotion'))
 		{
 			double maxSipFac = HDPlayerPawn(user) && HDPlayerPawn(user).incapacitated > 0 ? 0.9 : 0.8;
 			if (ManaLeft >= TotalMana * maxSipFac)
@@ -80,28 +80,23 @@ class ManaBarrel : Actor
 			return false;
 		}
 
-		//let potion = HDMagAmmo(user.FindInventory('HDHealingPotion'));
 		if (!potion)
 		{
 			return false;
 		}
 
-		//int lowestIndex = AceCore.GetLowestMag(potion, 0);
-		//if (lowestIndex > -1)
-		if (lowestIndex > -1)
+
+		else if (potion.weaponstatus[HDHM_AMOUNT] < HDHM_BOTTLE)
 		{
-			if (potion.Mags[lowestIndex] < HDHM_BOTTLE)
-			{
-				int toFill = min(ManaLeft, HDHM_BOTTLE - potion.Mags[lowestIndex]);
+				int toFill = min(ManaLeft, HDHM_BOTTLE - potion.weaponstatus[HDHM_AMOUNT]);
 				
-				potion.Mags[lowestIndex] += toFill;
+				potion.weaponstatus[HDHM_AMOUNT] += toFill;
 				ManaLeft -= toFill;
 
 				double potsLeft = ManaLeft / double(HDHM_BOTTLE);
 				string extra = potsLeft > 0 ? String.Format(" There is still enough mana to fill \c[LightBlue]%.1f\c- bottles.", potsLeft) : " That was the last of the mana.";
 				user.A_Log("You filled a potion."..extra, true);
 				user.A_StartSound("potion/swish", 15);
-			}
 		}
 
 		return false;
