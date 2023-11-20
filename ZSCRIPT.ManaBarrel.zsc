@@ -62,10 +62,7 @@ class ManaBarrel : Actor
 		}
 		//if (!(user.player.ReadyWeapon is 'HDHealingBottler' ||self.countinv('HDHealingPotion') >> 0))
 		let potion = HDWeapon(user.FindInventory('HDHealingPotion'));
-		if (!potion)
-		{
-			return false;
-		}
+
 		if (!(user.player.ReadyWeapon is 'HDHealingPotion'))
 		{
 			double maxSipFac = HDPlayerPawn(user) && HDPlayerPawn(user).incapacitated > 0 ? 0.9 : 0.8;
@@ -83,6 +80,10 @@ class ManaBarrel : Actor
 			return false;
 		}
 
+		if (!potion)
+		{
+			return false;
+		}
 
 
 		else if (potion.weaponstatus[HDHM_AMOUNT] < HDHM_BOTTLE)
