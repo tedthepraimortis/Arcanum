@@ -42,7 +42,7 @@ class FireballSigil : ArcanumSigil
 			target = ViableTargets[random(0, ViableTargets.Size() - 1)];
 		}
 
-		Actor a = A_SpawnProjectile("ArdentipedeBall2", Height * cos(randRoll), Height * sin(randRoll), random(-4, 4), CMF_AIMDIRECTION, pitch + random(-2, 2));
+		Actor a = A_SpawnProjectile("MageImpBall2", Height * cos(randRoll), Height * sin(randRoll), random(-4, 4), CMF_AIMDIRECTION, pitch + random(-2, 2));
 		if (a)
 		{
 			a.target = master;
