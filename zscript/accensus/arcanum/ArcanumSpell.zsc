@@ -1,35 +1,3 @@
-#include "Spells/Destruction/Fireball.zsc"
-#include "Spells/Destruction/Claymore.zsc"
-#include "Spells/Destruction/Thunderclap.zsc"
-#include "Spells/Destruction/Hammerfist.zsc"
-#include "Spells/Destruction/Immolation.zsc"
-#include "Spells/Destruction/Voidstorm.zsc"
-
-#include "Spells/Restoration/Revitalization.zsc"
-#include "Spells/Restoration/LifeForce.zsc"
-#include "Spells/Restoration/Rage.zsc"
-#include "Spells/Restoration/Transfusion.zsc"
-#include "Spells/Restoration/Resurrect.zsc"
-#include "Spells/Restoration/SoulGuard.zsc"
-#include "Spells/Restoration/Invulnerability.zsc"
-
-#include "Spells/Alteration/FarReach.zsc"
-#include "Spells/Alteration/Worldbreaker.zsc"
-#include "Spells/Alteration/Shield.zsc"
-#include "Spells/Alteration/Haste.zsc"
-#include "Spells/Alteration/HoradricMalus.zsc"
-#include "Spells/Alteration/Feather.zsc"
-#include "Spells/Alteration/Reenergize.zsc"
-#include "Spells/Alteration/Displacement.zsc"
-#include "Spells/Alteration/MassRecall.zsc"
-
-#include "Spells/Conjuration/GuardianOrb.zsc"
-#include "Spells/Conjuration/GhostSquad.zsc"
-#include "Spells/Conjuration/HolyForce.zsc"
-#include "Spells/Conjuration/Barrier.zsc"
-#include "Spells/Conjuration/Bridge.zsc"
-#include "Spells/Conjuration/Candlelight.zsc"
-
 class ArcanumSpellTree abstract play
 {
 	abstract clearscope string GetName() const;

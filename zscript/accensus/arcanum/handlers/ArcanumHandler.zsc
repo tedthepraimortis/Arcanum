@@ -1,0 +1,43 @@
+class ArcanumHandler : EventHandler
+{
+	override void CheckReplacement(ReplaceEvent e)
+	{
+		if (!e.Replacement)
+		{
+			return;
+		}
+
+		switch (e.Replacement.GetClassName())
+		{
+			case 'Lumberjack':
+				if (random[arcanrand]() <= 64)
+				{
+					e.Replacement = 'HDArcanumTome';
+				}
+				break;
+			case 'HDBarrel':
+			{
+				if (random[arcanrand]() <= AceCore.GetScaledChance(4, 16, acl_spawnscale_min, acl_spawnscale_max))
+				{
+					e.Replacement = 'ManaBarrel';
+				}
+				break;
+			}
+		}
+	}
+
+	override void PlayerEntered(PlayerEvent e)
+	{
+		ArcanumSpellBrain brain = ArcanumSpellBrain.Get(e.PlayerNumber);
+		brain.InitSpells(false); // [Ace] Because PostBeginPlay seems to be called a bit too late on it. In fact, it doesn't seem to be called at all.
+	}
+
+	override void NetworkProcess(ConsoleEvent e)
+	{
+		if (e.Name ~== "ARC_ReInitSpells")
+		{
+			ArcanumSpellBrain brain = ArcanumSpellBrain.Get(e.Player);
+			brain.InitSpells(e.Args[0]);
+		}
+	}
+}

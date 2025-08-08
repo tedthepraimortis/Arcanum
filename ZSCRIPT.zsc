@@ -1,54 +1,44 @@
 version "4.5"
 
-#include "ZSCRIPT.SpellBrain.zsc"
-#include "ZSCRIPT.ArcanumSpell.zsc"
-#include "ZSCRIPT.ArcanumSigil.zsc"
-#include "ZSCRIPT.ArcanumTome.zsc"
-#include "ZSCRIPT.ManaBarrel.zsc"
+#include "zscript/accensus/arcanum/Spells/Destruction/Fireball.zsc"
+#include "zscript/accensus/arcanum/Spells/Destruction/Claymore.zsc"
+#include "zscript/accensus/arcanum/Spells/Destruction/Thunderclap.zsc"
+#include "zscript/accensus/arcanum/Spells/Destruction/Hammerfist.zsc"
+#include "zscript/accensus/arcanum/Spells/Destruction/Immolation.zsc"
+#include "zscript/accensus/arcanum/Spells/Destruction/Voidstorm.zsc"
 
-class ArcanumHandler : EventHandler
-{
-	override void CheckReplacement(ReplaceEvent e)
-	{
-		if (!e.Replacement)
-		{
-			return;
-		}
+#include "zscript/accensus/arcanum/Spells/Restoration/Revitalization.zsc"
+#include "zscript/accensus/arcanum/Spells/Restoration/LifeForce.zsc"
+#include "zscript/accensus/arcanum/Spells/Restoration/Rage.zsc"
+#include "zscript/accensus/arcanum/Spells/Restoration/Transfusion.zsc"
+#include "zscript/accensus/arcanum/Spells/Restoration/Resurrect.zsc"
+#include "zscript/accensus/arcanum/Spells/Restoration/SoulGuard.zsc"
+#include "zscript/accensus/arcanum/Spells/Restoration/Invulnerability.zsc"
 
-		switch (e.Replacement.GetClassName())
-		{
-			case 'Lumberjack':
-				if (random[arcanrand]() <= 64)
-				{
-					e.Replacement = 'HDArcanumTome';
-				}
-				break;
-			case 'HDBarrel':
-			{
-				if (random[arcanrand]() <= AceCore.GetScaledChance(4, 16, acl_spawnscale_min, acl_spawnscale_max))
-				{
-					e.Replacement = 'ManaBarrel';
-				}
-				break;
-			}
-		}
-	}
+#include "zscript/accensus/arcanum/Spells/Alteration/FarReach.zsc"
+#include "zscript/accensus/arcanum/Spells/Alteration/Worldbreaker.zsc"
+#include "zscript/accensus/arcanum/Spells/Alteration/Shield.zsc"
+#include "zscript/accensus/arcanum/Spells/Alteration/Haste.zsc"
+#include "zscript/accensus/arcanum/Spells/Alteration/HoradricMalus.zsc"
+#include "zscript/accensus/arcanum/Spells/Alteration/Feather.zsc"
+#include "zscript/accensus/arcanum/Spells/Alteration/Reenergize.zsc"
+#include "zscript/accensus/arcanum/Spells/Alteration/Displacement.zsc"
+#include "zscript/accensus/arcanum/Spells/Alteration/MassRecall.zsc"
 
-	override void PlayerEntered(PlayerEvent e)
-	{
-		ArcanumSpellBrain brain = ArcanumSpellBrain.Get(e.PlayerNumber);
-		brain.InitSpells(false); // [Ace] Because PostBeginPlay seems to be called a bit too late on it. In fact, it doesn't seem to be called at all.
-	}
+#include "zscript/accensus/arcanum/Spells/Conjuration/GuardianOrb.zsc"
+#include "zscript/accensus/arcanum/Spells/Conjuration/GhostSquad.zsc"
+#include "zscript/accensus/arcanum/Spells/Conjuration/HolyForce.zsc"
+#include "zscript/accensus/arcanum/Spells/Conjuration/Barrier.zsc"
+#include "zscript/accensus/arcanum/Spells/Conjuration/Bridge.zsc"
+#include "zscript/accensus/arcanum/Spells/Conjuration/Candlelight.zsc"
 
-	override void NetworkProcess(ConsoleEvent e)
-	{
-		if (e.Name ~== "ARC_ReInitSpells")
-		{
-			ArcanumSpellBrain brain = ArcanumSpellBrain.Get(e.Player);
-			brain.InitSpells(e.Args[0]);
-		}
-	}
-}
+#include "zscript/accensus/arcanum/SpellBrain.zsc"
+#include "zscript/accensus/arcanum/ArcanumSpell.zsc"
+#include "zscript/accensus/arcanum/ArcanumSigil.zsc"
+#include "zscript/accensus/arcanum/ArcanumTome.zsc"
+#include "zscript/accensus/arcanum/ManaBarrel.zsc"
+
+#include "zscript/accensus/arcanum/handlers/ArcanumHandler.zsc"
 
 // --------------------------------------------------
 // DEBUG & MISC
