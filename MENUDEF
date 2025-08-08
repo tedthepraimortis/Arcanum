@@ -11,3 +11,8 @@ AddOptionMenu "OptionsMenu"
 {
 	Submenu "Arcanum", "ArcanumMenu"
 }
+
+AddOptionMenu "HDAddonMenu"
+{
+	Submenu "Arcanum", "ArcanumMenu"
+}
