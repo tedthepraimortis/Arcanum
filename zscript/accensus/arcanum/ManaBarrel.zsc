@@ -154,14 +154,17 @@ class ManaBarrel : Actor
 
 	Default
 	{
-		Radius 10;
-		Height 32;
-		Health 100;
-		Mass 200;
 		+SOLID
 		+SHOOTABLE
 		+NOBLOOD
 		+GHOST
+
+		Radius 10;
+		Height 32;
+		Health 100;
+		Mass 200;
+
+		Tag "$TAG_BARREL";
 	}
 
 	States
