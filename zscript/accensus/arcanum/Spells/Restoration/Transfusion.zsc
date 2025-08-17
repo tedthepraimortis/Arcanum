@@ -2,11 +2,11 @@ class TransfusionSpell : ArcanumSpell
 {
 	override int GetIndex() { return 20; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
-	override string GetName() { return "Transfusion"; }
+	override string GetName() { return loc("$RESTORATION_TRANSFUSION_NAME"); }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetManaCost() { return 10; }
-	override string GetDescription() { return String.Format("Transfers all of the tome's stored blues to the target."); }
-	override string GetTechnicalInfo() { return "Targeted, Touch"; }
+	override string GetDescription() { return String.Format(loc("$RESTORATION_TRANSFUSION_DESC")); }
+	override string GetTechnicalInfo() { return loc("$RESTORATION_TRANSFUSION_INFO"); }
 	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'TransfusionSigil'; }
 }

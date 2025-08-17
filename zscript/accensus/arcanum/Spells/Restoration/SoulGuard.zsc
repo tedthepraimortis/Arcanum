@@ -2,15 +2,15 @@ class SoulGuardSpell : ArcanumSpell
 {
 	override int GetIndex() { return 40; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
-	override string GetName() { return "Shield Guard"; }
+	override string GetName() { return loc("$RESTORATION_SOULGUARD_NAME"); }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 75; }
 	override string GetDescription()
 	{
 		int layers = int(1 + 2 * GetExperienceFactor());
-		return String.Format("Creates a shieldcore.", layers, layers > 1 ? "s" : "");
+		return String.Format(loc("$RESTORATION_SOULGUARD_DESC"), layers, layers > 1 ? loc("$RESTORATION_SOULGUARD_DESC2") : "");
 	}
-	override string GetTechnicalInfo() { return "Self, Targeted"; }
+	override string GetTechnicalInfo() { return loc("$RESTORATION_SOULGUARD_INFO"); }
 	override int GetMaxExperience() { return 40; }
 	override class<ArcanumSigil> GetSigil() { return 'SoulGuardSigil'; }
 }

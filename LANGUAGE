@@ -64,6 +64,35 @@ DESTRUCTION_VOIDSTORM_INFO = "Mass, Dangerous";
 ARCANUM_TREE_RESTORATION = "\c[Tan]Restoration\c-";
 ARCANUM_TREE_RESTORATION_DESC = "It is a wise man's goal to heal the world.\n\nRestoration spells give you the ability to resurrect friends or foes, heal their wounds, cleanse their body, and protect it.";
 
+RESTORATION_INVULNERABILITY_NAME = "Invulnerability";
+RESTORATION_INVULNERABILITY_DESC = "Grants temporary invulnerability that lasts 90 seconds.\n\n\c[Fire]Warning: will set everything on fire.\c-";
+RESTORATION_INVULNERABILITY_INFO = "Self, Targeted, Touch";
+
+RESTORATION_LIFEFORCE_NAME = "Life Force";
+RESTORATION_LIFEFORCE_DESC = "Fixes all wounds and restores \c[Gold]%i\c-%% of missing health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-. Restores lost blood and removes incap.";
+RESTORATION_LIFEFORCE_INFO = "Self, Targeted, Touch";
+
+RESTORATION_RAGE_NAME = "Rage";
+RESTORATION_RAGE_DESC = "[this page is full of incomprehensible scribbles]";
+RESTORATION_RAGE_INFO = "Self, Targeted, Touch";
+
+RESTORATION_RESURRECT_NAME = "Resurrect";
+RESTORATION_RESURRECT_DESC = "Resurrects up to \c[Gold]%i\c- targets within \c[Gold]%.1f\c-m of where the sigil was cast.";
+RESTORATION_RESURRECT_INFO = "Mass";
+
+RESTORATION_REVITALIZATION_NAME = "Revitalization";
+RESTORATION_REVITALIZATION_DESC = "Recover \c[Gold]%i\c- health every heartbeat. Effect expires after \c[Gold]%i\c- health points. Prevents pain jolts from second flesh for the duration of the effect. Helps with zerk comedown.";
+RESTORATION_REVITALIZATION_INFO = "Self, Targeted, Touch";
+
+RESTORATION_SOULGUARD_NAME = "Shield Guard";
+RESTORATION_SOULGUARD_DESC = "Grants \c[Gold]%i\c- shield core%s.";
+RESTORATION_SOULGUARD_DESC2 = "s";
+RESTORATION_SOULGUARD_INFO = "Self, Targeted";
+
+RESTORATION_TRANSFUSION_NAME = "Transfusion";
+RESTORATION_TRANSFUSION_DESC = "Transfers all of the tome's stored blues to the target.";
+RESTORATION_TRANSFUSION_INFO = "Targeted, Touch";
+
 // ALTERATION
 ARCANUM_TREE_ALTERATION = "\c[Green]Alteration\c-";
 ARCANUM_TREE_ALTERATION_DESC = "Nothing is as it appears. Manipulate the world to your liking.\n\nThe school of Alteration lets you destroy entire walls or otherwise manipulate objects.";
