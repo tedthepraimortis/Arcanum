@@ -2,11 +2,11 @@ class BarrierSpell : ArcanumSpell
 {
 	override int GetIndex() { return 20; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
-	override string GetName() { return "Barrier"; }
+	override string GetName() { return loc("$CONJURATION_BARRIER_NAME"); }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetManaCost() { return 35; }
-	override string GetDescription() { return "Creates a 10m-wide impenetrable energy wall 1m in front of you. Lasts 90 seconds. Blocks movement and projectiles."; }
-	override string GetTechnicalInfo() { return "Touch"; }
+	override string GetDescription() { return loc("$CONJURATION_BARRIER_DESC"); }
+	override string GetTechnicalInfo() { return loc("$CONJURATION_BARRIER_INFO"); }
 	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'BarrierSigil'; }
 }

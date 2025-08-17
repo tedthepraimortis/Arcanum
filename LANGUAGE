@@ -83,3 +83,33 @@ ALTERATION_WORLDBREAKER_INFO = "Targeted, Touch";
 // CONJURATION
 ARCANUM_TREE_CONJURATION = "\c[Purple]Conjuration\c-";
 ARCANUM_TREE_CONJURATION_DESC = "If it does not exist, make it.\n\nConjuration is for the strongest of magi. With it, you can summon monsters or materialize objects.";
+
+CONJURATION_BARRIER_NAME = "Barrier";
+CONJURATION_BARRIER_DESC = "Creates a 10m-wide impenetrable energy wall 1m in front of you. Lasts 90 seconds. Blocks movement and projectiles.";
+CONJURATION_BARRIER_INFO = "Touch";
+
+CONJURATION_BRIDGE_NAME = "Bridge";
+CONJURATION_BRIDGE_DESC = "Creates a 20m-long energy bridge. Lasts 30 seconds.";
+CONJURATION_BRIDGE_INFO = "Angled";
+
+CONJURATION_CANDLELIGHT_NAME = "Candlelight";
+CONJURATION_CANDLELIGHT_DESC = "Emit a bright light with a radius of \c[Gold]%.1f\c-m for \c[Gold]%.1f\c- minutes.";
+CONJURATION_CANDLELIGHT_INFO = "Self";
+
+CONJURATION_GHOSTSQUAD_NAME = "Ghost Squad";
+CONJURATION_GHOSTSQUAD_DESC = "Summons \c[Gold]%i\c- ghost marine%s at target location.";
+CONJURATION_GHOSTSQUAD_DESC2 = "s";
+CONJURATION_GHOSTSQUAD_INFO = "Targeted";
+CONJURATION_GHOSTSQUAD_ACTIVATE1 = "\cj'They shall stand again and hear there\n\cja horn in the hills ringing.\n\n\cjWhose shall the horn be?'";
+CONJURATION_GHOSTSQUAD_ACTIVATE2 = "\cj'For this war will last through years uncounted\n\n\cjand you shall be summoned once again ere the end.'";
+CONJURATION_GHOSTSQUAD_ACTIVATE3 = "\cj'Faint cries I heard,and dim horns blowing,\n\n\cjand a murmur as of countless far voices:\n\n\n\cjit was like the echo of some forgotten battle\n\n\cjin the Dark Years long ago.'";
+CONJURATION_GHOSTSQUAD_ACTIVATE4 = "\cj'Pale swords were drawn; but I know not\n\n\cjwhether their blades would still bite,\n\n\n\cjfor the Dead needed no longer\n\n\cjany weapon but fear.'";
+
+CONJURATION_GUARDIANORB_NAME = "Guardian Orb";
+CONJURATION_GUARDIANORB_DESC = "A point defense orb that orbits its target, shooting down inbound tracers and small floating monsters within 5m. Can summon up to \c[Gold]%i\c- orb%s.";
+CONJURATION_GUARDIANORB_DESC2 = "s";
+CONJURATION_GUARDIANORB_INFO = "Self, Targeted, Touch";
+
+CONJURATION_HOLYFORCE_NAME = "Holy Force";
+CONJURATION_HOLYFORCE_DESC = "Prevents all archviles within 20m from disappearing until they die. Forces it out of hiding if it's invisible. If no archviles were affected, trigger nearby curses, if any. Reveals possessed barrels.";
+CONJURATION_HOLYFORCE_INFO = "Mass";
