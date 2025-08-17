@@ -2,11 +2,11 @@ class ClaymoreSpell : ArcanumSpell
 {
 	override int GetIndex() { return 10; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
-	override string GetName() { return "Claymore"; }
+	override string GetName() { return loc("$DESTRUCTION_CLAYMORE_NAME"); }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetManaCost() { return 5; }
-	override string GetDescription() { return "Activate the rune to create a trap that will activate when an enemy is in front of it."; }
-	override string GetTechnicalInfo() { return "Touch, Physical"; }
+	override string GetDescription() { return loc("$DESTRUCTION_CLAYMORE_DESC"); }
+	override string GetTechnicalInfo() { return loc("$DESTRUCTION_CLAYMORE_INFO"); }
 	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'ClaymoreSigil'; }
 }

@@ -36,6 +36,30 @@ MANABARREL_POTFILL = "You filled a potion.";
 ARCANUM_TREE_DESTRUCTION = "\c[Red]Destruction\c-";
 ARCANUM_TREE_DESTRUCTION_DESC = "Those who wish to destroy the world may find out how trivial it is. But is it really what you want?\n\nThis tree contains spells to call down thunder, annihilate entire hordes, or light a candle.";
 
+DESTRUCTION_CLAYMORE_NAME = "Claymore";
+DESTRUCTION_CLAYMORE_DESC = "Activate the rune to create a trap that will activate when an enemy is in front of it.";
+DESTRUCTION_CLAYMORE_INFO = "Touch, Physical";
+
+DESTRUCTION_FIREBALL_NAME = "Fireball";
+DESTRUCTION_FIREBALL_DESC = "Barrage the targeted area with \c[Gold]%i\c- fireballs.";
+DESTRUCTION_FIREBALL_INFO = "Targeted, Thermal, Dangerous";
+
+DESTRUCTION_HAMMERFIST_NAME = "Hammerfist";
+DESTRUCTION_HAMMERFIST_DESC = "A giant fist drops down from the sky and crushes a single target.";
+DESTRUCTION_HAMMERFIST_INFO = "Targeted, Physical";
+
+DESTRUCTION_IMMOLATION_NAME = "Immolation";
+DESTRUCTION_IMMOLATION_DESC = "Sets all enemies within \c[Gold]%.1f\c-m on fire.";
+DESTRUCTION_IMMOLATION_INFO = "Mass, Thermal";
+
+DESTRUCTION_THUNDERCLAP_NAME = "Thunderclap";
+DESTRUCTION_THUNDERCLAP_DESC = "Strikes target area with \c[Gold]%i\c- lightning bolt%s.";
+DESTRUCTION_THUNDERCLAP_INFO = "Targeted, AoE, Electrical, Dangerous";
+
+DESTRUCTION_VOIDSTORM_NAME = "Voidstorm";
+DESTRUCTION_VOIDSTORM_DESC = "Launches forward a black hole that sucks enemies in and removes them from existence. It explodes once it comes into contact with a hard surface.";
+DESTRUCTION_VOIDSTORM_INFO = "Mass, Dangerous";
+
 // RESTORATION
 ARCANUM_TREE_RESTORATION = "\c[Tan]Restoration\c-";
 ARCANUM_TREE_RESTORATION_DESC = "It is a wise man's goal to heal the world.\n\nRestoration spells give you the ability to resurrect friends or foes, heal their wounds, cleanse their body, and protect it.";

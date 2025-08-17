@@ -2,16 +2,16 @@ class ThunderclapSpell : ArcanumSpell
 {
 	override int GetIndex() { return 20; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
-	override string GetName() { return "Thunderclap"; }
+	override string GetName() { return loc("$DESTRUCTION_THUNDERCLAP_NAME"); }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetManaCost() { return 6; }
 	override string GetDescription()
 	{
 		int count = int(1 + 4 * GetExperienceFactor());
-		return String.Format("Strikes target area with \c[Gold]%i\c- lightning bolt%s.", count, count > 1 ? "s" : "");
+		return String.Format(loc("$DESTRUCTION_THUNDERCLAP_DESC"), count, count > 1 ? "s" : "");
 	}
 	override int GetMaxExperience() { return 300; }
-	override string GetTechnicalInfo() { return "Targeted, AoE, Electrical, Dangerous"; }
+	override string GetTechnicalInfo() { return loc("$DESTRUCTION_THUNDERCLAP_INFO"); }
 	override class<ArcanumSigil> GetSigil() { return 'ThunderclapSigil'; }
 }
 

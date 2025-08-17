@@ -2,11 +2,11 @@ class HammerfistSpell : ArcanumSpell
 {
 	override int GetIndex() { return 30; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
-	override string GetName() { return "Hammerfist"; }
+	override string GetName() { return loc("$DESTRUCTION_HAMMERFIST_NAME"); }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetManaCost() { return 60; }
-	override string GetDescription() { return String.Format("A giant fist drops down from the sky and crushes a single target."); }
-	override string GetTechnicalInfo() { return "Targeted, Physical"; }
+	override string GetDescription() { return String.Format(loc("$DESTRUCTION_HAMMERFIST_DESC")); }
+	override string GetTechnicalInfo() { return loc("$DESTRUCTION_HAMMERFIST_INFO"); }
 	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'HammerfistSigil'; }
 }
