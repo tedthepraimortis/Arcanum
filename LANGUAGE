@@ -1,0 +1,85 @@
+[enu default]
+
+// The Book:tm:
+ARCANUM_PLACERUNE = "  Place rune\n";
+ARCANUM_SPELLCIRCLE = "  Create spell circle\n";
+ARCANUM_SPELLMANAGER = "  Spell manager";
+ARCANUM_CYCLESPELLS = "  Cycle spells\n";
+ARCANUM_CYCLESPELLTREES = "  Cycle spell trees\n";
+ARCANUM_EXITMANAGER = "  Exit spell manager";
+ARCANUM_PLUS = "+";
+ARCANUM_OR = " or ";
+ARCANUM_SPELLS = "Spells";
+ARCANUM_EXPERIENCE = "Experience";
+ARCANUM_COSTCOLOR = "\c[ArcanumReqBlue]%i\c-";
+ARCANUM_COST = "\c[DarkGray]Cost: ";
+ARCANUM_FULLPOWERCOLOR = "\c[Fire]";
+ARCANUM_REACHEDFULLPOWER = "\c- has reached full power.";
+ARCANUM_YOURKNOWLEDGE = "Your knowledge of \c[Fire]";
+ARCANUM_INCREASES = "\c- increases.";
+ARCANUM_FAILLEARN = "You fail to learn anything new.";
+ARCANUM_NOTPOWERFUL = "You don't feel powerful enough to cast ";
+ARCANUM_PERIOD = ".";
+
+ARCANUM_TAG = "Arcanum tome";
+ARCANUM_PICKUP = "You picked up the Arcanum tome of knowledge. Unlimited power awaits those with the energy within.";
+
+// Mana Barrel
+MANABARREL_EMPTY = "This barrel is empty.";
+MANABARREL_SIP = "You take a sip.";
+MANABARREL_CANTREACH = "You can't reach anything.";
+MANABARREL_MANACOUNT = " There is still enough mana to fill \c[LightBlue]%.1f\c- bottles.";
+MANABARREL_NOMOREMANA = " That was the last of the mana.";
+MANABARREL_POTFILL = "You filled a potion.";
+
+// DESTRUCTION
+ARCANUM_TREE_DESTRUCTION = "\c[Red]Destruction\c-";
+ARCANUM_TREE_DESTRUCTION_DESC = "Those who wish to destroy the world may find out how trivial it is. But is it really what you want?\n\nThis tree contains spells to call down thunder, annihilate entire hordes, or light a candle.";
+
+// RESTORATION
+ARCANUM_TREE_RESTORATION = "\c[Tan]Restoration\c-";
+ARCANUM_TREE_RESTORATION_DESC = "It is a wise man's goal to heal the world.\n\nRestoration spells give you the ability to resurrect friends or foes, heal their wounds, cleanse their body, and protect it.";
+
+// ALTERATION
+ARCANUM_TREE_ALTERATION = "\c[Green]Alteration\c-";
+ARCANUM_TREE_ALTERATION_DESC = "Nothing is as it appears. Manipulate the world to your liking.\n\nThe school of Alteration lets you destroy entire walls or otherwise manipulate objects.";
+
+ALTERATION_DISPLACEMENT_NAME = "Displacement";
+ALTERATION_DISPLACEMENT_DESC = "Partly severs your link to this world and gives you the ability to fly for 4 seconds, then teleports you to where you cast the spell. Enemies cannot see you while being displaced.";
+ALTERATION_DISPLACEMENT_INFO = "Self";
+
+ALTERATION_FARREACH_NAME = "Far Reach";
+ALTERATION_FARREACH_DESCRIPTION = "Open doors, trigger switches, and pick up items within a range of \c[Gold]%.1f\c-m.\nDisarms ammo boxes.\n\n\c[Fire]You can launch yourself forward with this spell. Use with caution.\c-";
+ALTERATION_FARREACH_INFO = "Targeted";
+
+ALTERATION_FEATHER_NAME = "Feather";
+ALTERATION_FEATHER_DESC = "Creates a circle at target location. Players falling into the circle get their vertical velocity reduced to a safe level. Gravity is also reduced.";
+ALTERATION_FEATHER_INFO = "Targeted";
+
+ALTERATION_HASTE_NAME = "Haste";
+ALTERATION_HASTE_DESC = "All visible players within 20m get an increase to speed by \c[Gold]%i\c-%%. Effect expires after \c[Gold]%.1f\c- km.";
+ALTERATION_HASTE_INFO = "Mass";
+
+ALTERATION_HORADRICMALUS_NAME = "Horadric Malus";
+ALTERATION_HORADRICMALUS_DESC = "Repairs repairable items by \c[Gold]%i%%\c- of their missing durability. Repairs Vulcanettes and *.E.R.P.s, among other things.";
+ALTERATION_HORADRICMALUS_INFO = "Self, Targeted, Touch";
+
+ALTERATION_MASSRECALL_NAME = "Mass Recall";
+ALTERATION_MASSRECALL_DESC = "Teleports all players, dead or alive, to the circle.";
+ALTERATION_MASSRECALL_INFO = "Mass";
+
+ALTERATION_REENERGIZE_NAME = "Reenergize";
+ALTERATION_REENERGIZE_DESC = "Restores up to \c[Gold]%i\c- battery charge, filling partial batteries first.";
+ALTERATION_REENERGIZE_INFO = "Self, Targeted, Touch";
+
+ALTERATION_SHIELD_NAME = "Shield";
+ALTERATION_SHIELD_DESC = "Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage. Shield helps put out fire.";
+ALTERATION_SHIELD_INFO = "Self, Targeted, Touch";
+
+ALTERATION_WORLDBREAKER_NAME = "Worldbreaker";
+ALTERATION_WORLDBREAKER_DESC = "Destroys the target geometry. Maximum sector dimensions: \c[Gold]%ix%i\c-\n\n\c[Fire]Effect occurs 3 seconds after activation.\c-";
+ALTERATION_WORLDBREAKER_INFO = "Targeted, Touch";
+
+// CONJURATION
+ARCANUM_TREE_CONJURATION = "\c[Purple]Conjuration\c-";
+ARCANUM_TREE_CONJURATION_DESC = "If it does not exist, make it.\n\nConjuration is for the strongest of magi. With it, you can summon monsters or materialize objects.";

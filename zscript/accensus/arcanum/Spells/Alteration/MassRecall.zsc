@@ -2,11 +2,11 @@ class MassRecallSpell : ArcanumSpell
 {
 	override int GetIndex() { return 90; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeAlteration'; }
-	override string GetName() { return "Mass Recall"; }
+	override string GetName() { return loc("$ALTERATION_MASSRECALL_NAME"); }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetManaCost() { return 50; }
-	override string GetDescription() { return "Teleports all players, dead or alive, to the circle."; }
-	override string GetTechnicalInfo() { return "Mass"; }
+	override string GetDescription() { return loc("$ALTERATION_MASSRECALL_DESC"); }
+	override string GetTechnicalInfo() { return loc("$ALTERATION_MASSRECALL_INFO"); }
 	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'MassRecallSigil'; }
 }
