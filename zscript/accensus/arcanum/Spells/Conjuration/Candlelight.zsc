@@ -2,11 +2,11 @@ class CandlelightSpell : ArcanumSpell
 {
 	override int GetIndex() { return 40; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
-	override string GetName() { return "Candlelight"; }
+	override string GetName() { return loc("$CONJURATION_CANDLELIGHT_NAME"); }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetManaCost() { return 5; }
-	override string GetDescription() { return String.Format("Emit a bright light with a radius of \c[Gold]%.1f\c-m for \c[Gold]%.1f\c- minutes.", 5 + 5 * GetExperienceFactor(), 5 + 5 * GetExperienceFactor()); }
-	override string GetTechnicalInfo() { return "Self"; }
+	override string GetDescription() { return String.Format(loc("$CONJURATION_CANDLELIGHT_DESC"), 5 + 5 * GetExperienceFactor(), 5 + 5 * GetExperienceFactor()); }
+	override string GetTechnicalInfo() { return loc("$CONJURATION_CANDLELIGHT_INFO"); }
 	override int GetMaxExperience() { return 100; }
 	override class<ArcanumSigil> GetSigil() { return 'CandlelightSigil'; }
 }

@@ -2,11 +2,11 @@ class FireballSpell : ArcanumSpell
 {
 	override int GetIndex() { return 0; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeDestruction'; }
-	override string GetName() { return "Fireball"; }
+	override string GetName() { return loc("$DESTRUCTION_FIREBALL_NAME"); }
 	override int GetSpellType() { return SType_Targeted; }
 	override int GetManaCost() { return 2; }
-	override string GetDescription() { return String.Format("Barrage target area with \c[Gold]%i\c- fireballs.", int(5 + 45 * GetExperienceFactor())); }
-	override string GetTechnicalInfo() { return "Targeted, Thermal, Dangerous"; }
+	override string GetDescription() { return String.Format(loc("$DESTRUCTION_FIREBALL_DESC"), int(5 + 45 * GetExperienceFactor())); }
+	override string GetTechnicalInfo() { return loc("$DESTRUCTION_FIREBALL_INFO"); }
 	override int GetMaxExperience() { return 300; }
 	override class<ArcanumSigil> GetSigil() { return 'FireballSigil'; }
 }

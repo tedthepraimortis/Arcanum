@@ -8,9 +8,9 @@ class GhostSquadSpell : ArcanumSpell
 	override string GetDescription()
 	{
 		int count = int(1 + 2 * GetExperienceFactor());
-		return String.Format("Summons \c[Gold]%i\c- ghost marine%s at target location.", count, count > 1 ? "s" : "");
+		return String.Format(loc("$CONJURATION_GHOSTSQUAD_DESC"), count, count > 1 ? loc("$CONJURATION_GHOSTSQUAD_DESC2") : "");
 	}
-	override string GetTechnicalInfo() { return "Targeted"; }
+	override string GetTechnicalInfo() { return loc("$CONJURATION_GHOSTSQUAD_INFO"); }
 	override int GetMaxExperience() { return 60; }
 	override class<ArcanumSigil> GetSigil() { return 'GhostSquadSigil'; }
 }
@@ -40,10 +40,10 @@ class GhostSquadSigil : ArcanumSigil
 			string deadawaken;
 			switch (random(0, 3))
 			{
-				case 0: deadawaken = "\cj'They shall stand again and hear there\n\cja horn in the hills ringing.\n\n\cjWhose shall the horn be?'"; break;
-				case 1: deadawaken = "\cj'For this war will last through years uncounted\n\n\cjand you shall be summoned once again ere the end.'"; break;
-				case 2: deadawaken = "\cj'Faint cries I heard,and dim horns blowing,\n\n\cjand a murmur as of countless far voices:\n\n\n\cjit was like the echo of some forgotten battle\n\n\cjin the Dark Years long ago.'"; break;
-				case 3: deadawaken = "\cj'Pale swords were drawn; but I know not\n\n\cjwhether their blades would still bite,\n\n\n\cjfor the Dead needed no longer\n\n\cjany weapon but fear.'"; break;
+				case 0: deadawaken = Stringtable.Localize("$CONJURATION_GHOSTSQUAD_ACTIVATE1"); break;
+				case 1: deadawaken = Stringtable.Localize("$CONJURATION_GHOSTSQUAD_ACTIVATE2"); break;
+				case 2: deadawaken = Stringtable.Localize("$CONJURATION_GHOSTSQUAD_ACTIVATE3"); break;
+				case 3: deadawaken = Stringtable.Localize("$CONJURATION_GHOSTSQUAD_ACTIVATE4"); break;
 			}
 			A_PrintBold(deadawaken, deadawaken.length() * 0.05, "NewSmallFont");
 			master.SetXYZ(OldPos);

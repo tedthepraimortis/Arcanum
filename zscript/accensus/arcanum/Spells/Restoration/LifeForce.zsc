@@ -2,15 +2,15 @@ class LifeForceSpell : ArcanumSpell
 {
 	override int GetIndex() { return 10; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
-	override string GetName() { return "Life Force"; }
+	override string GetName() { return loc("$RESTORATION_LIFEFORCE_NAME"); }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 25; }
 	override string GetDescription()
 	{
 		double fac = GetExperienceFactor();
-		return String.Format("Fixes all wounds and restores \c[Gold]%i\c-%% of missing health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-. Restores lost blood and removes incap.", int(25 + 75 * fac), int(25 + 50 * fac), int(10 + 20 * fac));
+		return String.Format(loc("$RESTORATION_LIFEFORCE_DESC"), int(25 + 75 * fac), int(25 + 50 * fac), int(10 + 20 * fac));
 	}
-	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
+	override string GetTechnicalInfo() { return loc("$RESTORATION_LIFEFORCE_INFO"); }
 	override int GetMaxExperience() { return 100; }
 	override class<ArcanumSigil> GetSigil() { return 'LifeForceSigil'; }
 }

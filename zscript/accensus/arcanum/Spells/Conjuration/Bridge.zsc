@@ -2,11 +2,11 @@ class BridgeSpell : ArcanumSpell
 {
 	override int GetIndex() { return 30; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
-	override string GetName() { return "Bridge"; }
+	override string GetName() { return loc("$CONJURATION_BRIDGE_NAME"); }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetManaCost() { return 35; }
-	override string GetDescription() { return "Creates a 20m-long energy bridge. Lasts 30 seconds."; }
-	override string GetTechnicalInfo() { return "Angled"; }
+	override string GetDescription() { return loc("$CONJURATION_BRIDGE_DESC"); }
+	override string GetTechnicalInfo() { return loc("$CONJURATION_BRIDGE_INFO"); }
 	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'BridgeSigil'; }
 }
