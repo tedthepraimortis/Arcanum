@@ -2,11 +2,11 @@ class HolyForceSpell : ArcanumSpell
 {
 	override int GetIndex() { return 10; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
-	override string GetName() { return "Holy Force"; }
+	override string GetName() { return loc("$CONJURATION_HOLYFORCE_NAME"); }
 	override int GetSpellType() { return SType_SelfOrMass; }
 	override int GetManaCost() { return 40; }
-	override string GetDescription() { return String.Format("Prevents all archviles within 20m from disappearing until they die. Forces it out of hiding if it's invisible. If no archviles were affected, trigger nearby curses, if any. Reveals possessed barrels."); }
-	override string GetTechnicalInfo() { return "Mass"; }
+	override string GetDescription() { return String.Format(loc("$CONJURATION_HOLYFORCE_DESC")); }
+	override string GetTechnicalInfo() { return loc("$CONJURATION_HOLYFORCE_INFO"); }
 	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'HolyForceSigil'; }
 }

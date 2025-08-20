@@ -42,26 +42,26 @@ class ArcanumSpellTree abstract play
 
 class ArcanumTreeDestruction : ArcanumSpellTree
 {
-	override string GetName() { return "\c[Red]Destruction\c-"; }
-	override string GetDescription() { return "Those who wish to destroy the world may find out how trivial it is. But is it really what you want?\n\nThis tree contains spells to call down thunder, annihilate entire hordes, or light a candle."; }
+	override string GetName() { return Stringtable.Localize("$ARCANUM_TREE_DESTRUCTION"); }
+	override string GetDescription() { return Stringtable.Localize("$ARCANUM_TREE_DESTRUCTION_DESC"); }
 }
 
 class ArcanumTreeRestoration : ArcanumSpellTree
 {
-	override string GetName() { return "\c[Tan]Restoration\c-"; }
-	override string GetDescription() { return "It is a wise man's goal to heal the world.\n\nRestoration spells give you the ability to resurrect friends or foes, heal their wounds, cleanse their body, and protect it."; }
+	override string GetName() { return Stringtable.Localize("$ARCANUM_TREE_RESTORATION"); }
+	override string GetDescription() { return Stringtable.Localize("$ARCANUM_TREE_RESTORATION_DESC"); }
 }
 
 class ArcanumTreeAlteration : ArcanumSpellTree
 {
-	override string GetName() { return "\c[Green]Alteration\c-"; }
-	override string GetDescription() { return "Nothing is as it appears. Manipulate the world to your liking.\n\nThe school of Alteration lets you destroy entire walls or otherwise manipulate objects."; }
+	override string GetName() { return Stringtable.Localize("$ARCANUM_TREE_ALTERATION"); }
+	override string GetDescription() { return Stringtable.Localize("$ARCANUM_TREE_ALTERATION_DESC"); }
 }
 
 class ArcanumTreeConjuration : ArcanumSpellTree
 {
-	override string GetName() { return "\c[Purple]Conjuration\c-"; }
-	override string GetDescription() { return "If it does not exist, make it.\n\nConjuration is for the strongest of magi. With it, you can summon monsters or materialize objects."; }
+	override string GetName() { return Stringtable.Localize("$ARCANUM_TREE_CONJURATION"); }
+	override string GetDescription() { return Stringtable.Localize("$ARCANUM_TREE_CONJURATION_DESC"); }
 }
 
 class ArcanumSpell abstract play
@@ -82,6 +82,15 @@ class ArcanumSpell abstract play
 	abstract int GetMaxExperience() const;
 	abstract class<ArcanumSigil> GetSigil() const;	
 	virtual ui void DrawHudStuff(HDStatusBar sb, HDPlayerPawn hpl, HDArcanumTome tome) { }
+	
+	// Made to make localization much easier. Taken from Lithium. - [tedthepraimortis]
+	static clearScope string loc(string nm) { 
+		if(nm.charat(0)=="$"){
+			nm = nm.mid(1);
+		}
+		string rtrn=StringTable.localize(nm, false);
+		return rtrn!=nm?rtrn:""..rtrn.." doesn't exist! try inputting it into the language lump or checking your spelling!";
+	}
 
 	// [Ace; 17.01.22] This is currently unused because I've opted for a threshold system rather than a time duration.
 	// HDest is a slow mod so half the time the effects expire before you've made use of them or they require you to know in advance that you'd need them.

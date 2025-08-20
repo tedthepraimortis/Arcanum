@@ -2,15 +2,15 @@ class GuardianOrbSpell : ArcanumSpell
 {
 	override int GetIndex() { return 0; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeConjuration'; }
-	override string GetName() { return "Guardian Orb"; }
+	override string GetName() { return loc("$CONJURATION_GUARDIANORB_NAME"); }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 60; }
 	override string GetDescription()
 	{
 		int count = int(1 + 2 * GetExperienceFactor());
-		return String.Format("A point defense orb that orbits its target, shooting down inbound tracers and small floating monsters within 5m. Can summon up to \c[Gold]%i\c- orb%s.", count, count > 1 ? "s" : "");
+		return String.Format(loc("$CONJURATION_GUARDIANORB_DESC"), count, count > 1 ? loc("$CONJURATION_GUARDIANORB_DESC2") : "");
 	}
-	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
+	override string GetTechnicalInfo() { return loc("$CONJURATION_GUARDIANORB_INFO"); }
 	override int GetMaxExperience() { return 80; }
 	override class<ArcanumSigil> GetSigil() { return 'GuardianOrbSigil'; }
 }

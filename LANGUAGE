@@ -1,0 +1,168 @@
+[enu default]
+
+// The Book:tm:
+ARCANUM_PLACERUNE = "  Place rune\n";
+ARCANUM_SPELLCIRCLE = "  Create spell circle\n";
+ARCANUM_SPELLMANAGER = "  Spell manager";
+ARCANUM_CYCLESPELLS = "  Cycle spells\n";
+ARCANUM_CYCLESPELLTREES = "  Cycle spell trees\n";
+ARCANUM_EXITMANAGER = "  Exit spell manager";
+ARCANUM_PLUS = "+";
+ARCANUM_OR = " or ";
+ARCANUM_SPELLS = "Spells";
+ARCANUM_EXPERIENCE = "Experience";
+ARCANUM_COSTCOLOR = "\c[ArcanumReqBlue]%i\c-";
+ARCANUM_COST = "\c[DarkGray]Cost: ";
+ARCANUM_FULLPOWERCOLOR = "\c[Fire]";
+ARCANUM_REACHEDFULLPOWER = "\c- has reached full power.";
+ARCANUM_YOURKNOWLEDGE = "Your knowledge of \c[Fire]";
+ARCANUM_INCREASES = "\c- increases.";
+ARCANUM_FAILLEARN = "You fail to learn anything new.";
+ARCANUM_NOTPOWERFUL = "You don't feel powerful enough to cast ";
+ARCANUM_PERIOD = ".";
+
+ARCANUM_TAG = "Arcanum tome";
+ARCANUM_PICKUP = "You picked up the Arcanum tome of knowledge. Unlimited power awaits those with the energy within.";
+
+// Mana Barrel
+MANABARREL_EMPTY = "This barrel is empty.";
+MANABARREL_SIP = "You take a sip.";
+MANABARREL_CANTREACH = "You can't reach anything.";
+MANABARREL_MANACOUNT = " There is still enough mana to fill \c[LightBlue]%.1f\c- bottles.";
+MANABARREL_NOMOREMANA = " That was the last of the mana.";
+MANABARREL_POTFILL = "You filled a potion.";
+
+// DESTRUCTION
+ARCANUM_TREE_DESTRUCTION = "\c[Red]Destruction\c-";
+ARCANUM_TREE_DESTRUCTION_DESC = "Those who wish to destroy the world may find out how trivial it is. But is it really what you want?\n\nThis tree contains spells to call down thunder, annihilate entire hordes, or light a candle.";
+
+DESTRUCTION_CLAYMORE_NAME = "Claymore";
+DESTRUCTION_CLAYMORE_DESC = "Activate the rune to create a trap that will activate when an enemy is in front of it.";
+DESTRUCTION_CLAYMORE_INFO = "Touch, Physical";
+
+DESTRUCTION_FIREBALL_NAME = "Fireball";
+DESTRUCTION_FIREBALL_DESC = "Barrage the targeted area with \c[Gold]%i\c- fireballs.";
+DESTRUCTION_FIREBALL_INFO = "Targeted, Thermal, Dangerous";
+
+DESTRUCTION_HAMMERFIST_NAME = "Hammerfist";
+DESTRUCTION_HAMMERFIST_DESC = "A giant fist drops down from the sky and crushes a single target.";
+DESTRUCTION_HAMMERFIST_INFO = "Targeted, Physical";
+
+DESTRUCTION_IMMOLATION_NAME = "Immolation";
+DESTRUCTION_IMMOLATION_DESC = "Sets all enemies within \c[Gold]%.1f\c-m on fire.";
+DESTRUCTION_IMMOLATION_INFO = "Mass, Thermal";
+
+DESTRUCTION_THUNDERCLAP_NAME = "Thunderclap";
+DESTRUCTION_THUNDERCLAP_DESC = "Strikes target area with \c[Gold]%i\c- lightning bolt%s.";
+DESTRUCTION_THUNDERCLAP_INFO = "Targeted, AoE, Electrical, Dangerous";
+
+DESTRUCTION_VOIDSTORM_NAME = "Voidstorm";
+DESTRUCTION_VOIDSTORM_DESC = "Launches forward a black hole that sucks enemies in and removes them from existence. It explodes once it comes into contact with a hard surface.";
+DESTRUCTION_VOIDSTORM_INFO = "Mass, Dangerous";
+
+// RESTORATION
+ARCANUM_TREE_RESTORATION = "\c[Tan]Restoration\c-";
+ARCANUM_TREE_RESTORATION_DESC = "It is a wise man's goal to heal the world.\n\nRestoration spells give you the ability to resurrect friends or foes, heal their wounds, cleanse their body, and protect it.";
+
+RESTORATION_INVULNERABILITY_NAME = "Invulnerability";
+RESTORATION_INVULNERABILITY_DESC = "Grants temporary invulnerability that lasts 90 seconds.\n\n\c[Fire]Warning: will set everything on fire.\c-";
+RESTORATION_INVULNERABILITY_INFO = "Self, Targeted, Touch";
+
+RESTORATION_LIFEFORCE_NAME = "Life Force";
+RESTORATION_LIFEFORCE_DESC = "Fixes all wounds and restores \c[Gold]%i\c-%% of missing health. Heals \c[Gold]%i\c- burns. Reduces aggro by \c[Gold]%i\c-. Restores lost blood and removes incap.";
+RESTORATION_LIFEFORCE_INFO = "Self, Targeted, Touch";
+
+RESTORATION_RAGE_NAME = "Rage";
+RESTORATION_RAGE_DESC = "[this page is full of incomprehensible scribbles]";
+RESTORATION_RAGE_INFO = "Self, Targeted, Touch";
+
+RESTORATION_RESURRECT_NAME = "Resurrect";
+RESTORATION_RESURRECT_DESC = "Resurrects up to \c[Gold]%i\c- targets within \c[Gold]%.1f\c-m of where the sigil was cast.";
+RESTORATION_RESURRECT_INFO = "Mass";
+
+RESTORATION_REVITALIZATION_NAME = "Revitalization";
+RESTORATION_REVITALIZATION_DESC = "Recover \c[Gold]%i\c- health every heartbeat. Effect expires after \c[Gold]%i\c- health points. Prevents pain jolts from second flesh for the duration of the effect. Helps with zerk comedown.";
+RESTORATION_REVITALIZATION_INFO = "Self, Targeted, Touch";
+
+RESTORATION_SOULGUARD_NAME = "Shield Guard";
+RESTORATION_SOULGUARD_DESC = "Grants \c[Gold]%i\c- shield core%s.";
+RESTORATION_SOULGUARD_DESC2 = "s";
+RESTORATION_SOULGUARD_INFO = "Self, Targeted";
+
+RESTORATION_TRANSFUSION_NAME = "Transfusion";
+RESTORATION_TRANSFUSION_DESC = "Transfers all of the tome's stored blues to the target.";
+RESTORATION_TRANSFUSION_INFO = "Targeted, Touch";
+
+// ALTERATION
+ARCANUM_TREE_ALTERATION = "\c[Green]Alteration\c-";
+ARCANUM_TREE_ALTERATION_DESC = "Nothing is as it appears. Manipulate the world to your liking.\n\nThe school of Alteration lets you destroy entire walls or otherwise manipulate objects.";
+
+ALTERATION_DISPLACEMENT_NAME = "Displacement";
+ALTERATION_DISPLACEMENT_DESC = "Partly severs your link to this world and gives you the ability to fly for 4 seconds, then teleports you to where you cast the spell. Enemies cannot see you while being displaced.";
+ALTERATION_DISPLACEMENT_INFO = "Self";
+
+ALTERATION_FARREACH_NAME = "Far Reach";
+ALTERATION_FARREACH_DESCRIPTION = "Open doors, trigger switches, and pick up items within a range of \c[Gold]%.1f\c-m.\nDisarms ammo boxes.\n\n\c[Fire]You can launch yourself forward with this spell. Use with caution.\c-";
+ALTERATION_FARREACH_INFO = "Targeted";
+
+ALTERATION_FEATHER_NAME = "Feather";
+ALTERATION_FEATHER_DESC = "Creates a circle at target location. Players falling into the circle get their vertical velocity reduced to a safe level. Gravity is also reduced.";
+ALTERATION_FEATHER_INFO = "Targeted";
+
+ALTERATION_HASTE_NAME = "Haste";
+ALTERATION_HASTE_DESC = "All visible players within 20m get an increase to speed by \c[Gold]%i\c-%%. Effect expires after \c[Gold]%.1f\c- km.";
+ALTERATION_HASTE_INFO = "Mass";
+
+ALTERATION_HORADRICMALUS_NAME = "Horadric Malus";
+ALTERATION_HORADRICMALUS_DESC = "Repairs repairable items by \c[Gold]%i%%\c- of their missing durability. Repairs Vulcanettes and *.E.R.P.s, among other things.";
+ALTERATION_HORADRICMALUS_INFO = "Self, Targeted, Touch";
+
+ALTERATION_MASSRECALL_NAME = "Mass Recall";
+ALTERATION_MASSRECALL_DESC = "Teleports all players, dead or alive, to the circle.";
+ALTERATION_MASSRECALL_INFO = "Mass";
+
+ALTERATION_REENERGIZE_NAME = "Reenergize";
+ALTERATION_REENERGIZE_DESC = "Restores up to \c[Gold]%i\c- battery charge, filling partial batteries first.";
+ALTERATION_REENERGIZE_INFO = "Self, Targeted, Touch";
+
+ALTERATION_SHIELD_NAME = "Shield";
+ALTERATION_SHIELD_DESC = "Target is surrounded with a shield that can absorb up to \c[Gold]%i\c- damage. Shield helps put out fire.";
+ALTERATION_SHIELD_INFO = "Self, Targeted, Touch";
+
+ALTERATION_WORLDBREAKER_NAME = "Worldbreaker";
+ALTERATION_WORLDBREAKER_DESC = "Destroys the target geometry. Maximum sector dimensions: \c[Gold]%ix%i\c-\n\n\c[Fire]Effect occurs 3 seconds after activation.\c-";
+ALTERATION_WORLDBREAKER_INFO = "Targeted, Touch";
+
+// CONJURATION
+ARCANUM_TREE_CONJURATION = "\c[Purple]Conjuration\c-";
+ARCANUM_TREE_CONJURATION_DESC = "If it does not exist, make it.\n\nConjuration is for the strongest of magi. With it, you can summon monsters or materialize objects.";
+
+CONJURATION_BARRIER_NAME = "Barrier";
+CONJURATION_BARRIER_DESC = "Creates a 10m-wide impenetrable energy wall 1m in front of you. Lasts 90 seconds. Blocks movement and projectiles.";
+CONJURATION_BARRIER_INFO = "Touch";
+
+CONJURATION_BRIDGE_NAME = "Bridge";
+CONJURATION_BRIDGE_DESC = "Creates a 20m-long energy bridge. Lasts 30 seconds.";
+CONJURATION_BRIDGE_INFO = "Angled";
+
+CONJURATION_CANDLELIGHT_NAME = "Candlelight";
+CONJURATION_CANDLELIGHT_DESC = "Emit a bright light with a radius of \c[Gold]%.1f\c-m for \c[Gold]%.1f\c- minutes.";
+CONJURATION_CANDLELIGHT_INFO = "Self";
+
+CONJURATION_GHOSTSQUAD_NAME = "Ghost Squad";
+CONJURATION_GHOSTSQUAD_DESC = "Summons \c[Gold]%i\c- ghost marine%s at target location.";
+CONJURATION_GHOSTSQUAD_DESC2 = "s";
+CONJURATION_GHOSTSQUAD_INFO = "Targeted";
+CONJURATION_GHOSTSQUAD_ACTIVATE1 = "\cj'They shall stand again and hear there\n\cja horn in the hills ringing.\n\n\cjWhose shall the horn be?'";
+CONJURATION_GHOSTSQUAD_ACTIVATE2 = "\cj'For this war will last through years uncounted\n\n\cjand you shall be summoned once again ere the end.'";
+CONJURATION_GHOSTSQUAD_ACTIVATE3 = "\cj'Faint cries I heard,and dim horns blowing,\n\n\cjand a murmur as of countless far voices:\n\n\n\cjit was like the echo of some forgotten battle\n\n\cjin the Dark Years long ago.'";
+CONJURATION_GHOSTSQUAD_ACTIVATE4 = "\cj'Pale swords were drawn; but I know not\n\n\cjwhether their blades would still bite,\n\n\n\cjfor the Dead needed no longer\n\n\cjany weapon but fear.'";
+
+CONJURATION_GUARDIANORB_NAME = "Guardian Orb";
+CONJURATION_GUARDIANORB_DESC = "A point defense orb that orbits its target, shooting down inbound tracers and small floating monsters within 5m. Can summon up to \c[Gold]%i\c- orb%s.";
+CONJURATION_GUARDIANORB_DESC2 = "s";
+CONJURATION_GUARDIANORB_INFO = "Self, Targeted, Touch";
+
+CONJURATION_HOLYFORCE_NAME = "Holy Force";
+CONJURATION_HOLYFORCE_DESC = "Prevents all archviles within 20m from disappearing until they die. Forces it out of hiding if it's invisible. If no archviles were affected, trigger nearby curses, if any. Reveals possessed barrels.";
+CONJURATION_HOLYFORCE_INFO = "Mass";

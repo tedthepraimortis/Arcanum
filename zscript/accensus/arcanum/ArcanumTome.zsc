@@ -68,6 +68,14 @@ class HDArcanumTome : HDWeapon
 			AccumulatedBlues = 0;
 		}
 	}
+			
+	static clearScope string loc(string nm) { 
+	if(nm.charat(0)=="$"){
+		nm = nm.mid(1);
+	}
+		string rtrn=StringTable.localize(nm, false);
+		return rtrn!=nm?rtrn:""..rtrn.." doesn't exist! try inputting it into the language lump or checking your spelling!";
+	}
 
 	override void PreTravelled()
 	{
@@ -88,15 +96,15 @@ class HDArcanumTome : HDWeapon
 	override string, double GetPickupSprite() { return "ARCTZ0", 1.0; }
 	override string GetHelpText()
 	{
-		string HText = WEPHELP_FIRE.."  Place rune\n"
-		..WEPHELP_ALTFIRE.."  Create spell circle\n"
-		..WEPHELP_ZOOM.."  Spell manager";
+		string HText = LWPHELP_FIRE..loc("$ARCANUM_PLACERUNE")
+		..LWPHELP_ALTFIRE..loc("$ARCANUM_SPELLCIRCLE")
+		..LWPHELP_ZOOM..loc("$ARCANUM_SPELLMANAGER");
 
 		if (WeaponStatus[ATProp_Flags] & ATF_InSpellMenu)
 		{
-			HText = WEPHELP_FIRE.." or "..WEPHELP_ALTFIRE.."  Cycle spells\n"
-			..WEPHELP_FIREMODE.."+"..WEPHELP_FIRE.." or "..WEPHELP_ALTFIRE.."  Cycle spell trees\n"
-			..WEPHELP_ZOOM.."  Exit spell manager";
+			HText = LWPHELP_FIRE..loc("ARCANUM_OR")..LWPHELP_ALTFIRE..loc("$ARCANUM_CYCLESPELLS")
+			..LWPHELP_FIREMODE..loc("ARCANUM_PLUS")..LWPHELP_FIRE..loc("ARCANUM_OR")..LWPHELP_ALTFIRE..loc("$ARCANUM_CYCLESPELLTREES")
+			..LWPHELP_ZOOM..loc("$ARCANUM_EXITMANAGER");
 		}
 
 		return HText;
@@ -179,7 +187,7 @@ class HDArcanumTome : HDWeapon
 		sb.DrawString(TitleFont, SelTree.GetName(), (-140, baseOffset), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		sb.DrawString(DescFont, SelTree.GetDescription(), (-140, baseOffset + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 280, 1);
 
-		sb.DrawString(TitleFont, "Spells", (-140, baseOffset + 90), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		sb.DrawString(TitleFont, loc("$ARCANUM_SPELLS"), (-140, baseOffset + 90), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		for (int i = 0; i < SelTree.Spells.Size(); ++i)
 		{
 			ArcanumSpell CurSpell = SelTree.Spells[i];
@@ -190,7 +198,7 @@ class HDArcanumTome : HDWeapon
 		sb.DrawString(TitleFont, selSpell.GetName(), (-40, yOff), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_TEAL);
 		if (selSpell.GetMaxExperience() > 0)
 		{
-			sb.DrawString(DescFont, "Experience", (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_GOLD);
+			sb.DrawString(DescFont, loc("$ARCANUM_EXPERIENCE"), (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_GOLD);
 			string expStr = "[";
 			for (int i = 0; i < 16; ++i)
 			{
@@ -211,8 +219,8 @@ class HDArcanumTome : HDWeapon
 		double mult = AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.80 : 1.0;
 		int cost = int(selSpell.GetManaCost() * mult * arcanum_costmult);
 
-		string str = String.Format("\c[ArcanumReqBlue]%i\c-", cost);
-		sb.DrawString(DescFont, "\c[DarkGray]Cost: "..str, (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
+		string str = String.Format(loc("$ARCANUM_COSTCOLOR"), cost);
+		sb.DrawString(DescFont, loc("$ARCANUM_COST")..str, (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
 		sb.DrawString(DescFont, selSpell.GetDescription(), (-40, yOff + 50), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_WHITE, 1.0, 180, 1);
 	}
 
@@ -338,16 +346,16 @@ class HDArcanumTome : HDWeapon
 				ArcanumSpell randSpell = valid[random(0, valid.Size() - 1)];
 				if (randSpell.GainExperience(randSpell.GetMaxExperience() / (multiplayer ? 4.0 : 5.0)))
 				{
-					other.A_Log("\c[Fire]"..randSpell.GetName().."\c- has reached full power.", true);
+					other.A_Log(loc("$ARCANUM_FULLPOWERCOLOR")..randSpell.GetName()..loc("$ARCANUM_REACHEDFULLPOWER"), true);
 				}
 				else
 				{
-					other.A_Log("Your knowledge of \c[Fire]"..randSpell.GetName().."\c- increases.", true);
+					other.A_Log(loc("$ARCANUM_YOURKNOWLEDGE")..randSpell.GetName()..loc("$ARCANUM_INCREASES"), true);
 				}
 			}
 			else
 			{
-				other.A_Log("You fail to learn anything new.", true);
+				other.A_Log(loc("$ARCANUM_FAILLEARN"), true);
 			}
 			
 			other.A_StartSound("weapons/pocket");
@@ -373,11 +381,11 @@ class HDArcanumTome : HDWeapon
 		+INVENTORY.INVBAR
 		HDWeapon.BarrelSize 5, 2, 1; // [Ace] I don't even know why.
 		Scale 0.6;
-		Tag "Arcanum tome";
+		Tag "$ARCANUM_TAG";
 		Inventory.PickupSound "weapons/pocket";
 		HDWeapon.Refid "arc";
 		Inventory.MaxAmount 1;
-		Inventory.PickupMessage "You picked up the Arcanum tome of knowledge. Unlimited power awaits those with the energy within.";
+		Inventory.PickupMessage "$ARCANUM_PICKUP";
 	}
 
 	States
@@ -593,7 +601,7 @@ class HDArcanumTome : HDWeapon
 				}
 				else
 				{
-					A_WeaponMessage("You don't feel powerful enough to cast "..selSpell.GetName()..".");
+					A_WeaponMessage(loc("$ARCANUM_NOTPOWERFUL")..selSpell.GetName()..loc("$ARCANUM_PERIOD"));
 				}
 			}
 			ARCT A 2;

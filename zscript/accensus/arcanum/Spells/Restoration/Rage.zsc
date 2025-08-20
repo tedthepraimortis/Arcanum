@@ -2,11 +2,11 @@ class RageSpell : ArcanumSpell
 {
 	override int GetIndex() { return 11; }
 	override class<ArcanumSpellTree> GetTree() { return 'ArcanumTreeRestoration'; }
-	override string GetName() { return "Rage"; }
+	override string GetName() { return loc("$RESTORATION_RAGE_NAME"); }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 90; }
-	override string GetDescription() { return String.Format("[this page is full of incomprehensible scribbles]"); }
-	override string GetTechnicalInfo() { return "Self, Targeted, Touch"; }
+	override string GetDescription() { return String.Format(loc("$RESTORATION_RAGE_DESC")); }
+	override string GetTechnicalInfo() { return loc("$RESTORATION_RAGE_INFO"); }
 	override int GetMaxExperience() { return 0; }
 	override class<ArcanumSigil> GetSigil() { return 'RageSigil'; }
 }
