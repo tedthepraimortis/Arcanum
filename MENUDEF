@@ -5,6 +5,10 @@ OptionMenu "ArcanumMenu"
 	FlagOption "Invert Tree Selection", "arcanum_invert", "YesNo", 0
 	FlagOption "Invert Spell Selection", "arcanum_invert", "YesNo", 1
 	Option "Hold Zoom To Browse Spells", "arcanum_zoomhold", "YesNo"
+	Option "Instantaneous Rune Casting", "arcanum_instarunecast", "YesNo"
+	Slider "Spell Cost Multiplier", "arcanum_costmult", 0.0, 2, .01, 2
+	Slider "Sigil Fadeout Multiplier", "arcanum_sigilfadeoutmult", 0.0, 2, .01, 2
+	Slider "Arcanum Blues Absorption Speed", "arcanum_absorptionspeed", 0.0, 5, .01, 2
 }
 
 AddOptionMenu "OptionsMenu"

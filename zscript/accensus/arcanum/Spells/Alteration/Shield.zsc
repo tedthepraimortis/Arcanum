@@ -5,7 +5,7 @@ class ShieldSpell : ArcanumSpell
 	override string GetName() { return loc("$ALTERATION_SHIELD_NAME"); }
 	override int GetSpellType() { return SType_SelfOrMass | SType_Targeted; }
 	override int GetManaCost() { return 70; }
-	override string GetDescription() { return String.Format(loc("$ALTERATION_SHIELD_DESC"), int(2000 + 8000 * GetExperienceFactor())); }
+	override string GetDescription() { return String.Format(loc("$ALTERATION_SHIELD_DESC"), int(500 + 5000 * GetExperienceFactor())); }
 	override string GetTechnicalInfo() { return loc("$ALTERATION_SHIELD_INFO"); }
 	override int GetMaxExperience() { return 110; }
 	override class<ArcanumSigil> GetSigil() { return 'ShieldSigil'; }
@@ -64,7 +64,7 @@ class ShieldSigil : ArcanumSigil
 		}
 		trgt.A_GiveInventory("ArcanumShield");
 		let shield = ArcanumShield(trgt.FindInventory("ArcanumShield"));
-		int amt = int(1000 + 9000 * ExperienceFactor);
+		int amt = int(500 + 5000 * ExperienceFactor);
 		shield.Stamina = amt * 2;
 		shield.MaxAmount = shield.Amount = amt;
 	}
