@@ -47,7 +47,7 @@ class HDArcanumTome : HDWeapon
 		if (curBlues > 0 && WeaponStatus[ATProp_Mana] < HDHM_BALL)
 		{
 			double baseSpeed = HDHM_BALL / (35 * 60 * (hasCube ? 15.0 : 20.0));
-			double speedFac = max(0.5, curBlues / double(HDHM_BALL));
+			double speedFac = max(0.5, curBlues / double(HDHM_BALL)) * arcanum_absorptionspeed;
 
 			if (owner.FindInventory('PowerInvulnerable'))
 			{
@@ -514,32 +514,15 @@ class HDArcanumTome : HDWeapon
 				FLineTraceData Data;
 				for (int i = 8; i <= 192; i += 8)
 				{
-					//Is this silly? Yes! Does it make casting way more reliable? Also Yes!
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 8, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 7, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 6, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 5, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 4, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 3, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 2, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight + 1, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 0, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 1, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 2, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 3, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 4, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 5, 0, 0, Data);
 					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 6, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 7, 0, 0, Data);
-					LineTrace(angle, i, pitch, TRF_NOSKY | TRF_ALLACTORS, player.viewheight - 8, 0, 0, Data);
 					if (Data.HitType == Data.TRACE_HitActor && Data.HitActor is 'ArcanumRuneSlot')
 					{
-						let runeSlot = ArcanumRuneSlot(Data.HitActor);
-						let sigil = ArcanumSigil(runeSlot.master);
+						let RuneSlot = ArcanumRuneSlot(Data.HitActor);
+						let Sigil = ArcanumSigil(RuneSlot.master);
 
-						if (sigil && sigil.master == self)
+						if (Sigil && Sigil.master == self)
 						{
-							runeSlot.ActivateRune(self);
+							RuneSlot.ActivateRune(self);
 						}
 						break;
 					}
