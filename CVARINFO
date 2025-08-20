@@ -4,3 +4,4 @@ user bool arcanum_zoomhold = false;
 server float arcanum_absorptionspeed = 1;
 server float arcanum_costmult = 1;
 server float arcanum_sigilfadeoutmult = 1;
+server bool arcanum_instarunecast = false;

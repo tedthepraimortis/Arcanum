@@ -12,7 +12,7 @@ class ArcanumSigil : HDActor abstract
 			SetOrigin((pos.x, pos.y, pos.z + abs(Diff)), false);
 		}
 
-		InitRuneSlots();
+		if(!arcanum_instarunecast)InitRuneSlots();
 		A_StartSound("Arcanum/Sigil/Spawn", CHAN_BODY);
 
 		Super.PostBeginPlay();
