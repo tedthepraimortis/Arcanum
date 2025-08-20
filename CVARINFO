@@ -2,3 +2,5 @@ server bool arcanum_debug = false;
 user int arcanum_invert = 0;
 user bool arcanum_zoomhold = false;
 server float arcanum_absorptionspeed = 1;
+server float arcanum_costmult = 1;
+server float arcanum_sigilfadeoutmult = 1;

@@ -209,7 +209,7 @@ class HDArcanumTome : HDWeapon
 		sb.DrawString(DescFont, selSpell.GetTechnicalInfo(), (-40, yOff + 20), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT, Font.CR_OLIVE);
 
 		double mult = AceCore.CheckForItem(hpl, "HDSoulCube") ? 0.80 : 1.0;
-		int cost = int(selSpell.GetManaCost() * mult);
+		int cost = int(selSpell.GetManaCost() * mult * arcanum_costmult);
 
 		string str = String.Format("\c[ArcanumReqBlue]%i\c-", cost);
 		sb.DrawString(DescFont, "\c[DarkGray]Cost: "..str, (-40, yOff + 30), sb.DI_SCREEN_CENTER | sb.DI_TEXT_ALIGN_LEFT);
@@ -560,7 +560,7 @@ class HDArcanumTome : HDWeapon
 				let plr = HDPlayerPawn(self);
 
 				double mult = AceCore.CheckForItem(plr, "HDSoulCube") ? 0.80 : 1.0;
-				int cost = int(selSpell.GetManaCost() * mult);
+				int cost = int(selSpell.GetManaCost() * mult * arcanum_costmult);
 				if (invoker.WeaponStatus[ATProp_Mana] >= cost)
 				{
 					FLineTraceData Data;
