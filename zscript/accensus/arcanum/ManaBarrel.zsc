@@ -4,6 +4,9 @@ class ManaBarrelHole : Thinker
 	double Height;
 	double Angle;
 	private int DepleteTicker;
+	Color pcol;
+
+	override void PostBeginPlay(){ pcol = HDMath.PlayingID() ? 0x0520FF : 0xd7bb43; }
 
 	override void Tick()
 	{
@@ -24,7 +27,7 @@ class ManaBarrelHole : Thinker
 		double pressure = (1.0 - holeHeightFac) * manaFac;
 		if (random(0, 3))
 		{
-			Barrel.A_SpawnParticle(0x0520FF, (SPF_RELATIVE & ~SPF_RELANG) | SPF_FULLBRIGHT, 35, 3, Angle + frandom(-1.0, 1.0), Barrel.radius / 2, 0, Height, 6 * pressure * frandom(0.95, 1.05), accelz: -1);
+			Barrel.A_SpawnParticle(pcol, (SPF_RELATIVE & ~SPF_RELANG) | SPF_FULLBRIGHT, 35, 3, Angle + frandom(-1.0, 1.0), Barrel.radius / 2, 0, Height, 6 * pressure * frandom(0.95, 1.05), accelz: -1);
 		}
 
 		if (++DepleteTicker % 70 == 0)
@@ -44,6 +47,8 @@ class ManaBarrel : Actor
 		
 		let light = ManaBarrelLight(Spawn('ManaBarrelLight', pos));
 		light.Barrel = self;
+
+		pcol = HDMath.PlayingID() ? 0x0520FF : 0xd7bb43;
 
 		Super.BeginPlay();
 	}
@@ -139,7 +144,7 @@ class ManaBarrel : Actor
 			{
 				for (int i = 0; i < 2; ++i)
 				{
-					A_SpawnParticle(0x0520FF, SPF_RELATIVE | SPF_FULLBRIGHT, int(5 + 10 * manaFac), 2, frandom(0, 359), frandom(0, radius / 1.5), 0, height, 0, 0, frandom(2.0, 3.0) * manaFac, accelz: -0.25);
+					A_SpawnParticle(pcol, SPF_RELATIVE | SPF_FULLBRIGHT, int(5 + 10 * manaFac), 2, frandom(0, 359), frandom(0, radius / 1.5), 0, height, 0, 0, frandom(2.0, 3.0) * manaFac, accelz: -0.25);
 				}
 			}
 		}
@@ -151,6 +156,7 @@ class ManaBarrel : Actor
 	uint ManaLeft;
 	private int DepleteTicker;
 	private bool Broken;
+	Color pcol;
 
 	Default
 	{
@@ -216,9 +222,12 @@ class ManaBarrelLight : PointLight
 	override void BeginPlay()
 	{
 		Super.BeginPlay();
-		Args[0] = 5;
-		Args[1] = 10;
-		Args[2] = 100;
+		col1 = HDMath.PlayingID() ? 5 : 215;
+		col2 = HDMath.PlayingID() ? 10 : 180;
+		col3 = HDMath.PlayingID() ? 100 : 65;
+		Args[0] = col1;
+		Args[1] = col2;
+		Args[2] = col3;
 		Args[3] = 30;
 	}
 
@@ -233,6 +242,10 @@ class ManaBarrelLight : PointLight
 		SetOrigin((Barrel.pos.xy, Barrel.pos.z + 36), true);
 		Args[3] = random[manbarlightrand](28, 32);
 	}
+
+	Int col1;
+	Int col2;
+	Int col3;
 
 	ManaBarrel Barrel;
 }
